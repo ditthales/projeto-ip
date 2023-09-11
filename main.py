@@ -7,7 +7,9 @@ pygame.init()
 
 teste = pygame.image.load('bob.jpg')
 
-tela = pygame.display.set_mode((800, 400))
+screen_size = (800, 400)
+
+tela = pygame.display.set_mode(screen_size)
 tela.fill('Red')
 
 pygame.display.set_caption('Prototipo')
@@ -78,18 +80,18 @@ class Coletavel3:
         return(self.x, self.y)
 
 
-x_c = random.randint(0, 800)
-y_c = random.randint(0, 400)
+x_c = random.randint(0, 750)
+y_c = random.randint(0, 350)
 
 coletar = Coletavel(x_c, y_c, 15, 15)
 
-x_c2 = random.randint(0, 800)
-y_c2 = random.randint(0, 400)
+x_c2 = random.randint(0, 750)
+y_c2 = random.randint(0, 350)
 
 coletar2 = Coletavel2(x_c2, y_c2, 15, 15)
 
-x_c3 = random.randint(0, 800)
-y_c3 = random.randint(0, 400)
+x_c3 = random.randint(0, 750)
+y_c3 = random.randint(0, 350)
 
 coletar3 = Coletavel3(x_c3, y_c3, 15, 15)
 
@@ -128,22 +130,22 @@ while True:
 
     if rect.colliderect(rect2):
         var += 1
-        x_c = random.randint(0, 800)
-        y_c = random.randint(0, 400)
+        x_c = random.randint(0, 750)
+        y_c = random.randint(0, 350)
 
         coletar = Coletavel(x_c, y_c, 15, 15)
         coletar.posicionar_c(tela)
     elif rect.colliderect(rect3):
         var2 += 1
-        x_c2 = random.randint(0, 800)
-        y_c2 = random.randint(0, 400)
+        x_c2 = random.randint(0, 750)
+        y_c2 = random.randint(0, 350)
 
         coletar2 = Coletavel2(x_c2, y_c2, 15, 15)
         coletar2.posicionar_c(tela)
     elif rect.colliderect(rect4):
         var3 += 1
-        x_c3 = random.randint(0, 800)
-        y_c3 = random.randint(0, 400)
+        x_c3 = random.randint(0, 750)
+        y_c3 = random.randint(0, 350)
 
         coletar3 = Coletavel3(x_c3, y_c3, 15, 15)
         coletar3.posicionar_c(tela)
@@ -151,14 +153,18 @@ while True:
 
     keys = pygame.key.get_pressed()
 
-    if(keys[pygame.K_d] or keys[pygame.K_RIGHT]):
-        x += 3
     if(keys[pygame.K_s] or keys[pygame.K_DOWN]):
-        y += 3
+        if y < screen_size[1] - altura:
+            y += 3
     if(keys[pygame.K_w] or keys[pygame.K_UP]):
-        y -= 3
+        if y > 0: 
+            y -= 3
+    if(keys[pygame.K_d] or keys[pygame.K_RIGHT]):
+        if x < screen_size[0] - largura:
+            x += 3
     if(keys[pygame.K_a] or keys[pygame.K_LEFT]):
-        x -= 3
+        if x > 0:
+            x -= 3
 
 
     tela.fill('Red')
