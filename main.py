@@ -151,13 +151,13 @@ while True:
 
     keys = pygame.key.get_pressed()
 
-    if(keys[pygame.K_d]):
+    if(keys[pygame.K_d] or keys[pygame.K_RIGHT]):
         x += 3
-    if(keys[pygame.K_s]):
+    if(keys[pygame.K_s] or keys[pygame.K_DOWN]):
         y += 3
-    if(keys[pygame.K_w]):
+    if(keys[pygame.K_w] or keys[pygame.K_UP]):
         y -= 3
-    if(keys[pygame.K_a]):
+    if(keys[pygame.K_a] or keys[pygame.K_LEFT]):
         x -= 3
 
 
