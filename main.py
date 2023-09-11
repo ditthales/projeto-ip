@@ -153,11 +153,11 @@ while True:
 
     if(keys[pygame.K_d]):
         x += 3
-    elif(keys[pygame.K_s]):
+    if(keys[pygame.K_s]):
         y += 3
-    elif(keys[pygame.K_w]):
+    if(keys[pygame.K_w]):
         y -= 3
-    elif(keys[pygame.K_a]):
+    if(keys[pygame.K_a]):
         x -= 3
 
 
