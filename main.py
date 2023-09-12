@@ -2,28 +2,31 @@ import pygame
 from sys import exit
 import random
 
-
+# GAME CONFIGURATION
 pygame.init()
-
-teste = pygame.image.load('bob.jpg')
-
-screen_size = (800, 400)
-
-tela = pygame.display.set_mode(screen_size)
-tela.fill('Red')
-
+icon = pygame.image.load('bob.jpg')
+pygame.display.set_icon(icon)
 pygame.display.set_caption('Prototipo')
-pygame.display.set_icon(teste)
-
 relogio = pygame.time.Clock()
 
-var = 0
-var2 = 0
-var3 = 0
+# SET SCREEN
+screen_size = (800, 400)
+tela = pygame.display.set_mode(screen_size)
 
+
+# CREATE TEXT BASE
+white_colected = 0
+gray_colected = 0
+black_colected = 0
 fonte = pygame.font.Font('Minecraft.ttf', 20)
-texto = fonte.render(f'Coletou {var} brancos, {var2} cinzas e {var3} pretos', False, 'Green')
 
+# RANDOM COODINATIOR GENARATOR FOR COLECTABLES
+def genarate_random_x():
+    return random.randint(0, 750)
+def genarate_random_y():
+    return random.randint(0, 350)
+
+# PLAYER OBJECT
 class Player:
     def __init__(self, x, y, altura, largura):
         self.x = x
@@ -37,122 +40,66 @@ class Player:
     def get_posicao(self):
         return (self.x, self.y)
 
+# COLECTABLE OBJECT
 class Coletavel:
-    def __init__(self, x, y, largura, altura):
+    def __init__(self, x, y, largura, altura, color):
         self.x = x
         self.y = y
         self.largura = largura
         self.altura = altura
+        self.color = color
     
     def posicionar_c(self, tela):
-        pygame.draw.rect(tela, ('White'), (self.x, self.y, self.largura, self.altura))
-
-
-    def get_pc(self):
-        return(self.x, self.y)
-    
-class Coletavel2:
-    def __init__(self, x, y, largura, altura):
-        self.x = x
-        self.y = y
-        self.largura = largura
-        self.altura = altura
-    
-    def posicionar_c(self, tela):
-        pygame.draw.rect(tela, ('Gray'), (self.x, self.y, self.largura, self.altura))
-
-
-    def get_pc(self):
-        return(self.x, self.y)
-    
-class Coletavel3:
-    def __init__(self, x, y, largura, altura):
-        self.x = x
-        self.y = y
-        self.largura = largura
-        self.altura = altura
-    
-    def posicionar_c(self, tela):
-        pygame.draw.rect(tela, ('Black'), (self.x, self.y, self.largura, self.altura))
+        pygame.draw.rect(tela, self.color, (self.x, self.y, self.largura, self.altura))
 
 
     def get_pc(self):
         return(self.x, self.y)
 
-
-x_c = random.randint(0, 750)
-y_c = random.randint(0, 350)
-
-coletar = Coletavel(x_c, y_c, 15, 15)
-
-x_c2 = random.randint(0, 750)
-y_c2 = random.randint(0, 350)
-
-coletar2 = Coletavel2(x_c2, y_c2, 15, 15)
-
-x_c3 = random.randint(0, 750)
-y_c3 = random.randint(0, 350)
-
-coletar3 = Coletavel3(x_c3, y_c3, 15, 15)
-
+# INICIALIZE OBJECTS
 x = 400
 y = 200
-altura = 20
-largura = 20
+altura = 35
+largura = 35
 jogador = Player(x, y, altura, largura)
+white = Coletavel(genarate_random_x(), genarate_random_y(), 15, 15,('White'))
+gray = Coletavel(genarate_random_x(), genarate_random_y(), 15, 15,('Gray'))
+black = Coletavel(genarate_random_x(), genarate_random_y(), 15, 15,('Black'))
 
+# GAME RENDER
 while True:
+    # EXIT BUTTON
     for evento in pygame.event.get():
         if(evento.type == pygame.QUIT):
             pygame.quit()
             exit()
+    
+    # DISPLAY BACKGROUND  
+    tela.fill('Red')
+    
+    # SET OBJECTS
+    surface_player = pygame.Surface((jogador.largura, jogador.altura))
+    rectangle_player = surface_player.get_rect(center = (jogador.x, jogador.y))
+    surface_white = pygame.Surface((white.largura, white.altura))
+    rectangle_white = surface_player.get_rect(center = (white.x, white.y))
+    surface_gray = pygame.Surface((gray.largura, gray.altura))
+    rectangle_gray = surface_player.get_rect(center = (gray.x, gray.y))
+    surface_black = pygame.Surface((black.largura, black.altura))
+    rectangle_black = surface_player.get_rect(center = (black.x, black.y))
 
-    texto = fonte.render(f'Coletou {var} brancos, {var2} cinzas e {var3} pretos', False, 'Green')
+    # COLIDER MANAGER
+    if rectangle_player.colliderect(rectangle_white):
+        white_colected += 1
+        white = Coletavel(genarate_random_x(), genarate_random_y(), 15, 15,('White'))    
+    if rectangle_player.colliderect(rectangle_gray):
+        gray_colected += 1
+        gray = Coletavel(genarate_random_x(), genarate_random_y(), 15, 15,('Gray'))
+    if rectangle_player.colliderect(rectangle_black):
+        black_colected += 1
+        black = Coletavel(genarate_random_x(), genarate_random_y(), 15, 15,('Black'))
 
-    tela.blit(texto, (200, 200))
-
-    surf = pygame.Surface((jogador.largura, jogador.altura))
-    rect = surf.get_rect(center = (jogador.x, jogador.y))
-
-    surf2 = pygame.Surface((coletar.largura, coletar.altura))
-    rect2 = surf.get_rect(center = (coletar.x, coletar.y))
-
-    surf3 = pygame.Surface((coletar2.largura, coletar2.altura))
-    rect3 = surf.get_rect(center = (coletar2.x, coletar2.y))
-
-    surf4 = pygame.Surface((coletar3.largura, coletar3.altura))
-    rect4 = surf.get_rect(center = (coletar3.x, coletar3.y))
-
-    tela.blit(surf, rect)
-    tela.blit(surf2, rect2)
-    tela.blit(surf3, rect3)
-    tela.blit(surf4, rect4)
-
-    if rect.colliderect(rect2):
-        var += 1
-        x_c = random.randint(0, 750)
-        y_c = random.randint(0, 350)
-
-        coletar = Coletavel(x_c, y_c, 15, 15)
-        coletar.posicionar_c(tela)
-    elif rect.colliderect(rect3):
-        var2 += 1
-        x_c2 = random.randint(0, 750)
-        y_c2 = random.randint(0, 350)
-
-        coletar2 = Coletavel2(x_c2, y_c2, 15, 15)
-        coletar2.posicionar_c(tela)
-    elif rect.colliderect(rect4):
-        var3 += 1
-        x_c3 = random.randint(0, 750)
-        y_c3 = random.randint(0, 350)
-
-        coletar3 = Coletavel3(x_c3, y_c3, 15, 15)
-        coletar3.posicionar_c(tela)
-
-
+    # CORE MOVEMENT
     keys = pygame.key.get_pressed()
-
     if(keys[pygame.K_s] or keys[pygame.K_DOWN]):
         if y < screen_size[1] - altura:
             y += 3
@@ -166,16 +113,17 @@ while True:
         if x > 0:
             x -= 3
 
-
-    tela.fill('Red')
+    # SET AND DISPLAY TEXT
+    texto = fonte.render(f'Coletou {white_colected} brancos, {gray_colected} cinzas e {black_colected} pretos', False, 'Green')
     tela.blit(texto, (200, 200))
 
+    # DISPLAY OBJECTS
     jogador = Player(x, y, altura, largura)
     jogador.posicionar(tela)
+    white.posicionar_c(tela)
+    gray.posicionar_c(tela)
+    black.posicionar_c(tela)
 
-    coletar.posicionar_c(tela)
-    coletar2.posicionar_c(tela)
-    coletar3.posicionar_c(tela)
-
+    # UPDATE RATIO / FPS
     pygame.display.update()
     relogio.tick(60)
