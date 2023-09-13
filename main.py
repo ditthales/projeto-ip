@@ -33,10 +33,11 @@ class Player:
         self.y = y
         self.altura = altura
         self.largura = largura
+        self.cor = 'Blue'
     
     def posicionar(self, tela):
-        pygame.draw.rect(tela, ('Blue'), (self.x, self.y, self.largura, self.altura))
-    
+        pygame.draw.rect(tela, self.cor, (self.x, self.y, self.largura, self.altura))
+
     def get_posicao(self):
         return (self.x, self.y)
 
@@ -56,6 +57,30 @@ class Coletavel:
     def get_pc(self):
         return(self.x, self.y)
 
+# ENEMY OBJECT
+class Inimigo:
+    def __init__(self, x, y, largura, altura, cor):
+        self.x = x
+        self.y = y
+        self.largura = largura
+        self.altura = altura
+        self.cor = cor
+    
+    def posicionar_in(self, tela):
+        pygame.draw.rect(tela, self.cor, (self.x, self.y, self.largura, self.altura))
+
+    def comportamento(self, tupla_jogador):
+        #tupla_jogador no formato (x, y)
+        if(tupla_jogador[0] > self.x):
+            self.x += 1.5
+        if(tupla_jogador[1] > self.y):
+            self.y += 1.5
+        if(tupla_jogador[0] < self.x):
+            self.x -= 1.5
+        if(tupla_jogador[1] < self.y):
+            self.y -= 1.5
+
+
 # INICIALIZE OBJECTS
 x = 400
 y = 200
@@ -65,6 +90,7 @@ jogador = Player(x, y, altura, largura)
 white = Coletavel(genarate_random_x(), genarate_random_y(), 15, 15,('White'))
 gray = Coletavel(genarate_random_x(), genarate_random_y(), 15, 15,('Gray'))
 black = Coletavel(genarate_random_x(), genarate_random_y(), 15, 15,('Black'))
+inimigo = Inimigo(700, 350, 25, 25, 'Yellow')
 
 # GAME RENDER
 while True:
@@ -86,6 +112,9 @@ while True:
     rectangle_gray = surface_player.get_rect(center = (gray.x, gray.y))
     surface_black = pygame.Surface((black.largura, black.altura))
     rectangle_black = surface_player.get_rect(center = (black.x, black.y))
+    surface_inimigo = pygame.Surface((inimigo.largura, inimigo.altura))
+    rectangle_inimigo = surface_inimigo.get_rect(center = (inimigo.x, inimigo.y))
+
 
     # COLIDER MANAGER
     if rectangle_player.colliderect(rectangle_white):
@@ -97,6 +126,15 @@ while True:
     if rectangle_player.colliderect(rectangle_black):
         black_colected += 1
         black = Coletavel(genarate_random_x(), genarate_random_y(), 15, 15,('Black'))
+    
+    if rectangle_player.colliderect(rectangle_inimigo):
+        white_colected = 0
+        gray_colected = 0
+        black_colected = 0
+        x = 400
+        y = 200
+        inimigo = Inimigo(700, 350, 25, 25, 'Yellow')
+
 
     # CORE MOVEMENT
     keys = pygame.key.get_pressed()
@@ -113,16 +151,22 @@ while True:
         if x > 0:
             x -= 3
 
-    # SET AND DISPLAY TEXT
-    texto = fonte.render(f'Coletou {white_colected} brancos, {gray_colected} cinzas e {black_colected} pretos', False, 'Green')
-    tela.blit(texto, (200, 200))
+    # ENEMY MOVEMENT
 
-    # DISPLAY OBJECTS
+    tupla_jogador = jogador.get_posicao()
+    inimigo.comportamento(tupla_jogador)
+
+    # SET TEXT
+    texto = fonte.render(f'Coletou {white_colected} brancos, {gray_colected} cinzas e {black_colected} pretos', False, 'Green')
+
+    # DISPLAY OBJECTS AND TEXT
     jogador = Player(x, y, altura, largura)
     jogador.posicionar(tela)
     white.posicionar_c(tela)
     gray.posicionar_c(tela)
     black.posicionar_c(tela)
+    inimigo.posicionar_in(tela)
+    tela.blit(texto, (200, 200))
 
     # UPDATE RATIO / FPS
     pygame.display.update()
