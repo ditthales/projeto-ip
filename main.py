@@ -4,7 +4,7 @@ import random
 
 # GAME CONFIGURATION
 pygame.init()
-icon = pygame.image.load('bobplaceholder.jpg')
+icon = pygame.image.load('bob.jpg')
 pygame.display.set_icon(icon)
 pygame.display.set_caption('Prototipo')
 relogio = pygame.time.Clock()
@@ -142,7 +142,6 @@ while True:
         if y < screen_size[1] - altura:
             y += 3
     if(keys[pygame.K_w] or keys[pygame.K_UP]):
-        posicao = 'up'
         if y > 0: 
             y -= 3
     if(keys[pygame.K_d] or keys[pygame.K_RIGHT]):
