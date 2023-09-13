@@ -4,7 +4,7 @@ import random
 
 # GAME CONFIGURATION
 pygame.init()
-icon = pygame.image.load('bob.jpg')
+icon = pygame.image.load('bobplaceholder.jpg')
 pygame.display.set_icon(icon)
 pygame.display.set_caption('Prototipo')
 relogio = pygame.time.Clock()
@@ -33,13 +33,10 @@ class Player:
         self.y = y
         self.altura = altura
         self.largura = largura
+        self.cor = 'Blue'
     
     def posicionar(self, tela):
-        pygame.draw.rect(tela, ('Blue'), (self.x, self.y, self.largura, self.altura))
-    
-    def morte(self):
-        self.x = 400
-        self.y = 200
+        pygame.draw.rect(tela, self.cor, (self.x, self.y, self.largura, self.altura))
 
     def get_posicao(self):
         return (self.x, self.y)
@@ -75,13 +72,13 @@ class Inimigo:
     def comportamento(self, tupla_jogador):
         #tupla_jogador no formato (x, y)
         if(tupla_jogador[0] > self.x):
-            self.x += 1
+            self.x += 1.5
         if(tupla_jogador[1] > self.y):
-            self.y += 1
+            self.y += 1.5
         if(tupla_jogador[0] < self.x):
-            self.x -= 1
+            self.x -= 1.5
         if(tupla_jogador[1] < self.y):
-            self.y -= 1
+            self.y -= 1.5
 
 
 # INICIALIZE OBJECTS
@@ -134,7 +131,9 @@ while True:
         white_colected = 0
         gray_colected = 0
         black_colected = 0
-        jogador.morte()
+        x = 400
+        y = 200
+        inimigo = Inimigo(700, 350, 25, 25, 'Yellow')
 
 
     # CORE MOVEMENT
@@ -143,6 +142,7 @@ while True:
         if y < screen_size[1] - altura:
             y += 3
     if(keys[pygame.K_w] or keys[pygame.K_UP]):
+        posicao = 'up'
         if y > 0: 
             y -= 3
     if(keys[pygame.K_d] or keys[pygame.K_RIGHT]):
@@ -161,7 +161,6 @@ while True:
     texto = fonte.render(f'Coletou {white_colected} brancos, {gray_colected} cinzas e {black_colected} pretos', False, 'Green')
 
     # DISPLAY OBJECTS AND TEXT
-    tela.fill('Red') #remover "fantasma" dos objetos
     jogador = Player(x, y, altura, largura)
     jogador.posicionar(tela)
     white.posicionar_c(tela)
