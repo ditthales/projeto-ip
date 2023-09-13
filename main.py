@@ -26,17 +26,36 @@ def genarate_random_x():
 def genarate_random_y():
     return random.randint(0, 350)
 
+
+
+
 # PLAYER OBJECT
 class Player:
+    player_walk_images = [pygame.image.load("Player_Sprite1.png"),pygame.image.load("Player_Sprite2.png"),pygame.image.load("Player_Sprite3.png")]
+    player_idle = pygame.image.load("Player_Sprite2.png")
+    
     def __init__(self, x, y, altura, largura):
         self.x = x
         self.y = y
         self.altura = altura
         self.largura = largura
+        self.animation_count = 0
+        self.is_walking_right = False
+        self.is_walking_left = False
     
     def posicionar(self, tela):
-        pygame.draw.rect(tela, ('Blue'), (self.x, self.y, self.largura, self.altura))
-    
+        self.animation_count = (self.animation_count + 1) % 36
+        
+        if self.is_walking_left:
+            tela.blit(pygame.transform.scale(pygame.transform.flip(Player.player_walk_images[self.animation_count // 12], True, False),(32,42)),(self.x,self.y))
+        elif self.is_walking_right:
+            tela.blit(pygame.transform.scale(Player.player_walk_images[self.animation_count // 12],(32,42)),(self.x,self.y))
+        else:
+            tela.blit(pygame.transform.scale(Player.player_idle,(32,42)),(self.x,self.y))
+        
+        self.is_walking_right = False
+        self.is_walking_left = False
+        
     def get_posicao(self):
         return (self.x, self.y)
 
@@ -103,22 +122,29 @@ while True:
     if(keys[pygame.K_s] or keys[pygame.K_DOWN]):
         if y < screen_size[1] - altura:
             y += 3
-    if(keys[pygame.K_w] or keys[pygame.K_UP]):
+            jogador.y = y
+            jogador.is_walking_right = True
+    elif(keys[pygame.K_w] or keys[pygame.K_UP]):
         if y > 0: 
             y -= 3
+            jogador.y = y
+            jogador.is_walking_right = True
     if(keys[pygame.K_d] or keys[pygame.K_RIGHT]):
         if x < screen_size[0] - largura:
             x += 3
-    if(keys[pygame.K_a] or keys[pygame.K_LEFT]):
+            jogador.x = x
+            jogador.is_walking_right = True
+    elif(keys[pygame.K_a] or keys[pygame.K_LEFT]):
         if x > 0:
             x -= 3
+            jogador.x = x
+            jogador.is_walking_left = True
 
     # SET AND DISPLAY TEXT
     texto = fonte.render(f'Coletou {white_colected} brancos, {gray_colected} cinzas e {black_colected} pretos', False, 'Green')
     tela.blit(texto, (200, 200))
 
     # DISPLAY OBJECTS
-    jogador = Player(x, y, altura, largura)
     jogador.posicionar(tela)
     white.posicionar_c(tela)
     gray.posicionar_c(tela)
