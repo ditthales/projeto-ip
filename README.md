@@ -32,13 +32,16 @@ Developed by
 
 <table>
   <tr>
-<td align="center"><a href="https://www.linkedin.com/in/gabriel-felipo-raeli-20329a1b1/"><img src="https://i.imgur.com/7FVUUrG.jpeg" width="100px;" alt=""/><br /><sub><b>Renato Cabral</b></sub></a><br/></td>
+<td align="center"><a href="https://www.linkedin.com/in/rencab/"><img src="https://i.imgur.com/UqrnL0zs.jpg" width="100px;" alt=""/><br /><sub><b>Renato Cabral</b></sub></a><br/></td>
 
 <td align="center"><a href="https://www.linkedin.com/in/thalesvgfraga/"><img src="https://i.imgur.com/K39AuNm.jpeg" width="100px;" alt=""/><br /><sub><b>Thales Fraga</b></sub></a><br/></td>
 
 <td align="center"><a href="https://www.linkedin.com/in/lorena-vilaca/"><img src="https://i.imgur.com/SBokZM2.jpeg" width="100px;" alt=""/><br /><sub><b>Caio Santos</b></sub></a><br/></td>
 
-<td align="center"><a href="https://www.linkedin.com/in/rinaldo-da-silva-bento-júnior-416a15201/"><img src="https://i.imgur.com/EYin5ui.jpeg" width="100px;" alt=""/><br /><sub><b>Rinaldo Júnior</b></sub></a><br/></td>
+<td align="center"><a href="https://www.linkedin.com/in/rinaldo-da-silva-bento-júnior-416a15201/"><img src="https://i.imgur.com/EYin5ui.jpeg" width="100px;" alt=""/><br /><sub><b>Rinaldo Júnior</b></sub></a><br/>
+
+<td align="center"><a href="https://www.linkedin.com/in/rinaldo-da-silva-bento-júnior-416a15201/"><img src="https://i.imgur.com/EYin5ui.jpeg" width="100px;" alt=""/><br /><sub><b>Heitor Machado</b></sub></a><br/>
+</td>
 </tr>
  </table>
 
