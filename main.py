@@ -4,7 +4,7 @@ import random
 from player import Player
 from coletavel import Coletavel
 from inimigo import Inimigo
-
+from PlayersBullets import PlayerBullet
 
 # GAME CONFIGURATION
 pygame.init()
@@ -54,17 +54,26 @@ white = Coletavel(generate_random_x(), generate_random_y(), 15, 15,('White'))
 gray = Coletavel(generate_random_x(), generate_random_y(), 15, 15,('Gray'))
 black = Coletavel(generate_random_x(), generate_random_y(), 15, 15,('Black'))
 inimigo = Inimigo(700, 350, 25, 25, 'Yellow')
+player_bullets = []  # store players bullets
 
 continuar = False
 
 # GAME RENDER
 while True:
+    # get mouse position
+    mouse_x, mouse_y = pygame.mouse.get_pos()
+
     # EXIT BUTTON
     for evento in pygame.event.get():
         if(evento.type == pygame.QUIT):
             pygame.quit()
             exit()
-    
+
+        # store PlayerBullet objects on a list for each click
+        if evento.type == pygame.MOUSEBUTTONDOWN:
+            if evento.button == 1:
+                player_bullets.append(PlayerBullet(jogador.x, jogador.y, mouse_x, mouse_y))
+
     while continuar == False:
         continuar = menu(tela, fonte)
 
@@ -140,6 +149,9 @@ while True:
     black.posicionar_c(tela)
     inimigo.posicionar_in(tela)
     tela.blit(texto, (200, 200))
+
+    for bullet in player_bullets:
+        bullet.draw_circle(tela)
 
     # UPDATE RATIO / FPS
     pygame.display.update()
