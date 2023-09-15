@@ -41,8 +41,5 @@ class Player:
             return False
     
     def coleta(self, rect_player, rect_list_coleta):
-        index = rect_player.colliderect(rect_list_coleta)
-        if index != -1:
-            return index
-        else:
-            return False
+        index = rect_player.collidelist(rect_list_coleta)
+        return index

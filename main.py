@@ -19,9 +19,7 @@ tela = pygame.display.set_mode(screen_size)
 
 
 # CREATE TEXT BASE
-white_colected = 0
-gray_colected = 0
-black_colected = 0
+coletas = [0, 0, 0] #branco, cinza, preto
 fonte = pygame.font.Font('Minecraft.ttf', 20)
 
 # RANDOM COODINATIOR GENARATOR FOR COLECTABLES
@@ -87,23 +85,25 @@ while True:
     rectangle_gray = gray.rect_coleta()
     rectangle_black = black.rect_coleta()
     
+    lista_colet = [rectangle_white, rectangle_gray, rectangle_black]
+
     rectangle_inimigo = inimigo.rect_inimigo()
 
     # COLIDER MANAGER
-    if rectangle_player.colliderect(rectangle_white):
-        white_colected += 1
+
+    index = jogador.coleta(rectangle_player, lista_colet)
+    if index >= 0:
+        coletas[index] += 1
+    
+    if index == 0:
         white = Coletavel(generate_random_x(), generate_random_y(), 15, 15,('White'))    
-    if rectangle_player.colliderect(rectangle_gray):
-        gray_colected += 1
+    if index == 1:
         gray = Coletavel(generate_random_x(), generate_random_y(), 15, 15,('Gray'))
-    if rectangle_player.colliderect(rectangle_black):
-        black_colected += 1
+    if index == 2:
         black = Coletavel(generate_random_x(), generate_random_y(), 15, 15,('Black'))
     
-    if rectangle_player.colliderect(rectangle_inimigo):
-        white_colected = 0
-        gray_colected = 0
-        black_colected = 0
+    if jogador.morte_check(rectangle_player, rectangle_inimigo):
+        coletas = [0, 0, 0]
         x = 400
         y = 200
         jogador.x = x
@@ -140,7 +140,7 @@ while True:
     inimigo.comportamento(tupla_jogador)
 
     # SET TEXT
-    texto = fonte.render(f'Coletou {white_colected} brancos, {gray_colected} cinzas e {black_colected} pretos', False, 'Green')
+    texto = fonte.render(f'Coletou {coletas[0]} brancos, {coletas[1]} cinzas e {coletas[2]} pretos', False, 'Green')
 
     # DISPLAY OBJECTS AND TEXT
     jogador.posicionar(tela)
