@@ -33,3 +33,16 @@ class Player:
         surface_player = pygame.Surface((self.largura, self.altura))
         rectangle_player = surface_player.get_rect(center = (self.x, self.y))
         return rectangle_player
+
+    def morte_check(self, rectangle_player, rectangle_inimigo):
+        if rectangle_player.colliderect(rectangle_inimigo):
+            return True
+        else:
+            return False
+    
+    def coleta(self, rect_player, rect_list_coleta):
+        index = rect_player.colliderect(rect_list_coleta)
+        if index != -1:
+            return index
+        else:
+            return False
