@@ -56,6 +56,7 @@ player_bullets = []  # store players bullets
 
 continuar = False
 
+contador = 0
 # GAME RENDER
 while True:
     # get mouse position
@@ -68,9 +69,14 @@ while True:
             exit()
 
         # store PlayerBullet objects on a list for each click
-        if evento.type == pygame.MOUSEBUTTONDOWN:
-            if evento.button == 1:
-                player_bullets.append(PlayerBullet(jogador.x, jogador.y, mouse_x, mouse_y))
+    
+    mouse_status = pygame.mouse.get_pressed()
+    if(mouse_status[0] == True):
+        if(contador % 10 == 0):
+            player_bullets.append(PlayerBullet(jogador.x, jogador.y, mouse_x, mouse_y))
+        contador += 1
+    else:
+        contador = 0
 
     while continuar == False:
         continuar = menu(tela, fonte)
