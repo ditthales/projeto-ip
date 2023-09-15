@@ -1,6 +1,9 @@
 import pygame
 from sys import exit
 import random
+from player import Player
+from coletavel import Coletavel
+from inimigo import Inimigo
 from PlayersBullets import PlayerBullet
 
 # GAME CONFIGURATION
@@ -16,105 +19,42 @@ tela = pygame.display.set_mode(screen_size)
 
 
 # CREATE TEXT BASE
-white_colected = 0
-gray_colected = 0
-black_colected = 0
+coletas = [0, 0, 0] #branco, cinza, preto
 fonte = pygame.font.Font('Minecraft.ttf', 20)
 
 # RANDOM COODINATIOR GENARATOR FOR COLECTABLES
-def genarate_random_x():
+def generate_random_x():
     return random.randint(0, 750)
-def genarate_random_y():
+def generate_random_y():
     return random.randint(0, 350)
 
 
-# PLAYER OBJECT
-class Player:
-    player_walk_images = [pygame.image.load("Player_Sprite1.png"),pygame.image.load("Player_Sprite2.png"),pygame.image.load("Player_Sprite3.png")]
-    player_idle = pygame.image.load("Player_Sprite2.png")
-
-
-    def __init__(self, x, y, altura, largura):
-        self.x = x
-        self.y = y
-        self.altura = altura
-        self.largura = largura
-        self.animation_count = 0
-        self.is_walking_right = False
-        self.is_walking_left = False
-
-
-    def posicionar(self, tela):
-        self.animation_count = (self.animation_count + 1) % 36
-        
-        if self.is_walking_left:
-            tela.blit(pygame.transform.scale(pygame.transform.flip(Player.player_walk_images[self.animation_count // 12], True, False),(32,42)),(self.x,self.y))
-        elif self.is_walking_right:
-            tela.blit(pygame.transform.scale(Player.player_walk_images[self.animation_count // 12],(32,42)),(self.x,self.y))
-        else:
-            tela.blit(pygame.transform.scale(Player.player_idle,(32,42)),(self.x,self.y))
-        
-        self.is_walking_right = False
-        self.is_walking_left = False
-        
-    def get_posicao(self):
-        return (self.x, self.y)
-
-
-# COLECTABLE OBJECT
-class Coletavel:
-    def __init__(self, x, y, largura, altura, color):
-        self.x = x
-        self.y = y
-        self.largura = largura
-        self.altura = altura
-        self.color = color
-    
-    def posicionar_c(self, tela):
-        pygame.draw.rect(tela, self.color, (self.x, self.y, self.largura, self.altura))
-
-
-    def get_pc(self):
-        return(self.x, self.y)
-
-
-# ENEMY OBJECT
-class Inimigo:
-    def __init__(self, x, y, largura, altura, cor):
-        self.x = x
-        self.y = y
-        self.largura = largura
-        self.altura = altura
-        self.cor = cor
-
-
-    def posicionar_in(self, tela):
-        pygame.draw.rect(tela, self.cor, (self.x, self.y, self.largura, self.altura))
-
-
-    def comportamento(self, tupla_jogador):
-        #tupla_jogador no formato (x, y)
-        if(tupla_jogador[0] > self.x):
-            self.x += 1.5
-        if(tupla_jogador[1] > self.y):
-            self.y += 1.5
-        if(tupla_jogador[0] < self.x):
-            self.x -= 1.5
-        if(tupla_jogador[1] < self.y):
-            self.y -= 1.5
-
+def menu(tela, fonte):
+    tela.fill('Magenta')
+    texto_menu = fonte.render('Aperte qualquer tecla para continuar', False, 'Green')
+    tela.blit(texto_menu, (200, 200))
+    pygame.display.update()
+    for evento in pygame.event.get():
+        if(evento.type == pygame.KEYDOWN):
+            return True
+        elif (evento.type == pygame.QUIT):
+            pygame.quit()
+            exit()
+    return False
 
 # INICIALIZE OBJECTS
 x = 400
 y = 200
-altura = 35
+altura = 45
 largura = 35
 jogador = Player(x, y, altura, largura)
-white = Coletavel(genarate_random_x(), genarate_random_y(), 15, 15,('White'))
-gray = Coletavel(genarate_random_x(), genarate_random_y(), 15, 15,('Gray'))
-black = Coletavel(genarate_random_x(), genarate_random_y(), 15, 15,('Black'))
+white = Coletavel(generate_random_x(), generate_random_y(), 15, 15,('White'))
+gray = Coletavel(generate_random_x(), generate_random_y(), 15, 15,('Gray'))
+black = Coletavel(generate_random_x(), generate_random_y(), 15, 15,('Black'))
 inimigo = Inimigo(700, 350, 25, 25, 'Yellow')
 player_bullets = []  # store players bullets
+
+continuar = False
 
 # GAME RENDER
 while True:
@@ -132,39 +72,42 @@ while True:
             if evento.button == 1:
                 player_bullets.append(PlayerBullet(jogador.x, jogador.y, mouse_x, mouse_y))
 
+    while continuar == False:
+        continuar = menu(tela, fonte)
+
     # DISPLAY BACKGROUND  
     tela.fill('Red')
     
     # SET OBJECTS
-    surface_player = pygame.Surface((jogador.largura, jogador.altura))
-    rectangle_player = surface_player.get_rect(center = (jogador.x, jogador.y))
-    surface_white = pygame.Surface((white.largura, white.altura))
-    rectangle_white = surface_player.get_rect(center = (white.x, white.y))
-    surface_gray = pygame.Surface((gray.largura, gray.altura))
-    rectangle_gray = surface_player.get_rect(center = (gray.x, gray.y))
-    surface_black = pygame.Surface((black.largura, black.altura))
-    rectangle_black = surface_player.get_rect(center = (black.x, black.y))
-    surface_inimigo = pygame.Surface((inimigo.largura, inimigo.altura))
-    rectangle_inimigo = surface_inimigo.get_rect(center = (inimigo.x, inimigo.y))
+    rectangle_player = jogador.rect()
 
+    rectangle_white = white.rect_coleta()
+    rectangle_gray = gray.rect_coleta()
+    rectangle_black = black.rect_coleta()
+    
+    lista_colet = [rectangle_white, rectangle_gray, rectangle_black]
+
+    rectangle_inimigo = inimigo.rect_inimigo()
 
     # COLIDER MANAGER
-    if rectangle_player.colliderect(rectangle_white):
-        white_colected += 1
-        white = Coletavel(genarate_random_x(), genarate_random_y(), 15, 15,('White'))    
-    if rectangle_player.colliderect(rectangle_gray):
-        gray_colected += 1
-        gray = Coletavel(genarate_random_x(), genarate_random_y(), 15, 15,('Gray'))
-    if rectangle_player.colliderect(rectangle_black):
-        black_colected += 1
-        black = Coletavel(genarate_random_x(), genarate_random_y(), 15, 15,('Black'))
+
+    index = jogador.coleta(rectangle_player, lista_colet)
+    if index >= 0:
+        coletas[index] += 1
     
-    if rectangle_player.colliderect(rectangle_inimigo):
-        white_colected = 0
-        gray_colected = 0
-        black_colected = 0
+    if index == 0:
+        white = Coletavel(generate_random_x(), generate_random_y(), 15, 15,('White'))    
+    if index == 1:
+        gray = Coletavel(generate_random_x(), generate_random_y(), 15, 15,('Gray'))
+    if index == 2:
+        black = Coletavel(generate_random_x(), generate_random_y(), 15, 15,('Black'))
+    
+    if jogador.morte_check(rectangle_player, rectangle_inimigo):
+        coletas = [0, 0, 0]
         x = 400
         y = 200
+        jogador.x = x
+        jogador.y = y
         inimigo = Inimigo(700, 350, 25, 25, 'Yellow')
 
 
@@ -197,7 +140,7 @@ while True:
     inimigo.comportamento(tupla_jogador)
 
     # SET TEXT
-    texto = fonte.render(f'Coletou {white_colected} brancos, {gray_colected} cinzas e {black_colected} pretos', False, 'Green')
+    texto = fonte.render(f'Coletou {coletas[0]} brancos, {coletas[1]} cinzas e {coletas[2]} pretos', False, 'Green')
 
     # DISPLAY OBJECTS AND TEXT
     jogador.posicionar(tela)
