@@ -1,6 +1,7 @@
 import pygame
 from sys import exit
 import random
+from PlayersBullets import PlayerBullet
 
 # GAME CONFIGURATION
 pygame.init()
@@ -27,13 +28,12 @@ def genarate_random_y():
     return random.randint(0, 350)
 
 
-
-
 # PLAYER OBJECT
 class Player:
     player_walk_images = [pygame.image.load("Player_Sprite1.png"),pygame.image.load("Player_Sprite2.png"),pygame.image.load("Player_Sprite3.png")]
     player_idle = pygame.image.load("Player_Sprite2.png")
-    
+
+
     def __init__(self, x, y, altura, largura):
         self.x = x
         self.y = y
@@ -42,7 +42,8 @@ class Player:
         self.animation_count = 0
         self.is_walking_right = False
         self.is_walking_left = False
-    
+
+
     def posicionar(self, tela):
         self.animation_count = (self.animation_count + 1) % 36
         
@@ -58,6 +59,7 @@ class Player:
         
     def get_posicao(self):
         return (self.x, self.y)
+
 
 # COLECTABLE OBJECT
 class Coletavel:
@@ -75,6 +77,7 @@ class Coletavel:
     def get_pc(self):
         return(self.x, self.y)
 
+
 # ENEMY OBJECT
 class Inimigo:
     def __init__(self, x, y, largura, altura, cor):
@@ -83,9 +86,11 @@ class Inimigo:
         self.largura = largura
         self.altura = altura
         self.cor = cor
-    
+
+
     def posicionar_in(self, tela):
         pygame.draw.rect(tela, self.cor, (self.x, self.y, self.largura, self.altura))
+
 
     def comportamento(self, tupla_jogador):
         #tupla_jogador no formato (x, y)
@@ -109,15 +114,24 @@ white = Coletavel(genarate_random_x(), genarate_random_y(), 15, 15,('White'))
 gray = Coletavel(genarate_random_x(), genarate_random_y(), 15, 15,('Gray'))
 black = Coletavel(genarate_random_x(), genarate_random_y(), 15, 15,('Black'))
 inimigo = Inimigo(700, 350, 25, 25, 'Yellow')
+player_bullets = []  # store players bullets
 
 # GAME RENDER
 while True:
+    # get mouse position
+    mouse_x, mouse_y = pygame.mouse.get_pos()
+
     # EXIT BUTTON
     for evento in pygame.event.get():
         if(evento.type == pygame.QUIT):
             pygame.quit()
             exit()
-    
+
+        # store PlayerBullet objects on a list for each click
+        if evento.type == pygame.MOUSEBUTTONDOWN:
+            if evento.button == 1:
+                player_bullets.append(PlayerBullet(jogador.x, jogador.y, mouse_x, mouse_y))
+
     # DISPLAY BACKGROUND  
     tela.fill('Red')
     
@@ -192,6 +206,9 @@ while True:
     black.posicionar_c(tela)
     inimigo.posicionar_in(tela)
     tela.blit(texto, (200, 200))
+
+    for bullet in player_bullets:
+        bullet.draw_circle(tela)
 
     # UPDATE RATIO / FPS
     pygame.display.update()
