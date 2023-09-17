@@ -5,6 +5,8 @@ from player import Player
 from coletavel import Coletavel
 from inimigo import Inimigo
 from PlayersBullets import PlayerBullet
+from mapa import *
+
 
 # GAME CONFIGURATION
 pygame.init()
@@ -52,6 +54,8 @@ white = Coletavel(generate_random_x(), generate_random_y(), 15, 15,('White'))
 gray = Coletavel(generate_random_x(), generate_random_y(), 15, 15,('Gray'))
 black = Coletavel(generate_random_x(), generate_random_y(), 15, 15,('Black'))
 inimigo = Inimigo(700, 350, 25, 25, 'Yellow')
+mapa = Mapa()
+mapa.criar_mapa(mundo)
 player_bullets = []  # store players bullets
 
 continuar = False
@@ -83,7 +87,8 @@ while True:
 
     # DISPLAY BACKGROUND  
     tela.fill('Red')
-    
+    mapa.desenhar()
+
     # SET OBJECTS
     rectangle_player = jogador.rect()
 
@@ -149,12 +154,13 @@ while True:
     texto = fonte.render(f'Coletou {coletas[0]} brancos, {coletas[1]} cinzas e {coletas[2]} pretos', False, 'Green')
 
     # DISPLAY OBJECTS AND TEXT
+    mapa.desenhar()
     jogador.posicionar(tela)
     white.posicionar_c(tela)
     gray.posicionar_c(tela)
     black.posicionar_c(tela)
     inimigo.posicionar_in(tela)
-    tela.blit(texto, (200, 200))
+    tela.blit(texto, (jogador.x - 160, jogador.y - 20))
 
     for bullet in player_bullets:
         bullet.draw_circle(tela)
