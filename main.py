@@ -81,7 +81,6 @@ while True:
     if(mouse_status[0] == True):
         if(contador % 10 == 0):
             sede.sede_ativa()
-            print(sede.sede)
             player_bullets.append(PlayerBullet(jogador.x, jogador.y, mouse_x, mouse_y))
         contador += 1
     else:
@@ -157,8 +156,6 @@ while True:
             x -= 3
             jogador.x = x
             jogador.is_walking_left = True
-    elif(keys[pygame.K_e]):
-        input()
 
     # ENEMY MOVEMENT
 
