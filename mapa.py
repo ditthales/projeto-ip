@@ -41,6 +41,7 @@ class Mapa:
 
         self.sprites_visiveis = pygame.sprite.Group()
         self.obstaculos = pygame.sprite.Group()
+        self.rect_colidiveis = []
 
     def criar_mapa(self, mundo):
         for t_linha in enumerate(mundo):
@@ -51,6 +52,9 @@ class Mapa:
                 y = l_index * 32
                 if t_bloco[1] == 'X':
                     Bloco((x, y), [self.sprites_visiveis], 'pedra')
+                    surface_block = pygame.Surface((32,32))
+                    rect_surface = surface_block.get_rect(center = (x,y))
+                    self.rect_colidiveis.append(rect_surface)
                 else:
                     Bloco((x, y), [self.sprites_visiveis], 'areia')
 

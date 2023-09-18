@@ -60,6 +60,7 @@ mapa.criar_mapa(mundo)
 vida = Vida()
 sede = Sede()
 player_bullets = []  # store players bullets
+previous_location = []
 
 continuar = False
 
@@ -146,6 +147,16 @@ while True:
 
     # CORE MOVEMENT
     keys = pygame.key.get_pressed()
+    index = jogador.coleta(rectangle_player, mapa.rect_colidiveis)
+    if index != -1:
+        jogador.x = previous_location[0]
+        jogador.y = previous_location[1]
+        x = previous_location[0]
+        y = previous_location[1]
+        print(f'    {previous_location}')
+    else:
+        print(previous_location)
+        previous_location = jogador.get_posicao_list()
     if(keys[pygame.K_s] or keys[pygame.K_DOWN]):
         if y < screen_size[1] - altura:
             y += 3
@@ -177,20 +188,20 @@ while True:
 
     # DISPLAY OBJECTS AND TEXT
     mapa.desenhar()
-    jogador.posicionar(tela)
-    white.posicionar_c(tela)
-    gray.posicionar_c(tela)
-    black.posicionar_c(tela)
-    inimigo.posicionar_in(tela)
+    jogador.desenhar(tela)
+    white.desenhar(tela)
+    gray.desenhar(tela)
+    black.desenhar(tela)
+    inimigo.desenhar(tela)
     tela.blit(texto, (jogador.x - 160, jogador.y - 20))
-    vida.desenhar_vida()
-    sede.desenhar_sede()
+    vida.desenhar()
+    sede.desenhar()
 
     #if len(player_bullets) > 10:
 
     if sede.sede > 0:
         for bullet in player_bullets:
-            bullet.draw_circle(tela)
+            bullet.desenhar(tela)
             rect_bullet = bullet.rect()
             if bullet.check_if_hit(rect_bullet,rectangle_inimigo):
                 player_bullets.remove(bullet)
