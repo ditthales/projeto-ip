@@ -90,7 +90,6 @@ while True:
         continuar = menu(tela, fonte, 'Aperte qualquer tecla para continuar')
 
     # DISPLAY BACKGROUND  
-    tela.fill('Red')
     mapa.desenhar()
 
     # SET OBJECTS
@@ -136,7 +135,6 @@ while True:
             vida.reviver()
             sede.ressucitar()
 
-#menu(tela, fonte, 'Voce morreu! Aperte qualquer tecla pra continuar')
     # CORE MOVEMENT
     keys = pygame.key.get_pressed()
     if(keys[pygame.K_s] or keys[pygame.K_DOWN]):
@@ -181,6 +179,10 @@ while True:
 
     for bullet in player_bullets:
         bullet.draw_circle(tela)
+        rect_bullet = bullet.rect()
+        if bullet.check_if_hit(rect_bullet,rectangle_inimigo):
+            player_bullets.remove(bullet)
+            inimigo = Inimigo(700, 350, 25, 25, 'Yellow')
 
     # UPDATE RATIO / FPS
     pygame.display.update()
