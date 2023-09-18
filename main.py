@@ -6,7 +6,7 @@ from coletavel import Coletavel
 from inimigo import Inimigo
 from PlayersBullets import PlayerBullet
 from mapa import *
-
+from barras import Vida
 
 # GAME CONFIGURATION
 pygame.init()
@@ -14,6 +14,7 @@ icon = pygame.image.load('bob.jpg')
 pygame.display.set_icon(icon)
 pygame.display.set_caption('Prototipo')
 relogio = pygame.time.Clock()
+
 
 # SET SCREEN
 screen_size = (800, 400)
@@ -56,6 +57,7 @@ black = Coletavel(generate_random_x(), generate_random_y(), 15, 15,('Black'))
 inimigo = Inimigo(700, 350, 25, 25, 'Yellow')
 mapa = Mapa()
 mapa.criar_mapa(mundo)
+vida = Vida()
 player_bullets = []  # store players bullets
 
 continuar = False
@@ -112,14 +114,18 @@ while True:
         gray = Coletavel(generate_random_x(), generate_random_y(), 15, 15,('Gray'))
     if index == 2:
         black = Coletavel(generate_random_x(), generate_random_y(), 15, 15,('Black'))
-    
+        vida.curar()
+
     if jogador.morte_check(rectangle_player, rectangle_inimigo):
-        coletas = [0, 0, 0]
-        x = 400
-        y = 200
-        jogador.x = x
-        jogador.y = y
         inimigo = Inimigo(700, 350, 25, 25, 'Yellow')
+        vida.dano()
+        if(vida.hp == 0):
+            coletas = [0, 0, 0]
+            x = 400
+            y = 200
+            jogador.x = x
+            jogador.y = y
+            vida.reviver()
 
 
     # CORE MOVEMENT
@@ -161,6 +167,7 @@ while True:
     black.posicionar_c(tela)
     inimigo.posicionar_in(tela)
     tela.blit(texto, (jogador.x - 160, jogador.y - 20))
+    vida.desenhar_vida()
 
     for bullet in player_bullets:
         bullet.draw_circle(tela)
