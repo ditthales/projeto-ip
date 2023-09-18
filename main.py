@@ -53,7 +53,7 @@ largura = 35
 jogador = Player(x, y, altura, largura)
 white = Coletavel(generate_random_x(), generate_random_y(), 15, 15,('White'))
 gray = Coletavel(generate_random_x(), generate_random_y(), 15, 15,('aquamarine'))
-black = Coletavel(generate_random_x(), generate_random_y(), 15, 15,('Black'))
+black = Coletavel(generate_random_x(), generate_random_y(), 15, 15,('Red'))
 inimigo = Inimigo(700, 350, 25, 25, 'Yellow')
 mapa = Mapa()
 mapa.criar_mapa(mundo)
@@ -118,7 +118,7 @@ while True:
         gray = Coletavel(generate_random_x(), generate_random_y(), 15, 15,('aquamarine'))
         sede.refrescar()
     if index == 2:
-        black = Coletavel(generate_random_x(), generate_random_y(), 15, 15,('Black'))
+        black = Coletavel(generate_random_x(), generate_random_y(), 15, 15,('Red'))
         vida.curar()
 
     if jogador.morte_check(rectangle_player, rectangle_inimigo) or sede.sede == 0:
@@ -163,7 +163,7 @@ while True:
     inimigo.comportamento(tupla_jogador)
 
     # SET TEXT
-    texto = fonte.render(f'Coletou {coletas[0]} brancos, {coletas[1]} cinzas e {coletas[2]} pretos', False, 'Green')
+    texto = fonte.render(f'Coletou {coletas[0]} brancos, {coletas[1]} aguas e {coletas[2]} vidas', False, 'Green')
 
     # DISPLAY OBJECTS AND TEXT
     mapa.desenhar()

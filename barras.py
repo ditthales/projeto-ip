@@ -38,7 +38,7 @@ class Sede:
             self.sede -= 60
 
     def refrescar(self):
-        self.sede += 60
+        self.sede += 600
 
     def ressucitar(self):
         self.sede = 6000
