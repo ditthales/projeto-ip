@@ -7,7 +7,7 @@ class Vida:
         self.tela = pygame.display.get_surface()
     
     def desenhar_vida(self):
-        pygame.draw.rect(self.tela, 'Red', (10, 350, (10 * self.hp), 20))
+        pygame.draw.rect(self.tela, 'Red', (10, 330, (10 * self.hp), 20))
     
     def curar(self):
         if(self.hp < 10):
@@ -19,3 +19,27 @@ class Vida:
     
     def reviver(self):
         self.hp = 10
+
+class Sede:
+
+    def __init__(self):
+        self.sede = 6000
+        self.tela = pygame.display.get_surface()
+    
+    def desenhar_sede(self):
+        pygame.draw.rect(self.tela, 'aquamarine', (10, 350, (self.sede/50), 20))       
+
+    def sede_passiva(self):
+        if(self.sede > 0):
+            self.sede -= 3
+
+    def sede_ativa(self):
+        if(self.sede > 0):
+            self.sede -= 60
+
+    def refrescar(self):
+        self.sede += 60
+
+    def ressucitar(self):
+        self.sede = 6000
+    
