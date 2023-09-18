@@ -30,11 +30,11 @@ class Sede:
         pygame.draw.rect(self.tela, 'aquamarine', (10, 350, (self.sede/50), 20))       
 
     def sede_passiva(self):
-        if(self.sede > 0):
+        if(self.sede > 2):
             self.sede -= 3
 
     def sede_ativa(self):
-        if(self.sede > 0):
+        if(self.sede > 59):
             self.sede -= 60
 
     def refrescar(self):

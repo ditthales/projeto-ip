@@ -63,6 +63,7 @@ player_bullets = []  # store players bullets
 
 continuar = False
 
+timer_dano_agua = 0
 reset_timer = 0
 contador = 0
 # GAME RENDER
@@ -79,7 +80,7 @@ while True:
         # store PlayerBullet objects on a list for each click
     mouse_status = pygame.mouse.get_pressed()
     if(mouse_status[0] == True):
-        if(contador % 10 == 0):
+        if(contador % 10 == 0) and sede.sede > 0:
             sede.sede_ativa()
             player_bullets.append(PlayerBullet(jogador.x, jogador.y, mouse_x, mouse_y))
         contador += 1
@@ -120,20 +121,28 @@ while True:
         black = Coletavel(generate_random_x(), generate_random_y(), 15, 15,('Red'))
         vida.curar()
 
-    if jogador.morte_check(rectangle_player, rectangle_inimigo) or sede.sede == 0:
+
+    if sede.sede <= 0:
+        player_bullets = []
+        if timer_dano_agua % 360 == 0:
+            vida.dano()
+        timer_dano_agua += 1
+
+    if jogador.morte_check(rectangle_player, rectangle_inimigo):
         inimigo = Inimigo(700, 350, 25, 25, 'Yellow')
         vida.dano()
-        if(vida.hp == 0):
-            continuar = False
-            while continuar == False:
-                continuar = menu(tela, fonte, 'Voce morreu :(! Aperte qualquer tecla pra continuar')
-            coletas = [0, 0, 0]
-            x = 400
-            y = 200
-            jogador.x = x
-            jogador.y = y
-            vida.reviver()
-            sede.ressucitar()
+    
+    if(vida.hp == 0):
+        continuar = False
+        while continuar == False:
+            continuar = menu(tela, fonte, 'Voce morreu :(! Aperte qualquer tecla pra continuar')
+        coletas = [0, 0, 0]
+        x = 400
+        y = 200
+        jogador.x = x
+        jogador.y = y
+        vida.reviver()
+        sede.ressucitar()
 
     # CORE MOVEMENT
     keys = pygame.key.get_pressed()
@@ -177,12 +186,15 @@ while True:
     vida.desenhar_vida()
     sede.desenhar_sede()
 
-    for bullet in player_bullets:
-        bullet.draw_circle(tela)
-        rect_bullet = bullet.rect()
-        if bullet.check_if_hit(rect_bullet,rectangle_inimigo):
-            player_bullets.remove(bullet)
-            inimigo = Inimigo(700, 350, 25, 25, 'Yellow')
+    #if len(player_bullets) > 10:
+
+    if sede.sede > 0:
+        for bullet in player_bullets:
+            bullet.draw_circle(tela)
+            rect_bullet = bullet.rect()
+            if bullet.check_if_hit(rect_bullet,rectangle_inimigo):
+                player_bullets.remove(bullet)
+                inimigo = Inimigo(700, 350, 25, 25, 'Yellow')
 
     # UPDATE RATIO / FPS
     pygame.display.update()
