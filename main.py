@@ -32,9 +32,9 @@ def generate_random_y():
     return random.randint(0, 350)
 
 
-def menu(tela, fonte):
+def menu(tela, fonte, texto):
     tela.fill('Magenta')
-    texto_menu = fonte.render('Aperte qualquer tecla para continuar', False, 'Green')
+    texto_menu = fonte.render(texto, False, 'Green')
     tela.blit(texto_menu, (200, 200))
     pygame.display.update()
     for evento in pygame.event.get():
@@ -87,7 +87,7 @@ while True:
         contador = 0
 
     while continuar == False:
-        continuar = menu(tela, fonte)
+        continuar = menu(tela, fonte, 'Aperte qualquer tecla para continuar')
 
     # DISPLAY BACKGROUND  
     tela.fill('Red')
@@ -125,6 +125,9 @@ while True:
         inimigo = Inimigo(700, 350, 25, 25, 'Yellow')
         vida.dano()
         if(vida.hp == 0):
+            continuar = False
+            while continuar == False:
+                continuar = menu(tela, fonte, 'Voce morreu :(! Aperte qualquer tecla pra continuar')
             coletas = [0, 0, 0]
             x = 400
             y = 200
@@ -133,7 +136,7 @@ while True:
             vida.reviver()
             sede.ressucitar()
 
-
+#menu(tela, fonte, 'Voce morreu! Aperte qualquer tecla pra continuar')
     # CORE MOVEMENT
     keys = pygame.key.get_pressed()
     if(keys[pygame.K_s] or keys[pygame.K_DOWN]):
