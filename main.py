@@ -78,7 +78,7 @@ while True:
     
     mouse_status = pygame.mouse.get_pressed()
     if(mouse_status[0] == True):
-        if(contador % 10 == 0):
+        if(contador % 50 == 0):
             player_bullets.append(PlayerBullet(jogador.x, jogador.y, mouse_x, mouse_y))
         contador += 1
     else:
@@ -88,7 +88,6 @@ while True:
         continuar = menu(tela, fonte)
 
     # DISPLAY BACKGROUND  
-    tela.fill('Red')
     mapa.desenhar()
 
     # SET OBJECTS
@@ -126,7 +125,6 @@ while True:
             jogador.x = x
             jogador.y = y
             vida.reviver()
-
 
     # CORE MOVEMENT
     keys = pygame.key.get_pressed()
@@ -171,6 +169,10 @@ while True:
 
     for bullet in player_bullets:
         bullet.draw_circle(tela)
+        rect_bullet = bullet.rect()
+        if bullet.check_if_hit(rect_bullet,rectangle_inimigo):
+            player_bullets.remove(bullet)
+            inimigo = Inimigo(700, 350, 25, 25, 'Yellow')
 
     # UPDATE RATIO / FPS
     pygame.display.update()

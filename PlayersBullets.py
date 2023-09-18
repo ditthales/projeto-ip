@@ -19,4 +19,15 @@ class PlayerBullet:
     def draw_circle(self, where_display):
         self.x -= self.x_pos
         self.y -= self.y_pos
-        pygame.draw.circle(where_display, (255, 255, 255), (self.x, self.y), 3)
+        pygame.draw.rect(where_display, (255, 255, 255), (self.x, self.y,10,10))
+        
+    def rect(self):
+        surface_bullet = pygame.Surface((10,10))
+        rectangle_bullet = surface_bullet.get_rect(center = (self.x, self.y))
+        return rectangle_bullet
+        
+    def check_if_hit(self, rect_bullet, rect_enemy):
+        if rect_bullet.colliderect(rect_enemy):
+            return True
+        else:
+            return False

@@ -1,8 +1,8 @@
 import pygame
 
 class Player:
-    player_walk_images = [pygame.image.load(".\playerassets\Player_Sprite1.png"), pygame.image.load(".\playerassets\Player_Sprite2.png"), pygame.image.load(".\playerassets\Player_Sprite3.png")]
-    player_idle = pygame.image.load(".\playerassets\Player_Sprite2.png")
+    player_walk_images = [pygame.image.load("./playerassets/Player_Sprite1.png"), pygame.image.load("./playerassets/Player_Sprite2.png"), pygame.image.load("./playerassets/Player_Sprite3.png")]
+    player_idle = pygame.image.load("./playerassets/Player_Sprite2.png")
     
     def __init__(self, x, y, altura, largura):
         self.x = x
