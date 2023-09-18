@@ -6,7 +6,7 @@ from coletavel import Coletavel
 from inimigo import Inimigo
 from PlayersBullets import PlayerBullet
 from mapa import *
-from barras import Vida
+from barras import *
 
 # GAME CONFIGURATION
 pygame.init()
@@ -32,9 +32,9 @@ def generate_random_y():
     return random.randint(0, 350)
 
 
-def menu(tela, fonte):
+def menu(tela, fonte, texto):
     tela.fill('Magenta')
-    texto_menu = fonte.render('Aperte qualquer tecla para continuar', False, 'Green')
+    texto_menu = fonte.render(texto, False, 'Green')
     tela.blit(texto_menu, (200, 200))
     pygame.display.update()
     for evento in pygame.event.get():
@@ -52,16 +52,18 @@ altura = 45
 largura = 35
 jogador = Player(x, y, altura, largura)
 white = Coletavel(generate_random_x(), generate_random_y(), 15, 15,('White'))
-gray = Coletavel(generate_random_x(), generate_random_y(), 15, 15,('Gray'))
-black = Coletavel(generate_random_x(), generate_random_y(), 15, 15,('Black'))
+gray = Coletavel(generate_random_x(), generate_random_y(), 15, 15,('aquamarine'))
+black = Coletavel(generate_random_x(), generate_random_y(), 15, 15,('Red'))
 inimigo = Inimigo(700, 350, 25, 25, 'Yellow')
 mapa = Mapa()
 mapa.criar_mapa(mundo)
 vida = Vida()
+sede = Sede()
 player_bullets = []  # store players bullets
 
 continuar = False
 
+reset_timer = 0
 contador = 0
 # GAME RENDER
 while True:
@@ -75,17 +77,17 @@ while True:
             exit()
 
         # store PlayerBullet objects on a list for each click
-    
     mouse_status = pygame.mouse.get_pressed()
     if(mouse_status[0] == True):
-        if(contador % 50 == 0):
+        if(contador % 10 == 0):
+            sede.sede_ativa()
             player_bullets.append(PlayerBullet(jogador.x, jogador.y, mouse_x, mouse_y))
         contador += 1
     else:
         contador = 0
 
     while continuar == False:
-        continuar = menu(tela, fonte)
+        continuar = menu(tela, fonte, 'Aperte qualquer tecla para continuar')
 
     # DISPLAY BACKGROUND  
     mapa.desenhar()
@@ -103,6 +105,8 @@ while True:
 
     # COLIDER MANAGER
 
+    sede.sede_passiva()
+
     index = jogador.coleta(rectangle_player, lista_colet)
     if index >= 0:
         coletas[index] += 1
@@ -110,21 +114,26 @@ while True:
     if index == 0:
         white = Coletavel(generate_random_x(), generate_random_y(), 15, 15,('White'))    
     if index == 1:
-        gray = Coletavel(generate_random_x(), generate_random_y(), 15, 15,('Gray'))
+        gray = Coletavel(generate_random_x(), generate_random_y(), 15, 15,('aquamarine'))
+        sede.refrescar()
     if index == 2:
-        black = Coletavel(generate_random_x(), generate_random_y(), 15, 15,('Black'))
+        black = Coletavel(generate_random_x(), generate_random_y(), 15, 15,('Red'))
         vida.curar()
 
-    if jogador.morte_check(rectangle_player, rectangle_inimigo):
+    if jogador.morte_check(rectangle_player, rectangle_inimigo) or sede.sede == 0:
         inimigo = Inimigo(700, 350, 25, 25, 'Yellow')
         vida.dano()
         if(vida.hp == 0):
+            continuar = False
+            while continuar == False:
+                continuar = menu(tela, fonte, 'Voce morreu :(! Aperte qualquer tecla pra continuar')
             coletas = [0, 0, 0]
             x = 400
             y = 200
             jogador.x = x
             jogador.y = y
             vida.reviver()
+            sede.ressucitar()
 
     # CORE MOVEMENT
     keys = pygame.key.get_pressed()
@@ -155,7 +164,7 @@ while True:
     inimigo.comportamento(tupla_jogador)
 
     # SET TEXT
-    texto = fonte.render(f'Coletou {coletas[0]} brancos, {coletas[1]} cinzas e {coletas[2]} pretos', False, 'Green')
+    texto = fonte.render(f'Coletou {coletas[0]} brancos, {coletas[1]} aguas e {coletas[2]} vidas', False, 'Green')
 
     # DISPLAY OBJECTS AND TEXT
     mapa.desenhar()
@@ -166,6 +175,7 @@ while True:
     inimigo.posicionar_in(tela)
     tela.blit(texto, (jogador.x - 160, jogador.y - 20))
     vida.desenhar_vida()
+    sede.desenhar_sede()
 
     for bullet in player_bullets:
         bullet.draw_circle(tela)
