@@ -62,7 +62,6 @@ mapa.criar_mapa(mundo)
 vida = Vida()
 sede = Sede()
 player_bullets = []  # store players bullets
-previous_location = []
 
 continuar = False
 
@@ -148,10 +147,9 @@ while True:
         sede.ressucitar()
 
     # player movement
-    jogador.move(screen_size)
+    jogador.move(screen_size,mapa.rect_colidiveis)
 
     # ENEMY MOVEMENT
-
     tupla_jogador = jogador.get_posicao()
     inimigo.comportamento(tupla_jogador)
 
