@@ -53,9 +53,9 @@ def menu(tela, fonte, texto):
 
 # INICIALIZE OBJECTS
 jogador = Player(400, 200, 45, 35)
-white = Coletavel(generate_random_x(), generate_random_y(), 15, 15, 'White')
-gray = Coletavel(generate_random_x(), generate_random_y(), 15, 15, 'aquamarine')
-black = Coletavel(generate_random_x(), generate_random_y(), 15, 15, 'Red')
+white = Coletavel(generate_random_x(), generate_random_y(), 16, 16, 'White')
+gray = Coletavel(generate_random_x(), generate_random_y(), 16, 16, 'aquamarine')
+black = Coletavel(generate_random_x(), generate_random_y(), 16, 16, 'Red')
 inimigo = Inimigo(700, 350, 25, 25, 'Yellow')
 mapa = Mapa()
 mapa.criar_mapa(mundo)
@@ -68,7 +68,7 @@ continuar = False
 timer_dano_agua = 0
 reset_timer = 0
 contador = 0
-
+offset = [0,0]
 # GAME RENDER
 while True:
     # get mouse position
@@ -94,14 +94,14 @@ while True:
         continuar = menu(tela, fonte, 'Aperte qualquer tecla para continuar')
 
     # DISPLAY BACKGROUND  
-    mapa.desenhar()
+    mapa.desenhar(offset)
 
     # SET OBJECTS
     rectangle_player = jogador.rect()
 
-    rectangle_white = white.rect_coleta()
-    rectangle_gray = gray.rect_coleta()
-    rectangle_black = black.rect_coleta()
+    rectangle_white = white.rect_coleta(offset)
+    rectangle_gray = gray.rect_coleta(offset)
+    rectangle_black = black.rect_coleta(offset)
 
     lista_colet = [rectangle_white, rectangle_gray, rectangle_black]
 
@@ -147,7 +147,9 @@ while True:
         sede.ressucitar()
 
     # player movement
-    jogador.move(screen_size,mapa.rect_colidiveis)
+    off_soma = jogador.move(screen_size,mapa.rect_colidiveis)
+    offset[0] += off_soma[0]
+    offset[1] += off_soma[1]
 
     # ENEMY MOVEMENT
     tupla_jogador = jogador.get_posicao()
@@ -157,17 +159,20 @@ while True:
     texto = fonte.render(f'Coletou {coletas[0]} brancos, {coletas[1]} aguas e {coletas[2]} vidas', False, 'Green')
 
     # DISPLAY OBJECTS AND TEXT
-    mapa.desenhar()
+    tela.fill('Red')
+    mapa.desenhar(offset)
     jogador.desenhar(tela)
-    white.desenhar(tela)
-    gray.desenhar(tela)
-    black.desenhar(tela)
+    white.desenhar(tela, offset)
+    gray.desenhar(tela, offset)
+    black.desenhar(tela, offset)
     inimigo.desenhar(tela)
     tela.blit(texto, (jogador.x - 160, jogador.y - 20))
     vida.desenhar()
     sede.desenhar()
 
-    # if len(player_bullets) > 10:
+    if len(player_bullets) > 50:
+        while len(player_bullets > 30):
+            player_bullets.pop(0)
 
     if sede.sede > 0:
         for bullet in player_bullets:

@@ -2,10 +2,12 @@ import pygame
 
 
 class Bloco(pygame.sprite.Sprite):
-    def __init__(self, pos, group, argumento) -> None:
+    def __init__(self, x, y, group, argumento) -> None:
 
         super().__init__(group)
         self.argumento = argumento
+        self.x = x
+        self.y = y
 
         if argumento == 'pedra':
 
@@ -14,4 +16,4 @@ class Bloco(pygame.sprite.Sprite):
         elif argumento == 'areia':
 
             self.image = pygame.image.load('areia.png')
-        self.rect = self.image.get_rect(center=pos)
+        self.rect = self.image.get_rect(center=(x,y))

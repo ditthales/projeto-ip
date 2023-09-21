@@ -97,6 +97,7 @@ class Mapa:
         self.sprites_visiveis = pygame.sprite.Group()
         self.obstaculos = pygame.sprite.Group()
         self.rect_colidiveis = []
+        self.offset = pygame.math.Vector2()
 
     def criar_mapa(self, mundo):
         for t_linha in enumerate(mundo):
@@ -106,12 +107,16 @@ class Mapa:
                 x = c_index * 32
                 y = l_index * 32
                 if t_bloco[1] == 'X':
-                    Bloco((x, y), [self.sprites_visiveis], 'pedra')
+                    Bloco(x, y, [self.sprites_visiveis], 'pedra')
                     surface_block = pygame.Surface((32,32))
                     rect_surface = surface_block.get_rect(center = (x,y))
                     self.rect_colidiveis.append(rect_surface)
                 else:
-                    Bloco((x, y), [self.sprites_visiveis], 'areia')
+                    Bloco(x, y, [self.sprites_visiveis], 'areia')
 
-    def desenhar(self):
-        self.sprites_visiveis.draw(self.tela)
+    def desenhar(self, off_coords):
+        self.offset.x = off_coords[0]
+        self.offset.y = off_coords[1]
+        for sprite in self.sprites_visiveis:
+            nova_pos = sprite.rect.center + self.offset
+            self.tela.blit(sprite.image, nova_pos)

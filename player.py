@@ -16,10 +16,13 @@ class Player:
         self.is_walking_right = False
         self.is_walking_left = False
         self.previous_location = [x,y]
+        self.direcao = pygame.math.Vector2()
 
     def move(self, screen_size,rect_colidiveis):
 
         keys = pygame.key.get_pressed()
+
+        off_soma = [0, 0]
 
         index = self.coleta(self.rect(), rect_colidiveis)
         if index != -1:
@@ -27,28 +30,33 @@ class Player:
             self.y = self.previous_location[1]
             
         else:
-            print(self.previous_location)
             self.previous_location = self.get_posicao_list()
 
         if keys[pygame.K_s] or keys[pygame.K_DOWN]:
             if self.y < screen_size[1] - self.altura:
-                self.y += 3
+                self.direcao.y += 3
                 self.is_walking_right = True
+                off_soma[1] -= 3
 
         elif keys[pygame.K_w] or keys[pygame.K_UP]:
             if self.y > 0:
-                self.y -= 3
+                self.direcao.y -= 3
                 self.is_walking_right = True
+                off_soma[1] += 3
 
         if keys[pygame.K_d] or keys[pygame.K_RIGHT]:
             if self.x < screen_size[0] - self.largura:
-                self.x += 3
+                self.direcao.x += 3
                 self.is_walking_right = True
+                off_soma[0] -= 3
 
         elif keys[pygame.K_a] or keys[pygame.K_LEFT]:
             if self.x > 0:
-                self.x -= 3
+                self.direcao.x -= 3
                 self.is_walking_left = True
+                off_soma[0] += 3
+
+        return off_soma
 
     def desenhar(self, tela):
         self.animation_count = (self.animation_count + 1) % 36
