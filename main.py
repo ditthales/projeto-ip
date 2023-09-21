@@ -1,12 +1,12 @@
-import pygame
-from sys import exit
 import random
-from player import Player
+from sys import exit
+
+from PlayersBullets import PlayerBullet
+from barras import *
 from coletavel import Coletavel
 from inimigo import Inimigo
-from PlayersBullets import PlayerBullet
 from mapa import *
-from barras import *
+from player import *
 
 # GAME CONFIGURATION
 pygame.init()
@@ -15,19 +15,20 @@ pygame.display.set_icon(icon)
 pygame.display.set_caption('Prototipo')
 relogio = pygame.time.Clock()
 
-
 # SET SCREEN
 screen_size = (800, 400)
 tela = pygame.display.set_mode(screen_size)
 
-
 # CREATE TEXT BASE
-coletas = [0, 0, 0] #branco, cinza, preto
+coletas = [0, 0, 0]  # branco, cinza, preto
 fonte = pygame.font.Font('Minecraft.ttf', 20)
+
 
 # RANDOM COODINATIOR GENARATOR FOR COLECTABLES
 def generate_random_x():
     return random.randint(0, 750)
+
+
 def generate_random_y():
     return random.randint(0, 350)
 
@@ -37,23 +38,24 @@ def menu(tela, fonte, texto):
     texto_menu = fonte.render(texto, False, 'Green')
     tela.blit(texto_menu, (200, 200))
     pygame.display.update()
+
     for evento in pygame.event.get():
-        if(evento.type == pygame.KEYDOWN):
+
+        if evento.type == pygame.KEYDOWN:
             return True
-        elif (evento.type == pygame.QUIT):
+
+        elif evento.type == pygame.QUIT:
             pygame.quit()
             exit()
+
     return False
 
+
 # INICIALIZE OBJECTS
-x = 400
-y = 200
-altura = 45
-largura = 35
-jogador = Player(x, y, altura, largura)
-white = Coletavel(generate_random_x(), generate_random_y(), 15, 15,('White'))
-gray = Coletavel(generate_random_x(), generate_random_y(), 15, 15,('aquamarine'))
-black = Coletavel(generate_random_x(), generate_random_y(), 15, 15,('Red'))
+jogador = Player(400, 200, 45, 35)
+white = Coletavel(generate_random_x(), generate_random_y(), 15, 15, 'White')
+gray = Coletavel(generate_random_x(), generate_random_y(), 15, 15, 'aquamarine')
+black = Coletavel(generate_random_x(), generate_random_y(), 15, 15, 'Red')
 inimigo = Inimigo(700, 350, 25, 25, 'Yellow')
 mapa = Mapa()
 mapa.criar_mapa(mundo)
@@ -67,6 +69,7 @@ continuar = False
 timer_dano_agua = 0
 reset_timer = 0
 contador = 0
+
 # GAME RENDER
 while True:
     # get mouse position
@@ -74,21 +77,21 @@ while True:
 
     # EXIT BUTTON
     for evento in pygame.event.get():
-        if(evento.type == pygame.QUIT):
+        if evento.type == pygame.QUIT:
             pygame.quit()
             exit()
 
         # store PlayerBullet objects on a list for each click
     mouse_status = pygame.mouse.get_pressed()
-    if(mouse_status[0] == True):
-        if(contador % 10 == 0) and sede.sede > 0:
+    if mouse_status[0]:
+        if (contador % 10 == 0) and sede.sede > 0:
             sede.sede_ativa()
             player_bullets.append(PlayerBullet(jogador.x, jogador.y, mouse_x, mouse_y))
         contador += 1
     else:
         contador = 0
 
-    while continuar == False:
+    while not continuar:
         continuar = menu(tela, fonte, 'Aperte qualquer tecla para continuar')
 
     # DISPLAY BACKGROUND  
@@ -100,7 +103,7 @@ while True:
     rectangle_white = white.rect_coleta()
     rectangle_gray = gray.rect_coleta()
     rectangle_black = black.rect_coleta()
-    
+
     lista_colet = [rectangle_white, rectangle_gray, rectangle_black]
 
     rectangle_inimigo = inimigo.rect_inimigo()
@@ -112,16 +115,15 @@ while True:
     index = jogador.coleta(rectangle_player, lista_colet)
     if index >= 0:
         coletas[index] += 1
-    
+
     if index == 0:
-        white = Coletavel(generate_random_x(), generate_random_y(), 15, 15,('White'))    
+        white = Coletavel(generate_random_x(), generate_random_y(), 15, 15, 'White')
     if index == 1:
-        gray = Coletavel(generate_random_x(), generate_random_y(), 15, 15,('aquamarine'))
+        gray = Coletavel(generate_random_x(), generate_random_y(), 15, 15, 'aquamarine')
         sede.refrescar()
     if index == 2:
-        black = Coletavel(generate_random_x(), generate_random_y(), 15, 15,('Red'))
+        black = Coletavel(generate_random_x(), generate_random_y(), 15, 15, 'Red')
         vida.curar()
-
 
     if sede.sede <= 0:
         player_bullets = []
@@ -132,10 +134,10 @@ while True:
     if jogador.morte_check(rectangle_player, rectangle_inimigo):
         inimigo = Inimigo(700, 350, 25, 25, 'Yellow')
         vida.dano()
-    
-    if(vida.hp == 0):
+
+    if vida.hp == 0:
         continuar = False
-        while continuar == False:
+        while not continuar:
             continuar = menu(tela, fonte, 'Voce morreu :(! Aperte qualquer tecla pra continuar')
         coletas = [0, 0, 0]
         x = 400
@@ -145,38 +147,8 @@ while True:
         vida.reviver()
         sede.ressucitar()
 
-    # CORE MOVEMENT
-    keys = pygame.key.get_pressed()
-    index = jogador.coleta(rectangle_player, mapa.rect_colidiveis)
-    if index != -1:
-        jogador.x = previous_location[0]
-        jogador.y = previous_location[1]
-        x = previous_location[0]
-        y = previous_location[1]
-        print(f'    {previous_location}')
-    else:
-        print(previous_location)
-        previous_location = jogador.get_posicao_list()
-    if(keys[pygame.K_s] or keys[pygame.K_DOWN]):
-        if y < screen_size[1] - altura:
-            y += 3
-            jogador.y = y
-            jogador.is_walking_right = True
-    elif(keys[pygame.K_w] or keys[pygame.K_UP]):
-        if y > 0: 
-            y -= 3
-            jogador.y = y
-            jogador.is_walking_right = True
-    if(keys[pygame.K_d] or keys[pygame.K_RIGHT]):
-        if x < screen_size[0] - largura:
-            x += 3
-            jogador.x = x
-            jogador.is_walking_right = True
-    elif(keys[pygame.K_a] or keys[pygame.K_LEFT]):
-        if x > 0:
-            x -= 3
-            jogador.x = x
-            jogador.is_walking_left = True
+    # player movement
+    jogador.move(screen_size)
 
     # ENEMY MOVEMENT
 
@@ -197,13 +169,13 @@ while True:
     vida.desenhar()
     sede.desenhar()
 
-    #if len(player_bullets) > 10:
+    # if len(player_bullets) > 10:
 
     if sede.sede > 0:
         for bullet in player_bullets:
             bullet.desenhar(tela)
             rect_bullet = bullet.rect()
-            if bullet.check_if_hit(rect_bullet,rectangle_inimigo):
+            if bullet.check_if_hit(rect_bullet, rectangle_inimigo):
                 player_bullets.remove(bullet)
                 inimigo = Inimigo(700, 350, 25, 25, 'Yellow')
 
