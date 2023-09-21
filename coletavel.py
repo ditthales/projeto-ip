@@ -8,8 +8,8 @@ class Coletavel:
         self.largura = largura
         self.altura = altura
         self.color = color
-
-    def posicionar_c(self, tela):
+    
+    def desenhar(self, tela):
         pygame.draw.rect(tela, self.color, (self.x, self.y, self.largura, self.altura))
 
     def rect_coleta(self):

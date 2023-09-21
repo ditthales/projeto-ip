@@ -8,8 +8,8 @@ class Inimigo:
         self.largura = largura
         self.altura = altura
         self.cor = cor
-
-    def posicionar_in(self, tela):
+    
+    def desenhar(self, tela):
         pygame.draw.rect(tela, self.cor, (self.x, self.y, self.largura, self.altura))
 
     def comportamento(self, tupla_jogador):

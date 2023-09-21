@@ -16,7 +16,7 @@ class PlayerBullet:
         self.x_pos = math.cos(self.angulo) * self.speed
         self.y_pos = math.sin(self.angulo) * self.speed
 
-    def draw_circle(self, where_display):
+    def desenhar(self, where_display):
         self.x -= self.x_pos
         self.y -= self.y_pos
         pygame.draw.rect(where_display, (255, 255, 255), (self.x, self.y,10,10))

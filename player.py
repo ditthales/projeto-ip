@@ -15,10 +15,20 @@ class Player:
         self.animation_count = 0
         self.is_walking_right = False
         self.is_walking_left = False
+        self.previous_location = [x,y]
 
-    def move(self, screen_size):
+    def move(self, screen_size,rect_colidiveis):
 
         keys = pygame.key.get_pressed()
+
+        index = self.coleta(self.rect(), rect_colidiveis)
+        if index != -1:
+            self.x = self.previous_location[0]
+            self.y = self.previous_location[1]
+            
+        else:
+            print(self.previous_location)
+            self.previous_location = self.get_posicao_list()
 
         if keys[pygame.K_s] or keys[pygame.K_DOWN]:
             if self.y < screen_size[1] - self.altura:
@@ -40,7 +50,7 @@ class Player:
                 self.x -= 3
                 self.is_walking_left = True
 
-    def posicionar(self, tela):
+    def desenhar(self, tela):
         self.animation_count = (self.animation_count + 1) % 36
 
         if self.is_walking_left:
@@ -57,11 +67,14 @@ class Player:
         self.is_walking_left = False
 
     def get_posicao(self):
-        return self.x, self.y
+        return (self.x, self.y)
+    
+    def get_posicao_list(self):
+        return [self.x, self.y]
 
     def rect(self):
         surface_player = pygame.Surface((self.largura, self.altura))
-        rectangle_player = surface_player.get_rect(center=(self.x, self.y))
+        rectangle_player = surface_player.get_rect(center = (self.x + 15, self.y + 25))
         return rectangle_player
 
     @staticmethod

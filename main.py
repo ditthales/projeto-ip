@@ -147,10 +147,9 @@ while True:
         sede.ressucitar()
 
     # player movement
-    jogador.move(screen_size)
+    jogador.move(screen_size,mapa.rect_colidiveis)
 
     # ENEMY MOVEMENT
-
     tupla_jogador = jogador.get_posicao()
     inimigo.comportamento(tupla_jogador)
 
@@ -159,20 +158,20 @@ while True:
 
     # DISPLAY OBJECTS AND TEXT
     mapa.desenhar()
-    jogador.posicionar(tela)
-    white.posicionar_c(tela)
-    gray.posicionar_c(tela)
-    black.posicionar_c(tela)
-    inimigo.posicionar_in(tela)
+    jogador.desenhar(tela)
+    white.desenhar(tela)
+    gray.desenhar(tela)
+    black.desenhar(tela)
+    inimigo.desenhar(tela)
     tela.blit(texto, (jogador.x - 160, jogador.y - 20))
-    vida.desenhar_vida()
-    sede.desenhar_sede()
+    vida.desenhar()
+    sede.desenhar()
 
     # if len(player_bullets) > 10:
 
     if sede.sede > 0:
         for bullet in player_bullets:
-            bullet.draw_circle(tela)
+            bullet.desenhar(tela)
             rect_bullet = bullet.rect()
             if bullet.check_if_hit(rect_bullet, rectangle_inimigo):
                 player_bullets.remove(bullet)
