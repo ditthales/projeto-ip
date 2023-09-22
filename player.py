@@ -26,8 +26,9 @@ class Player:
 
         index = self.coleta(self.rect(), rect_colidiveis)
         if index != -1:
-            self.x = self.previous_location[0]
-            self.y = self.previous_location[1]
+            self.x = self.previous_location[0] - self.direcao.x
+            self.y = self.previous_location[1] - self.direcao.y
+            return [0,0]
             
         else:
             self.previous_location = self.get_posicao_list()
@@ -80,7 +81,9 @@ class Player:
         return nova_p
     
     def get_posicao_list(self):
-        return [self.x, self.y]
+        pos = (self.x, self.y)
+        nova_p = pos + self.direcao
+        return [nova_p[0], nova_p[1]]
 
     def rect(self):
         surface_player = pygame.Surface((self.largura, self.altura))

@@ -16,4 +16,10 @@ class Bloco(pygame.sprite.Sprite):
         elif argumento == 'areia':
 
             self.image = pygame.image.load('areia.png')
+
         self.rect = self.image.get_rect(center=(x,y))
+        self.rect_inicial = self.image.get_rect(center=(x,y))
+
+    #def rect(self, pos):
+     #   rect_novo = self.image.get_rect(center=pos)
+      #  return rect_novo

@@ -150,13 +150,13 @@ while True:
         sede.ressucitar()
 
     # player movement
-    off_soma = jogador.move(screen_size,mapa.rect_colidiveis)
+    off_soma = jogador.move(screen_size, mapa.rect_colidiveis)
     offset[0] += off_soma[0]
     offset[1] += off_soma[1]
 
     # ENEMY MOVEMENT
     tupla_jogador = jogador.get_posicao()
-    inimigo.comportamento(tupla_jogador)
+    #inimigo.comportamento(tupla_jogador)
 
     # SET TEXT
     texto = fonte.render(f'Coletou {coletas[0]} brancos, {coletas[1]} aguas e {coletas[2]} vidas', False, 'Green')
