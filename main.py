@@ -21,7 +21,10 @@ tela = pygame.display.set_mode(screen_size)
 
 # CREATE TEXT BASE
 coletas = [0, 0, 0]  # branco, cinza, preto
+kills = 0
+kills_imagem = pygame.image.load('caveira.png')
 fonte = pygame.font.Font('Minecraft.ttf', 20)
+fonte2 = pygame.font.Font('Minecraft.ttf', 40)
 
 
 # RANDOM COODINATIOR GENARATOR FOR COLECTABLES
@@ -157,9 +160,10 @@ while True:
 
     # SET TEXT
     texto = fonte.render(f'Coletou {coletas[0]} brancos, {coletas[1]} aguas e {coletas[2]} vidas', False, 'Green')
+    texto_mortes = fonte2.render(f'{kills} kills', False, 'Black')
 
     # DISPLAY OBJECTS AND TEXT
-    tela.fill('Red')
+    tela.fill('Purple')
     mapa.desenhar(offset)
     jogador.desenhar(tela)
     white.desenhar(tela, offset)
@@ -167,6 +171,8 @@ while True:
     black.desenhar(tela, offset)
     inimigo.desenhar(tela, offset)
     tela.blit(texto, (jogador.x - 160, jogador.y - 20))
+    tela.blit(texto_mortes, (33, 0))
+    tela.blit(kills_imagem, (0,0))
     vida.desenhar()
     sede.desenhar()
 
@@ -180,6 +186,7 @@ while True:
             rect_bullet = bullet.rect()
             if bullet.check_if_hit(rect_bullet, rectangle_inimigo):
                 player_bullets.remove(bullet)
+                kills += 1
                 inimigo = Inimigo(700, 350, 25, 25, 'Yellow')
 
     # UPDATE RATIO / FPS

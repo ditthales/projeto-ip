@@ -75,7 +75,9 @@ class Player:
         self.is_walking_left = False
 
     def get_posicao(self):
-        return (self.x, self.y)
+        pos = (self.x, self.y)
+        nova_p = pos + self.direcao
+        return nova_p
     
     def get_posicao_list(self):
         return [self.x, self.y]
