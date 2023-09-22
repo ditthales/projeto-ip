@@ -105,7 +105,7 @@ while True:
 
     lista_colet = [rectangle_white, rectangle_gray, rectangle_black]
 
-    rectangle_inimigo = inimigo.rect_inimigo()
+    rectangle_inimigo = inimigo.rect_inimigo(offset)
 
     # COLIDER MANAGER
 
@@ -165,7 +165,7 @@ while True:
     white.desenhar(tela, offset)
     gray.desenhar(tela, offset)
     black.desenhar(tela, offset)
-    inimigo.desenhar(tela)
+    inimigo.desenhar(tela, offset)
     tela.blit(texto, (jogador.x - 160, jogador.y - 20))
     vida.desenhar()
     sede.desenhar()
