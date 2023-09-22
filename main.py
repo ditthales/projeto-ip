@@ -26,7 +26,6 @@ kills_imagem = pygame.image.load('caveira.png')
 fonte = pygame.font.Font('Minecraft.ttf', 20)
 fonte2 = pygame.font.Font('Minecraft.ttf', 40)
 
-
 # RANDOM COODINATIOR GENARATOR FOR COLECTABLES
 def generate_random_x():
     return random.randint(0, 750)
@@ -151,7 +150,6 @@ while True:
 
     # player movement
     off_soma = jogador.move(screen_size, mapa.rect_colidiveis)
-    print(type(off_soma))
     if type(off_soma) == tuple:
         None
         flag = True
@@ -166,7 +164,7 @@ while True:
 
     # ENEMY MOVEMENT
     tupla_jogador = jogador.get_posicao()
-    #inimigo.comportamento(tupla_jogador)
+    inimigo.comportamento(tupla_jogador)
 
     # SET TEXT
     texto = fonte.render(f'Coletou {coletas[0]} brancos, {coletas[1]} aguas e {coletas[2]} vidas', False, 'Green')

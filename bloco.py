@@ -17,9 +17,9 @@ class Bloco(pygame.sprite.Sprite):
 
             self.image = pygame.image.load('areia.png')
 
-        self.rect = self.image.get_rect(center=(x,y))
-        self.rect_inicial = self.image.get_rect(center=(x,y))
+        self.rect = self.image.get_rect(topleft=(x,y))
+        self.rect_inicial = self.image.get_rect(topleft=(x,y))
 
     #def rect(self, pos):
-     #   rect_novo = self.image.get_rect(center=pos)
+     #   rect_novo = self.image.get_rect(topleft=pos)
       #  return rect_novo
