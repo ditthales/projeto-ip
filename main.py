@@ -32,6 +32,14 @@ def generate_random_x():
 def generate_random_y():
     return random.randint(0, 350)
 
+def generate_drop():
+    num_cor = random.randint(1, 2)
+
+    if num_cor == 1:
+        return 'aquamarine'
+    else:
+        return 'red'
+
 
 def menu(tela, fonte, texto):
     tela.fill('Magenta')
@@ -57,6 +65,7 @@ white = Coletavel(generate_random_x(), generate_random_y(), 15, 15, 'White')
 gray = Coletavel(generate_random_x(), generate_random_y(), 15, 15, 'aquamarine')
 black = Coletavel(generate_random_x(), generate_random_y(), 15, 15, 'Red')
 inimigo = Inimigo(700, 350, 25, 25, 'Yellow')
+drop = Coletavel(350, 250, 15, 15, 'aquamarine')
 mapa = Mapa()
 mapa.criar_mapa(mundo)
 vida = Vida()
@@ -68,6 +77,7 @@ continuar = False
 timer_dano_agua = 0
 reset_timer = 0
 contador = 0
+drops = []
 
 # GAME RENDER
 while True:
@@ -147,9 +157,10 @@ while True:
         sede.ressucitar()
 
     # player movement
-    jogador.move(screen_size,mapa.rect_colidiveis)
+    jogador.move(screen_size)
 
     # ENEMY MOVEMENT
+
     tupla_jogador = jogador.get_posicao()
     inimigo.comportamento(tupla_jogador)
 
@@ -158,24 +169,31 @@ while True:
 
     # DISPLAY OBJECTS AND TEXT
     mapa.desenhar()
-    jogador.desenhar(tela)
-    white.desenhar(tela)
-    gray.desenhar(tela)
-    black.desenhar(tela)
-    inimigo.desenhar(tela)
+    jogador.posicionar(tela)
+    white.posicionar_c(tela)
+    gray.posicionar_c(tela)
+    black.posicionar_c(tela)
+    inimigo.posicionar_in(tela)
     tela.blit(texto, (jogador.x - 160, jogador.y - 20))
-    vida.desenhar()
-    sede.desenhar()
+    vida.desenhar_vida()
+    sede.desenhar_sede()
+
 
     # if len(player_bullets) > 10:
 
     if sede.sede > 0:
         for bullet in player_bullets:
-            bullet.desenhar(tela)
+            bullet.draw_circle(tela)
             rect_bullet = bullet.rect()
             if bullet.check_if_hit(rect_bullet, rectangle_inimigo):
                 player_bullets.remove(bullet)
+                cor_bloco = generate_drop()
+                drop = Coletavel(inimigo.x, inimigo.y, 15, 15, cor_bloco)
+                drops.append(drop)
                 inimigo = Inimigo(700, 350, 25, 25, 'Yellow')
+
+    for d in drops:
+        pygame.draw.rect(tela, d.color, (d.x, d.y, d.largura, d.altura))
 
     # UPDATE RATIO / FPS
     pygame.display.update()
