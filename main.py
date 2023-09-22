@@ -160,7 +160,7 @@ while True:
         sede.ressucitar()
 
     # player movement
-    jogador.move(screen_size)
+    jogador.move(screen_size, mapa.rect_colidiveis)
 
     # ENEMY MOVEMENT
 
@@ -185,11 +185,13 @@ while True:
     vida.desenhar()
     sede.desenhar()
 
-    # if len(player_bullets) > 10:
+    if len(player_bullets) > 50:	
+        while len(player_bullets > 30):	
+            player_bullets.pop(0)
 
     if sede.sede > 0:
         for bullet in player_bullets:
-            bullet.draw_circle(tela)
+            bullet.desenhar(tela)
             rect_bullet = bullet.rect()
             if bullet.check_if_hit(rect_bullet, rectangle_inimigo):
                 player_bullets.remove(bullet)
