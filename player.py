@@ -28,7 +28,7 @@ class Player:
         if index != -1:
             self.x = self.previous_location[0] - self.direcao.x
             self.y = self.previous_location[1] - self.direcao.y
-            return [0,0]
+            return tuple(([0,0], 'a'))
             
         else:
             self.previous_location = self.get_posicao_list()

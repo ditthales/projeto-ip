@@ -65,9 +65,9 @@ mapa.criar_mapa(mundo)
 vida = Vida()
 sede = Sede()
 player_bullets = []  # store players bullets
-
+b = 0
 continuar = False
-
+flag = False
 timer_dano_agua = 0
 reset_timer = 0
 contador = 0
@@ -151,8 +151,18 @@ while True:
 
     # player movement
     off_soma = jogador.move(screen_size, mapa.rect_colidiveis)
-    offset[0] += off_soma[0]
-    offset[1] += off_soma[1]
+    print(type(off_soma))
+    if type(off_soma) == tuple:
+        None
+        flag = True
+        b = 30
+    elif flag:
+        b -= 1
+        if b <= 0:
+            flag = False
+    else:
+        offset[0] += off_soma[0]
+        offset[1] += off_soma[1]
 
     # ENEMY MOVEMENT
     tupla_jogador = jogador.get_posicao()
