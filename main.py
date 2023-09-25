@@ -80,6 +80,8 @@ continuar = False
 timer_dano_agua = 0
 reset_timer = 0
 contador = 0
+lista_gray = []
+lista_black = []
 drops = []
 
 # GAME RENDER
@@ -129,12 +131,12 @@ while True:
         coletas[index] += 1
 
     if index == 0:
-        white = Coletavel(generate_random_x(), generate_random_y(), 15, 15, 'White')
+        white = Coletavel(inimigo.x, inimigo.y, 15, 15, 'White')
     if index == 1:
-        gray = Coletavel(generate_random_x(), generate_random_y(), 15, 15, 'aquamarine')
+        lista_gray.remove(gray)
         sede.refrescar()
     if index == 2:
-        black = Coletavel(generate_random_x(), generate_random_y(), 15, 15, 'Red')
+        lista_black.remove(black)
         vida.curar()
 
     if sede.sede <= 0:
@@ -176,8 +178,8 @@ while True:
     mapa.desenhar()
     jogador.desenhar(tela)
     white.desenhar(tela)
-    gray.desenhar(tela)
-    black.desenhar(tela)
+    gray.desenhar(tela, lista_gray[:])
+    black.desenhar(tela, lista_black[:])
     inimigo.desenhar(tela)
     tela.blit(texto, (jogador.x - 160, jogador.y - 20))
     tela.blit(texto_mortes, (33, 0))
@@ -196,13 +198,14 @@ while True:
             if bullet.check_if_hit(rect_bullet, rectangle_inimigo):
                 player_bullets.remove(bullet)
                 cor_bloco = generate_drop()
-                drop = Coletavel(inimigo.x, inimigo.y, 15, 15, cor_bloco)
-                drops.append(drop)
+                if cor_bloco == 'aquamarine':
+                    gray = Coletavel(inimigo.x, inimigo.y, 15, 15, cor_bloco)
+                    lista_gray.append(gray)
+                elif cor_bloco == 'red':
+                    black = Coletavel(inimigo.x, inimigo.y, 15, 15, cor_bloco)
+                    lista_black.append(black)
                 kills += 1
                 inimigo = Inimigo(700, 350, 25, 25, 'Yellow')
-
-    for d in drops:
-        pygame.draw.rect(tela, d.color, (d.x, d.y, d.largura, d.altura))
 
     # UPDATE RATIO / FPS
     pygame.display.update()
