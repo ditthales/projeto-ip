@@ -83,7 +83,7 @@ contador = 0
 lista_gray = []
 lista_black = []
 drops = []
-
+z = 0
 # GAME RENDER
 while True:
     # get mouse position
@@ -115,10 +115,18 @@ while True:
     rectangle_player = jogador.rect()
 
     rectangle_white = white.rect_coleta()
-    rectangle_gray = gray.rect_coleta()
-    rectangle_black = black.rect_coleta()
 
-    lista_colet = [rectangle_white, rectangle_gray, rectangle_black]
+    rects_sede = []
+    for g in lista_gray:
+        r = g.rect_coleta()
+        rects_sede.append(r)
+    
+    rects_vida = []
+    for b in lista_black:
+        rr = rectangle_black = b.rect_coleta()
+        rects_vida.append(rr)
+
+    lista_colet = [rectangle_white, rects_sede, rects_vida]
 
     rectangle_inimigo = inimigo.rect_inimigo()
 
@@ -126,17 +134,17 @@ while True:
 
     sede.sede_passiva()
 
-    index = jogador.coleta(rectangle_player, lista_colet)
-    if index >= 0:
-        coletas[index] += 1
-
-    if index == 0:
-        white = Coletavel(inimigo.x, inimigo.y, 15, 15, 'White')
-    if index == 1:
-        lista_gray.remove(gray)
+    index1 = jogador.coleta(rectangle_player, rects_sede)
+    index2 = jogador.coleta(rectangle_player, rects_vida)
+    
+    if index1 >= 0:
+        coletas[1] += 1
+        lista_gray.pop(index1)
         sede.refrescar()
-    if index == 2:
-        lista_black.remove(black)
+
+    elif index2 >= 0:
+        coletas[2] += 1
+        lista_black.pop(index2)
         vida.curar()
 
     if sede.sede <= 0:
@@ -199,11 +207,9 @@ while True:
                 player_bullets.remove(bullet)
                 cor_bloco = generate_drop()
                 if cor_bloco == 'aquamarine':
-                    gray = Coletavel(inimigo.x, inimigo.y, 15, 15, cor_bloco)
-                    lista_gray.append(gray)
+                    lista_gray.append(Coletavel(inimigo.x, inimigo.y, 15, 15, cor_bloco))
                 elif cor_bloco == 'red':
-                    black = Coletavel(inimigo.x, inimigo.y, 15, 15, cor_bloco)
-                    lista_black.append(black)
+                    lista_black.append(Coletavel(inimigo.x, inimigo.y, 15, 15, cor_bloco))
                 kills += 1
                 inimigo = Inimigo(700, 350, 25, 25, 'Yellow')
 
