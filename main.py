@@ -151,19 +151,19 @@ while True:
     # player movement
     off_soma = jogador.move(screen_size, mapa.rect_colidiveis)
     if type(off_soma) == tuple:
-        None
-        flag = True
-        b = 30
-    elif flag:
-        b -= 1
-        if b <= 0:
-            flag = False
+        b = 60
     else:
         offset[0] += off_soma[0]
         offset[1] += off_soma[1]
+    
+    b -= 1
+    if b <= 0:
+        jogador.stored = [0, 0]
+
 
     # ENEMY MOVEMENT
     tupla_jogador = jogador.get_posicao()
+    print(tupla_jogador)
     inimigo.comportamento(tupla_jogador)
 
     # SET TEXT

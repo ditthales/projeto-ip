@@ -17,6 +17,7 @@ class Player:
         self.is_walking_left = False
         self.previous_location = [x,y]
         self.direcao = pygame.math.Vector2()
+        self.stored = [0, 0]
 
     def move(self, screen_size,rect_colidiveis):
 
@@ -24,39 +25,45 @@ class Player:
 
         off_soma = [0, 0]
 
-        index = self.coleta(self.rect(), rect_colidiveis)
-        if index != -1:
-            self.x = self.previous_location[0] - self.direcao.x
-            self.y = self.previous_location[1] - self.direcao.y
-            return tuple(([0,0], 'a'))
-            
-        else:
-            self.previous_location = self.get_posicao_list()
+        if self.stored != []:
+            if self.stored[0] > 0:
+                None
 
-        if keys[pygame.K_s] or keys[pygame.K_DOWN]:
+        index = self.coleta(self.rect(), rect_colidiveis)
+
+        if (keys[pygame.K_s] or keys[pygame.K_DOWN]) and self.stored[1] >= 0:
             if self.y < screen_size[1] - self.altura:
                 self.direcao.y += 3
                 self.is_walking_right = True
                 off_soma[1] -= 3
 
-        elif keys[pygame.K_w] or keys[pygame.K_UP]:
+        elif (keys[pygame.K_w] or keys[pygame.K_UP]) and self.stored[1] <= 0:
             if self.y > 0:
                 self.direcao.y -= 3
                 self.is_walking_right = True
                 off_soma[1] += 3
 
-        if keys[pygame.K_d] or keys[pygame.K_RIGHT]:
+        if (keys[pygame.K_d] or keys[pygame.K_RIGHT]) and self.stored[0] >= 0:
             if self.x < screen_size[0] - self.largura:
                 self.direcao.x += 3
                 self.is_walking_right = True
                 off_soma[0] -= 3
 
-        elif keys[pygame.K_a] or keys[pygame.K_LEFT]:
+        elif (keys[pygame.K_a] or keys[pygame.K_LEFT]) and self.stored[0] <= 0:
             if self.x > 0:
                 self.direcao.x -= 3
                 self.is_walking_left = True
                 off_soma[0] += 3
-
+        
+        if index != -1:
+            self.x = self.previous_location[0] - self.direcao.x
+            self.y = self.previous_location[1] - self.direcao.y
+            self.stored = off_soma
+            return tuple((off_soma, 'a'))
+            
+        else:
+            self.previous_location = self.get_posicao_list()
+        
         return off_soma
 
     def desenhar(self, tela):
