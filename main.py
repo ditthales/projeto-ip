@@ -68,7 +68,7 @@ white = Coletavel(generate_random_x(), generate_random_y(), 15, 15, 'White')
 gray = Coletavel(generate_random_x(), generate_random_y(), 15, 15, 'aquamarine')
 black = Coletavel(generate_random_x(), generate_random_y(), 15, 15, 'Red')
 inimigo = Inimigo(700, 350, 25, 25, 'Yellow')
-drop = Coletavel(350, 250, 15, 15, 'aquamarine')
+
 mapa = Mapa()
 mapa.criar_mapa(mundo)
 vida = Vida()
@@ -82,10 +82,9 @@ reset_timer = 0
 contador = 0
 lista_gray = []
 lista_black = []
-drops = []
-z = 0
 # GAME RENDER
 while True:
+    lista_white = [white]
     # get mouse position
     mouse_x, mouse_y = pygame.mouse.get_pos()
 
@@ -114,7 +113,10 @@ while True:
     # SET OBJECTS
     rectangle_player = jogador.rect()
 
-    rectangle_white = white.rect_coleta()
+    rects_branco = []
+    for w in lista_white:
+        rrr = w.rect_coleta()
+        rects_branco.append(rrr)
 
     rects_sede = []
     for g in lista_gray:
@@ -126,7 +128,7 @@ while True:
         rr = rectangle_black = b.rect_coleta()
         rects_vida.append(rr)
 
-    lista_colet = [rectangle_white, rects_sede, rects_vida]
+    lista_colet = [rects_branco, rects_sede, rects_vida]
 
     rectangle_inimigo = inimigo.rect_inimigo()
 
@@ -136,6 +138,7 @@ while True:
 
     index1 = jogador.coleta(rectangle_player, rects_sede)
     index2 = jogador.coleta(rectangle_player, rects_vida)
+    index3 = jogador.coleta(rectangle_player, rects_branco)
     
     if index1 >= 0:
         coletas[1] += 1
@@ -146,6 +149,10 @@ while True:
         coletas[2] += 1
         lista_black.pop(index2)
         vida.curar()
+
+    elif index3 >= 0:
+        coletas[0] += 1
+        white = Coletavel(generate_random_x(), generate_random_y(), 15, 15, 'White')
 
     if sede.sede <= 0:
         player_bullets = []
@@ -185,13 +192,21 @@ while True:
     tela.fill('Red')
     mapa.desenhar()
     jogador.desenhar(tela)
+    
     white.desenhar(tela)
-    gray.desenhar(tela, lista_gray[:])
-    black.desenhar(tela, lista_black[:])
+    
+    for g1 in lista_gray:
+        g1.desenhar(tela)
+    
+    for b1 in lista_black:
+        b1.desenhar(tela)
+    
     inimigo.desenhar(tela)
+
     tela.blit(texto, (jogador.x - 160, jogador.y - 20))
     tela.blit(texto_mortes, (33, 0))
     tela.blit(kills_imagem, (0,0))
+    
     vida.desenhar()
     sede.desenhar()
 

@@ -27,7 +27,6 @@ class Player:
             self.y = self.previous_location[1]
             
         else:
-            print(self.previous_location)
             self.previous_location = self.get_posicao_list()
 
         if keys[pygame.K_s] or keys[pygame.K_DOWN]:

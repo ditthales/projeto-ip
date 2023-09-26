@@ -9,9 +9,8 @@ class Coletavel:
         self.altura = altura
         self.color = color
     
-    def desenhar(self, tela, lista = []):
-        for i in lista:
-            pygame.draw.rect(tela, i.color, (i.x, i.y, i.largura, i.altura))
+    def desenhar(self, tela):
+        pygame.draw.rect(tela, self.color, (self.x, self.y, self.largura, self.altura))
 
     def rect_coleta(self):
         surface_coletavel = pygame.Surface((self.largura, self.altura))
