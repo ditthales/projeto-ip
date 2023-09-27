@@ -234,7 +234,7 @@ while True:
     texto_mortes = fonte2.render(f'{kills} kills', False, 'Black')
 
     # DISPLAY OBJECTS AND TEXT
-    tela.fill('Purple')
+    tela.fill(pygame.Color(92, 105, 159))
     mapa.desenhar(offset)
     jogador.desenhar(tela)
 

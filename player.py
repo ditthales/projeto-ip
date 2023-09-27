@@ -60,7 +60,6 @@ class Player:
             self.y = self.previous_location[1] - self.direcao.y
             self.stored = off_soma
             return tuple((off_soma, 'a'))
-            
         else:
             self.previous_location = self.get_posicao_list()
         

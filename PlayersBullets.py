@@ -19,7 +19,9 @@ class PlayerBullet:
     def desenhar(self, where_display):
         self.x -= self.x_pos
         self.y -= self.y_pos
-        pygame.draw.rect(where_display, ('aquamarine'), (self.x, self.y,10,10))
+        where_display.blit(pygame.transform.scale(pygame.image.load('cuspe.png'),(10,10)),(self.x, self.y))
+
+        
         
     def rect(self):
         surface_bullet = pygame.Surface((10,10))
