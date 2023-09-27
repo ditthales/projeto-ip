@@ -137,6 +137,7 @@ Jogador sem vida | Game Over
 
 <a id="como-instalar"></a>
 ## Como instalar
+Abra o terminal do seu sistema em uma pasta à sua escolha, copie e cole o seguinte comando:
 ```
 #Clone this repository 
 git clone https://github.com/ditthales/projeto-ip.git
