@@ -203,6 +203,7 @@ while True:
         x = 400
         y = 200
         offset =[0,0]
+        kills = 0
         jogador.direcao.x = 0
         jogador.direcao.y = 0
         jogador.x = x
@@ -214,10 +215,6 @@ while True:
     off_soma = jogador.move(screen_size, mapa.rect_colidiveis)
     offset[0] += off_soma[0]
     offset[1] += off_soma[1]
-
-
-
-
 
     # ENEMY MOVEMENT
 
