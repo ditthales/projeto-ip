@@ -212,16 +212,11 @@ while True:
 
     # player movement
     off_soma = jogador.move(screen_size, mapa.rect_colidiveis)
-    if type(off_soma) == tuple:
-        t = 60
-    else:
-        offset[0] += off_soma[0]
-        offset[1] += off_soma[1]
+    offset[0] += off_soma[0]
+    offset[1] += off_soma[1]
 
 
-    t -= 1
-    if t <= 0:
-        jogador.stored = [0, 0]
+
 
 
     # ENEMY MOVEMENT
