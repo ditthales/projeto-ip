@@ -34,10 +34,6 @@ class Player:
                     self.direcao.y += 3
                     self.is_walking_right = True
                     off_soma[1] -= 3
-                else:
-                    self.direcao.y -= 3
-                    self.is_walking_right = True
-                    off_soma[1] += 3
                     
 
         elif (keys[pygame.K_w] or keys[pygame.K_UP]):
@@ -46,10 +42,7 @@ class Player:
                     self.direcao.y -= 3
                     self.is_walking_right = True
                     off_soma[1] += 3
-                else:
-                    self.direcao.y += 3
-                    self.is_walking_right = True
-                    off_soma[1] -= 3
+
 
         if (keys[pygame.K_d] or keys[pygame.K_RIGHT]):
             if self.x < screen_size[0] - self.largura:
@@ -57,10 +50,7 @@ class Player:
                     self.direcao.x += 3
                     self.is_walking_right = True
                     off_soma[0] -= 3
-                else:
-                    self.direcao.x -= 3
-                    self.is_walking_right = True
-                    off_soma[0] += 3
+
 
         elif (keys[pygame.K_a] or keys[pygame.K_LEFT]):
             if self.x > 0:
@@ -68,10 +58,6 @@ class Player:
                     self.direcao.x -= 3
                     self.is_walking_left = True
                     off_soma[0] += 3
-                else:
-                    self.direcao.x += 3
-                    self.is_walking_left = True
-                    off_soma[0] -= 3
 
 
         if index != -1 and not self.flag:
