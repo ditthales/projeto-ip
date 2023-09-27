@@ -1,6 +1,6 @@
-# Relatório do projeto - sistema interativo
+# Desert Gun - Relatório do projeto - Equipe 3
 
-Relatório do sistema interativo desenvolvido para a disciplina de Introdução a Programação do curso de Ciências da Computação do CIn/UFPE.
+Relatório de desenvolvimento do jogo Desert Gun feito para a disciplina de Introdução a Programação do curso de Ciências da Computação do CIn/UFPE.
 
 ## Índice
 - [1. Equipe](#equipe)
