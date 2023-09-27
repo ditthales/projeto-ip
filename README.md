@@ -38,7 +38,7 @@ Relatório do sistema interativo desenvolvido para a disciplina de Introdução 
 <a id="divisao"></a>
 ### Divisão de tarefas
 - <strong>Renato Cabral</strong>: Descrição das atividades
-- <strong>Thales Fraga</strong>: Organização do time, relatório e...
+- <strong>Thales Fraga</strong>: Correção de bugs, organização do time e relatório
 - <strong>Caio Santos</strong>: Descrição das atividades
 - <strong>Rinaldo Júnior</strong>: Descrição das atividades
 - <strong>Heitor Machado</strong>: Implementação dos drops e coleta
