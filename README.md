@@ -137,4 +137,10 @@ Jogador sem vida | Game Over
 
 <a id="como-instalar"></a>
 ## Como instalar
-
+```
+# Clone this repository 
+$ git clone https://github.com/ditthales/projeto-ip.git
+# Run 'main.py' file
+$ python3 main.py
+```
+ Ou apenas baixe o arquivo .zip, extraia em algum lugar da sua escolha e execute o arquivo 'main.py'.
