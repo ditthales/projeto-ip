@@ -28,13 +28,13 @@ fonte = pygame.font.Font('Minecraft.ttf', 20)
 fonte2 = pygame.font.Font('Minecraft.ttf', 40)
 
 # SOUND
-tiro = pygame.mixer.Sound('shoot.wav')
-pegar_vida = pygame.mixer.Sound('life.wav')
-pegar_agua = pygame.mixer.Sound('drink.flac')
-morte_inimigo = pygame.mixer.Sound('morte_inimigo.wav')
-fundo = pygame.mixer.Sound('background.mp3')
-sem_agua = pygame.mixer.Sound('sede.mp3')
-moeda = pygame.mixer.Sound('moeda.wav')
+tiro = pygame.mixer.Sound('./sons/shoot.wav')
+pegar_vida = pygame.mixer.Sound('./sons/life.wav')
+pegar_agua = pygame.mixer.Sound('./sons/drink.flac')
+morte_inimigo = pygame.mixer.Sound('./sons/morte_inimigo.wav')
+fundo = pygame.mixer.Sound('./sons/background.mp3')
+sem_agua = pygame.mixer.Sound('./sons/sede.mp3')
+moeda = pygame.mixer.Sound('./sons/moeda.wav')
 
 # RANDOM COODINATIOR GENARATOR FOR COLECTABLES
 def generate_random_x():
@@ -217,7 +217,8 @@ while True:
     else:
         offset[0] += off_soma[0]
         offset[1] += off_soma[1]
-    
+
+
     t -= 1
     if t <= 0:
         jogador.stored = [0, 0]
