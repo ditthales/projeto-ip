@@ -66,6 +66,7 @@ white = Coletavel(generate_random_x(), generate_random_y(), 16, 16, 'White')
 gray = Coletavel(generate_random_x(), generate_random_y(), 16, 16, 'aquamarine')
 black = Coletavel(generate_random_x(), generate_random_y(), 16, 16, 'Red')
 inimigo = Inimigo(700, 350, 25, 25, 'Yellow')
+
 mapa = Mapa()
 mapa.criar_mapa(mundo)
 vida = Vida()
@@ -191,6 +192,7 @@ while True:
 
 
     # ENEMY MOVEMENT
+
     tupla_jogador = jogador.get_posicao()
     inimigo.comportamento(tupla_jogador)
 
