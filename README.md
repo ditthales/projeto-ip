@@ -41,7 +41,7 @@ Relatório do sistema interativo desenvolvido para a disciplina de Introdução 
 - <strong>Thales Fraga</strong>: Organização do time, relatório e...
 - <strong>Caio Santos</strong>: Descrição das atividades
 - <strong>Rinaldo Júnior</strong>: Descrição das atividades
-- <strong>Heitor Machado</strong>: Descrição das atividades
+- <strong>Heitor Machado</strong>: Implementação dos drops e coleta
 
 <a id="ideacao"></a>
 ## Ideação e design
