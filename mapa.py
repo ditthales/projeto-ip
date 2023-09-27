@@ -97,6 +97,7 @@ class Mapa:
         self.sprites_visiveis = pygame.sprite.Group()
         self.obstaculos = pygame.sprite.Group()
         self.rect_colidiveis = []
+        self.offset = pygame.math.Vector2()
 
     def criar_mapa(self, mundo):
         for t_linha in enumerate(mundo):
@@ -106,12 +107,24 @@ class Mapa:
                 x = c_index * 32
                 y = l_index * 32
                 if t_bloco[1] == 'X':
-                    Bloco((x, y), [self.sprites_visiveis], 'pedra')
+                    Bloco(x, y, [self.obstaculos], 'pedra')
                     surface_block = pygame.Surface((32,32))
-                    rect_surface = surface_block.get_rect(center = (x,y))
+                    rect_surface = surface_block.get_rect(topleft = (x,y))
                     self.rect_colidiveis.append(rect_surface)
                 else:
-                    Bloco((x, y), [self.sprites_visiveis], 'areia')
+                    Bloco(x, y, [self.sprites_visiveis], 'areia')
+                    surface_block = pygame.Surface((32,32))
+                    rect_surface = surface_block.get_rect(topleft = (x,y))
 
-    def desenhar(self):
-        self.sprites_visiveis.draw(self.tela)
+    def desenhar(self, off_coords):
+        self.rect_colidiveis = []
+        self.offset.x = off_coords[0]
+        self.offset.y = off_coords[1]
+        for sprite in self.sprites_visiveis:
+            nova_pos = sprite.rect.topleft + self.offset
+            self.tela.blit(sprite.image, nova_pos)
+        for sprite in self.obstaculos:
+            nova_pos = sprite.rect_inicial.topleft + self.offset
+            sprite.rect.topleft = nova_pos
+            self.rect_colidiveis.append(sprite.rect)
+            self.tela.blit(sprite.image, nova_pos)
