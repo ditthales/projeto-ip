@@ -140,6 +140,8 @@ Jogador sem vida | Game Over
 ```
 #Clone this repository 
 git clone https://github.com/ditthales/projeto-ip.git
+#Entre na pasta do projeto
+cd projeto-ip
 #Run 'main.py' file
 python3 main.py
 ```
