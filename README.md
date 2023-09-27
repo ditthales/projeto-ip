@@ -5,7 +5,7 @@ Relatório do sistema interativo desenvolvido para a disciplina de Introdução 
 ## Índice
 - [1. Equipe](#equipe)
     - [1.1 Desenvolvido por](#equipe)
-    - [1.1 Divisão de tarefas](#divisao)
+    - [1.2 Divisão de tarefas](#divisao)
 - [2. Ideação e Design](#ideacao)
 - [3. Bibliotecas Utilizadas](#bibliotecas)
 - [4. Organização do código](#organizacao)
