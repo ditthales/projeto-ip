@@ -19,7 +19,7 @@ class PlayerBullet:
     def desenhar(self, where_display):
         self.x -= self.x_pos
         self.y -= self.y_pos
-        pygame.draw.rect(where_display, (255, 255, 255), (self.x, self.y,10,10))
+        pygame.draw.rect(where_display, ('aquamarine'), (self.x, self.y,10,10))
         
     def rect(self):
         surface_bullet = pygame.Surface((10,10))
