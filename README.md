@@ -13,6 +13,7 @@ Relatório do sistema interativo desenvolvido para a disciplina de Introdução 
 - [6. Desafios enfrentados](#desafios)
 - [7. Capturas de tela](#capturas)
 - [8. Video de demonstração](#demo)
+- [9. Como instalar](#como-instalar)
 
 <a id="equipe"></a>
 ## Equipe
@@ -131,6 +132,9 @@ Jogador sem vida | Game Over
 <img src="https://i.ytimg.com/vi/c1Fv1uKTd-w/sddefault.jpg" alt="Jogador sem vida" height="240"> | <img src="https://i.ytimg.com/vi/c1Fv1uKTd-w/sddefault.jpg" alt="Game Over"  height="240">
 
 <a id="demo"></a>
-## Video de demonstração:
+## Video de demonstração
 [![Demo](https://i.ytimg.com/vi/c1Fv1uKTd-w/sddefault.jpg)](https://www.youtube.com/watch?v=dQw4w9WgXcQ)
+
+<a id="como-instalar"></a>
+## Como instalar
 
