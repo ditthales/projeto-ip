@@ -29,7 +29,7 @@ Relatório do sistema interativo desenvolvido para a disciplina de Introdução 
 
 <td align="center"><a href="https://www.linkedin.com/in/rinaldo-da-silva-bento-júnior-416a15201/"><img src="https://i.imgur.com/EYin5ui.jpeg" width="100px;" alt=""/><br /><sub><b>Rinaldo Júnior</b></sub></a><br/>
 
-<td align="center"><a href="https://www.linkedin.com/in/rinaldo-da-silva-bento-júnior-416a15201/"><img src="https://i.imgur.com/EYin5ui.jpeg" width="100px;" alt=""/><br /><sub><b>Heitor Machado</b></sub></a><br/>
+<td align="center"><a href="https://github.com/ham5"><img src="https://avatars.githubusercontent.com/u/125143251?v=4" width="100px;" alt=""/><br /><sub><b>Heitor Machado</b></sub></a><br/>
 </td>
 </tr>
  </table>
