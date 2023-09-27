@@ -144,6 +144,6 @@ git clone https://github.com/ditthales/projeto-ip.git
 #Entre na pasta do projeto
 cd projeto-ip
 #Run 'main.py' file
-python3 main.py
+python main.py
 ```
  Ou apenas baixe o arquivo .zip, extraia em algum lugar da sua escolha e execute o arquivo 'main.py'.
