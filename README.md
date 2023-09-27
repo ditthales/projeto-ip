@@ -25,7 +25,7 @@ Relatório do sistema interativo desenvolvido para a disciplina de Introdução 
 
 <td align="center"><a href="https://www.linkedin.com/in/thalesvgfraga/"><img src="https://i.imgur.com/K39AuNm.jpeg" width="100px;" alt=""/><br /><sub><b>Thales Fraga</b></sub></a><br/></td>
 
-<td align="center"><a href="https://www.linkedin.com/in/lorena-vilaca/"><img src="https://i.imgur.com/pLDSE9L.jpg" width="100px;" alt=""/><br /><sub><b>Caio Santos</b></sub></a><br/></td>
+<td align="center"><a href="https://github.com/caionsantos"><img src="https://i.imgur.com/pLDSE9L.jpg" width="100px;" alt=""/><br /><sub><b>Caio Santos</b></sub></a><br/></td>
 
 <td align="center"><a href="https://www.linkedin.com/in/rinaldo-da-silva-bento-júnior-416a15201/"><img src="https://i.imgur.com/EYin5ui.jpeg" width="100px;" alt=""/><br /><sub><b>Rinaldo Júnior</b></sub></a><br/>
 
