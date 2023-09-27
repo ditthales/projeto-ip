@@ -34,6 +34,13 @@ def generate_random_x():
 def generate_random_y():
     return random.randint(0, 350)
 
+def generate_drop():
+    num_cor = random.randint(1, 2)
+
+    if num_cor == 1:
+        return 'aquamarine'
+    else:
+        return 'Red'
 
 def menu(tela, fonte, texto):
     tela.fill('Magenta')
@@ -64,15 +71,18 @@ mapa.criar_mapa(mundo)
 vida = Vida()
 sede = Sede()
 player_bullets = []  # store players bullets
-b = 0
+t = 0
 continuar = False
 flag = False
 timer_dano_agua = 0
 reset_timer = 0
 contador = 0
 offset = [0,0]
+lista_sede = []
+lista_vida = []
 # GAME RENDER
 while True:
+    lista_white = [white]
     # get mouse position
     mouse_x, mouse_y = pygame.mouse.get_pos()
 
@@ -101,11 +111,22 @@ while True:
     # SET OBJECTS
     rectangle_player = jogador.rect()
 
-    rectangle_white = white.rect_coleta(offset)
-    rectangle_gray = gray.rect_coleta(offset)
-    rectangle_black = black.rect_coleta(offset)
+    rects_branco = []
+    for w in lista_white:
+        rrr = w.rect_coleta(offset)
+        rects_branco.append(rrr)
 
-    lista_colet = [rectangle_white, rectangle_gray, rectangle_black]
+    rects_sede = []
+    for g in lista_sede:
+        r = g.rect_coleta(offset)
+        rects_sede.append(r)
+    
+    rects_vida = []
+    for b in lista_vida:
+        rr = rectangle_black = b.rect_coleta(offset)
+        rects_vida.append(rr)
+
+    lista_colet = [rects_branco, rects_sede, rects_vida]
 
     rectangle_inimigo = inimigo.rect_inimigo(offset)
 
@@ -113,18 +134,23 @@ while True:
 
     sede.sede_passiva()
 
-    index = jogador.coleta(rectangle_player, lista_colet)
-    if index >= 0:
-        coletas[index] += 1
-
-    if index == 0:
-        white = Coletavel(generate_random_x(), generate_random_y(), 15, 15, 'White')
-    if index == 1:
-        gray = Coletavel(generate_random_x(), generate_random_y(), 15, 15, 'aquamarine')
+    index1 = jogador.coleta(rectangle_player, rects_sede)
+    index2 = jogador.coleta(rectangle_player, rects_vida)
+    index3 = jogador.coleta(rectangle_player, rects_branco)
+    
+    if index1 >= 0:
+        coletas[1] += 1
+        lista_sede.pop(index1)
         sede.refrescar()
-    if index == 2:
-        black = Coletavel(generate_random_x(), generate_random_y(), 15, 15, 'Red')
+
+    elif index2 >= 0:
+        coletas[2] += 1
+        lista_vida.pop(index2)
         vida.curar()
+
+    elif index3 >= 0:
+        coletas[0] += 1
+        white = Coletavel(generate_random_x(), generate_random_y(), 15, 15, 'White')
 
     if sede.sede <= 0:
         player_bullets = []
@@ -143,6 +169,9 @@ while True:
         coletas = [0, 0, 0]
         x = 400
         y = 200
+        offset =[0,0]
+        jogador.direcao.x = 0
+        jogador.direcao.y = 0
         jogador.x = x
         jogador.y = y
         vida.reviver()
@@ -151,19 +180,18 @@ while True:
     # player movement
     off_soma = jogador.move(screen_size, mapa.rect_colidiveis)
     if type(off_soma) == tuple:
-        b = 60
+        t = 60
     else:
         offset[0] += off_soma[0]
         offset[1] += off_soma[1]
     
-    b -= 1
-    if b <= 0:
+    t -= 1
+    if t <= 0:
         jogador.stored = [0, 0]
 
 
     # ENEMY MOVEMENT
     tupla_jogador = jogador.get_posicao()
-    print(tupla_jogador)
     inimigo.comportamento(tupla_jogador)
 
     # SET TEXT
@@ -174,13 +202,21 @@ while True:
     tela.fill('Purple')
     mapa.desenhar(offset)
     jogador.desenhar(tela)
+
     white.desenhar(tela, offset)
-    gray.desenhar(tela, offset)
-    black.desenhar(tela, offset)
+    
+    for g1 in lista_sede:
+        g1.desenhar(tela, offset)
+    
+    for b1 in lista_vida:
+        b1.desenhar(tela, offset)
+
     inimigo.desenhar(tela, offset)
+
     tela.blit(texto, (jogador.x - 160, jogador.y - 20))
     tela.blit(texto_mortes, (33, 0))
     tela.blit(kills_imagem, (0,0))
+    
     vida.desenhar()
     sede.desenhar()
 
@@ -194,9 +230,13 @@ while True:
             rect_bullet = bullet.rect()
             if bullet.check_if_hit(rect_bullet, rectangle_inimigo):
                 player_bullets.remove(bullet)
+                cor_bloco = generate_drop()
+                if cor_bloco == 'aquamarine':
+                    lista_sede.append(Coletavel(inimigo.x, inimigo.y, 15, 15, cor_bloco))
+                elif cor_bloco == 'Red':
+                    lista_vida.append(Coletavel(inimigo.x, inimigo.y, 15, 15, cor_bloco))
                 kills += 1
                 inimigo = Inimigo(700, 350, 25, 25, 'Yellow')
-
     # UPDATE RATIO / FPS
     pygame.display.update()
     relogio.tick(60)
