@@ -255,7 +255,7 @@ while True:
     sede.desenhar()
 
     if len(player_bullets) > 50:
-        while len(player_bullets > 30):
+        while len(player_bullets) > 30:
             player_bullets.pop(0)
 
     if sede.sede > 0:
