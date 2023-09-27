@@ -10,6 +10,7 @@ from player import *
 
 # GAME CONFIGURATION
 pygame.init()
+pygame.mixer.init()
 icon = pygame.image.load('bob.jpg')
 pygame.display.set_icon(icon)
 pygame.display.set_caption('Prototipo')
@@ -26,10 +27,18 @@ kills_imagem = pygame.image.load('caveira.png')
 fonte = pygame.font.Font('Minecraft.ttf', 20)
 fonte2 = pygame.font.Font('Minecraft.ttf', 40)
 
+# SOUND
+tiro = pygame.mixer.Sound('shoot.wav')
+pegar_vida = pygame.mixer.Sound('life.wav')
+pegar_agua = pygame.mixer.Sound('drink.flac')
+morte_inimigo = pygame.mixer.Sound('morte_inimigo.wav')
+fundo = pygame.mixer.Sound('background.mp3')
+sem_agua = pygame.mixer.Sound('sede.mp3')
+moeda = pygame.mixer.Sound('moeda.wav')
+
 # RANDOM COODINATIOR GENARATOR FOR COLECTABLES
 def generate_random_x():
     return random.randint(0, 750)
-
 
 def generate_random_y():
     return random.randint(0, 350)
@@ -76,13 +85,27 @@ t = 0
 continuar = False
 flag = False
 timer_dano_agua = 0
-reset_timer = 0
+reset_timer_1 = 0
+reset_timer_2 = 0
 contador = 0
 offset = [0,0]
 lista_sede = []
 lista_vida = []
 # GAME RENDER
 while True:
+
+    if reset_timer_1 <= 0:
+        pygame.mixer.Sound.play(fundo)
+        reset_timer_1 = 12780
+    else:
+        reset_timer_1 -= 1
+    
+    if reset_timer_2 <= 0:
+        pygame.mixer.Sound.play(sem_agua)
+        reset_timer_2 = 2460
+    else:
+        reset_timer_2 -= 1    
+
     lista_white = [white]
     # get mouse position
     mouse_x, mouse_y = pygame.mouse.get_pos()
@@ -98,6 +121,7 @@ while True:
     if mouse_status[0]:
         if (contador % 10 == 0) and sede.sede > 0:
             sede.sede_ativa()
+            pygame.mixer.Sound.play(tiro)
             player_bullets.append(PlayerBullet(jogador.x, jogador.y, mouse_x, mouse_y))
         contador += 1
     else:
@@ -143,21 +167,29 @@ while True:
         coletas[1] += 1
         lista_sede.pop(index1)
         sede.refrescar()
+        pygame.mixer.Sound.play(pegar_agua)
 
     elif index2 >= 0:
         coletas[2] += 1
         lista_vida.pop(index2)
         vida.curar()
+        pygame.mixer.Sound.play(pegar_vida)
 
     elif index3 >= 0:
         coletas[0] += 1
+        pygame.mixer.Sound.play(moeda)
         white = Coletavel(generate_random_x(), generate_random_y(), 15, 15, 'White')
 
     if sede.sede <= 0:
+        fundo.set_volume(0)
+        sem_agua.set_volume(1)
         player_bullets = []
         if timer_dano_agua % 360 == 0:
             vida.dano()
         timer_dano_agua += 1
+    else:
+        fundo.set_volume(1)
+        sem_agua.set_volume(0)
 
     if jogador.morte_check(rectangle_player, rectangle_inimigo):
         inimigo = Inimigo(700, 350, 25, 25, 'Yellow')
@@ -231,6 +263,7 @@ while True:
             bullet.desenhar(tela)
             rect_bullet = bullet.rect()
             if bullet.check_if_hit(rect_bullet, rectangle_inimigo):
+                pygame.mixer.Sound.play(morte_inimigo)
                 player_bullets.remove(bullet)
                 cor_bloco = generate_drop()
                 if cor_bloco == 'aquamarine':
@@ -239,6 +272,7 @@ while True:
                     lista_vida.append(Coletavel(inimigo.x, inimigo.y, 15, 15, cor_bloco))
                 kills += 1
                 inimigo = Inimigo(700, 350, 25, 25, 'Yellow')
+    
     # UPDATE RATIO / FPS
     pygame.display.update()
     relogio.tick(60)
