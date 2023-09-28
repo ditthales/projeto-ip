@@ -74,8 +74,8 @@ jogador = Player(400, 200, 45, 35)
 white = Coletavel(generate_random_x(), generate_random_y(), 16, 16, 'White')
 gray = Coletavel(generate_random_x(), generate_random_y(), 16, 16, 'aquamarine')
 black = Coletavel(generate_random_x(), generate_random_y(), 16, 16, 'Red')
-inimigo = Inimigo(700, 350, 25, 25, 'Yellow')
-
+inimigo = Inimigo(generate_random_x(), generate_random_y(), 25, 25, 'Yellow')
+inimigos = []
 mapa = Mapa()
 mapa.criar_mapa(mundo)
 vida = Vida()
@@ -93,7 +93,6 @@ lista_sede = []
 lista_vida = []
 # GAME RENDER
 while True:
-
     if reset_timer_1 <= 0:
         pygame.mixer.Sound.play(fundo)
         reset_timer_1 = 12780
@@ -192,7 +191,7 @@ while True:
         sem_agua.set_volume(0)
 
     if jogador.morte_check(rectangle_player, rectangle_inimigo):
-        inimigo = Inimigo(700, 350, 25, 25, 'Yellow')
+        inimigo = Inimigo(generate_random_x(), generate_random_y(), 25, 25, 'Yellow')
         vida.dano()
 
     if vida.hp == 0:
@@ -238,7 +237,7 @@ while True:
     mapa.desenhar(offset)
     jogador.desenhar(tela)
 
-    white.desenhar(tela, offset)
+    #white.desenhar(tela, offset)
     
     for g1 in lista_sede:
         g1.desenhar(tela, offset)
@@ -248,7 +247,7 @@ while True:
 
     inimigo.desenhar(tela, offset)
 
-    tela.blit(texto, (jogador.x - 160, jogador.y - 20))
+    #tela.blit(texto, (jogador.x - 160, jogador.y - 20))
     tela.blit(texto_mortes, (33, 0))
     tela.blit(kills_imagem, (0,0))
     
@@ -272,7 +271,7 @@ while True:
                 elif cor_bloco == 'Red':
                     lista_vida.append(Coletavel(inimigo.x, inimigo.y, 15, 15, cor_bloco))
                 kills += 1
-                inimigo = Inimigo(700, 350, 25, 25, 'Yellow')
+                inimigo = Inimigo(generate_random_x(), generate_random_y(), 25, 25, 'Yellow')
     
     # UPDATE RATIO / FPS
     pygame.display.update()
