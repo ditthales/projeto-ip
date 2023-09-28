@@ -109,6 +109,12 @@ class Player:
         else:
             return False
 
+    def morte(self):
+        self.direcao.x = 0
+        self.direcao.y = 0
+        self.x = 400
+        self.y = 200
+
     @staticmethod
     def coleta(rect_player, rect_list_coleta):
         index = rect_player.collidelist(rect_list_coleta)

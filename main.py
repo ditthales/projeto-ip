@@ -21,8 +21,7 @@ screen_size = (800, 400)
 tela = pygame.display.set_mode(screen_size)
 
 # CREATE TEXT BASE
-coletas = [0, 0, 0]  # branco, cinza, preto
-kills = 0
+coletas = [0, 0, 0, 0]  # branco, agua, vida, kills
 kills_imagem = pygame.image.load('caveira.png')
 fonte = pygame.font.Font('Minecraft.ttf', 20)
 fonte2 = pygame.font.Font('Minecraft.ttf', 40)
@@ -199,15 +198,9 @@ while True:
         continuar = False
         while not continuar:
             continuar = menu(tela, fonte, 'Voce morreu :(! Aperte qualquer tecla pra continuar')
-        coletas = [0, 0, 0]
-        x = 400
-        y = 200
+        coletas = [0, 0, 0, 0]
         offset =[0,0]
-        kills = 0
-        jogador.direcao.x = 0
-        jogador.direcao.y = 0
-        jogador.x = x
-        jogador.y = y
+        jogador.morte()
         vida.reviver()
         sede.ressucitar()
 
@@ -223,7 +216,7 @@ while True:
 
     # SET TEXT
     texto = fonte.render(f'Coletou {coletas[0]} brancos, {coletas[1]} aguas e {coletas[2]} vidas', False, 'Green')
-    texto_mortes = fonte2.render(f'{kills} kills', False, 'Black')
+    texto_mortes = fonte2.render(f'{coletas[3]} kills', False, 'Black')
 
     # DISPLAY OBJECTS AND TEXT
     tela.fill('Purple')
@@ -256,15 +249,17 @@ while True:
             bullet.desenhar(tela)
             rect_bullet = bullet.rect()
             if bullet.check_if_hit(rect_bullet, rectangle_inimigo):
-                pygame.mixer.Sound.play(morte_inimigo)
                 player_bullets.remove(bullet)
-                cor_bloco = generate_drop()
-                if cor_bloco == 'aquamarine':
-                    lista_sede.append(Coletavel(inimigo.x, inimigo.y, 15, 15, cor_bloco))
-                elif cor_bloco == 'Red':
-                    lista_vida.append(Coletavel(inimigo.x, inimigo.y, 15, 15, cor_bloco))
-                kills += 1
-                inimigo = Inimigo(700, 350, 25, 25, 'Yellow')
+                inimigo.dano()
+                if inimigo.hp <= 0:
+                    pygame.mixer.Sound.play(morte_inimigo)
+                    cor_bloco = generate_drop()
+                    if cor_bloco == 'aquamarine':
+                        lista_sede.append(Coletavel(inimigo.x, inimigo.y, 15, 15, cor_bloco))
+                    elif cor_bloco == 'Red':
+                        lista_vida.append(Coletavel(inimigo.x, inimigo.y, 15, 15, cor_bloco))
+                    coletas[3] += 1
+                    inimigo = Inimigo(700, 350, 25, 25, 'Yellow')
     
     # UPDATE RATIO / FPS
     pygame.display.update()

@@ -10,7 +10,8 @@ class Inimigo:
         self.cor = cor
         self.offset = pygame.math.Vector2()
         self.image = pygame.image.load('bob.jpg')
-    
+        self.hp = 10
+
     def desenhar(self, tela, off_coords):
         self.offset.x = off_coords[0]
         self.offset.y = off_coords[1]
@@ -28,6 +29,9 @@ class Inimigo:
             self.x -= 1.5
         if tupla_jogador[1] < self.y:
             self.y -= 1.5
+
+    def dano(self):
+        self.hp -= 1
 
     def rect_inicial(self):
         surface_inimigo = pygame.Surface((self.largura, self.altura))
