@@ -63,6 +63,7 @@ class Player:
         if index != -1 and not self.flag:
             self.stored = off_soma
             self.flag = True
+
         
         if index == -1:
             self.previous_location = self.get_posicao_list()
