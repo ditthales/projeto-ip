@@ -1,14 +1,6 @@
 import pygame
 import math
 
-
-# a class to represent the players bullet on the game where a bullet is shot on the angle between the player position
-# and mouse position
-class PlayerBullet:
-    import pygame
-import math
-
-
 # a class to represent the players bullet on the game where a bullet is shot on the angle between the player position
 # and mouse position
 class PlayerBullet:
