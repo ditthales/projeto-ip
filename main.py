@@ -22,6 +22,9 @@ tela = pygame.display.set_mode(screen_size)
 # CREATE TEXT BASE
 coletas = [0, 0, 0, 0]  # branco, agua, vida, kills
 kills_imagem = pygame.image.load('caveira.png')
+agua_imagem = pygame.image.load('water.png')
+vida_imagem = pygame.image.load('heart.png')
+moeda_imagem = pygame.image.load('moeda.png')
 fonte = pygame.font.Font('Minecraft.ttf', 20)
 fonte2 = pygame.font.Font('Minecraft.ttf', 40)
 
@@ -90,6 +93,7 @@ offset = [0,0]
 lista_sede = []
 lista_vida = []
 cooldown = 60
+score = 0
 # GAME RENDER
 while True:
     if reset_timer_1 <= 0:
@@ -166,17 +170,20 @@ while True:
         lista_sede.pop(index1)
         sede.refrescar()
         pygame.mixer.Sound.play(pegar_agua)
+        score += 10
 
     elif index2 >= 0:
         coletas[2] += 1
         lista_vida.pop(index2)
         vida.curar()
         pygame.mixer.Sound.play(pegar_vida)
+        score += 10
 
     elif index3 >= 0:
         coletas[0] += 1
         pygame.mixer.Sound.play(moeda)
         white = Coletavel(generate_random_x(), generate_random_y(), 15, 15, 'White')
+        score += 50
 
     if sede.sede <= 0:
         fundo.set_volume(0)
@@ -192,6 +199,7 @@ while True:
     if jogador.morte_check(rectangle_player, rectangle_inimigo):
         inimigo = Inimigo(generate_random_x(), generate_random_y(), 25, 25, 'Yellow')
         vida.dano()
+        score -= 10
 
     if vida.hp == 0:
         continuar = False
@@ -199,6 +207,7 @@ while True:
             continuar = menu(tela, fonte, 'Voce morreu :(! Aperte qualquer tecla pra continuar')
         coletas = [0, 0, 0, 0]
         offset =[0,0]
+        score = 0
         jogador.morte()
         vida.reviver()
         sede.ressucitar()
@@ -219,8 +228,11 @@ while True:
         cooldown -= 1
 
     # SET TEXT
-    texto = fonte.render(f'Coletou {coletas[0]} brancos, {coletas[1]} aguas e {coletas[2]} vidas', False, 'Green')
     texto_mortes = fonte2.render(f'{coletas[3]} kills', False, 'Black')
+    texto_moedas = fonte.render(f'{coletas[0]}', False, 'Yellow')
+    texto_agua = fonte.render(f'{coletas[1]}', False, 'Blue')
+    texto_vida = fonte.render(f'{coletas[2]}', False, 'Red')
+    texto_score = fonte2.render(f'{score}', False, 'White')
 
     # DISPLAY OBJECTS AND TEXT
     tela.fill(pygame.Color(92, 105, 159))
@@ -237,9 +249,15 @@ while True:
 
     inimigo.desenhar(tela, offset)
 
-    tela.blit(texto, (jogador.x - 160, jogador.y - 20))
     tela.blit(texto_mortes, (33, 0))
     tela.blit(kills_imagem, (0,0))
+    tela.blit(texto_moedas, (10, 40))
+    tela.blit(moeda_imagem, (40, 40))
+    tela.blit(texto_agua, (10, 60))
+    tela.blit(agua_imagem, (40, 60))
+    tela.blit(texto_vida, (10, 80))
+    tela.blit(vida_imagem, (40, 80))
+    tela.blit(texto_score, (700, 0))
     
     vida.desenhar()
     sede.desenhar()
@@ -258,6 +276,7 @@ while True:
         if bala.check_if_hit(rect_bala, rectangle_player):
             vida.dano()
             enemy_bullets.remove(bala)
+            score -= 10
 
     if sede.sede > 0:
         for bullet in player_bullets:
@@ -267,6 +286,7 @@ while True:
                 player_bullets.remove(bullet)
                 inimigo.dano()
                 if inimigo.hp <= 0:
+                    score += 100
                     pygame.mixer.Sound.play(morte_inimigo)
                     cor_bloco = generate_drop()
                     if cor_bloco == 'aquamarine':
