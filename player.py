@@ -19,6 +19,7 @@ class Player:
         self.direcao = pygame.math.Vector2()
         self.stored = [0, 0]
         self.flag = False
+        self.truepos = (400, 200)
 
     def move(self, screen_size,rect_colidiveis):
 
@@ -91,6 +92,7 @@ class Player:
     def get_posicao(self):
         pos = (self.x, self.y)
         nova_p = pos + self.direcao
+        self.truepos = nova_p
         return nova_p
     
     def get_posicao_list(self):
