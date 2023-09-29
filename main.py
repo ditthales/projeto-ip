@@ -1,6 +1,6 @@
 import random
 from sys import exit
-from PlayersBullets import PlayerBullet
+from bullets import *
 from barras import *
 from coletavel import Coletavel
 from inimigo import Inimigo
@@ -120,7 +120,7 @@ while True:
         if (contador % 10 == 0) and sede.sede > 0:
             sede.sede_ativa()
             pygame.mixer.Sound.play(tiro)
-            player_bullets.append(PlayerBullet(jogador.truepos[0], jogador.truepos[1], mouse_x, mouse_y, 15))
+            player_bullets.append(PlayerBullet(jogador.x, jogador.y, mouse_x, mouse_y))
         contador += 1
     else:
         contador = 0
@@ -213,7 +213,7 @@ while True:
     tupla_jogador = jogador.get_posicao()
     inimigo.comportamento(tupla_jogador)
     if cooldown == 0:
-        enemy_bullets.append(PlayerBullet(inimigo.x, inimigo.y, jogador.truepos[0], jogador.truepos[1], 7))
+        enemy_bullets.append(EnemyBullet(inimigo.x, inimigo.y, jogador.truepos[0], jogador.truepos[1], 7))
         cooldown = 60
     else:
         cooldown -= 1
@@ -244,20 +244,24 @@ while True:
     vida.desenhar()
     sede.desenhar()
 
-    if len(player_bullets) > 50:
-        while len(player_bullets) > 30:
+    if len(player_bullets) > 30:
+        while len(player_bullets) > 10:
             player_bullets.pop(0)
     
-    if len(enemy_bullets) > 50:
-        while len(player_bullets) > 30:
+    if len(enemy_bullets) > 30:
+        while len(player_bullets) > 10:
             player_bullets.pop(0)
 
     for bala in enemy_bullets:
-        bala.desenhar(tela, offset)
+        bala.desenhar_offset(tela, offset)
+        rect_bala = bala.rect()
+        if bala.check_if_hit(rect_bala, rectangle_player):
+            vida.dano()
+            enemy_bullets.remove(bala)
 
     if sede.sede > 0:
         for bullet in player_bullets:
-            bullet.desenhar(tela, offset)
+            bullet.desenhar(tela)
             rect_bullet = bullet.rect()
             if bullet.check_if_hit(rect_bullet, rectangle_inimigo):
                 player_bullets.remove(bullet)
@@ -274,4 +278,5 @@ while True:
     
     # UPDATE RATIO / FPS
     pygame.display.update()
+    print(relogio)
     relogio.tick(60) 
