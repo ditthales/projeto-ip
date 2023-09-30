@@ -283,6 +283,8 @@ while True:
                 if i3.cooldown == 1:
                     ray_bullets = []
 
+    tiro_inimigo = [enemy_bullets, spray_bullets, ray_bullets]
+
     # SET TEXT
     texto_mortes = fonte2.render(f'{coletas[3]} kills', False, 'Black')
     texto_onda = fonte2.render(f'ONDA {onda}', False, 'Black')
@@ -338,31 +340,15 @@ while True:
         while len(enemy_bullets) > 0:
             ray_bullets.pop(0)
 
-
-
-    for bala in enemy_bullets:
-        bala.desenhar_offset(tela, offset)
-        rect_bala = bala.rect()
-        if bala.check_if_hit(rect_bala, rectangle_player):
-            vida.dano()
-            enemy_bullets.remove(bala)
-            score -= 10
-
-    for bala2 in spray_bullets:
-        bala2.desenhar_offset(tela, offset)
-        rect_bala = bala2.rect()
-        if bala2.check_if_hit(rect_bala, rectangle_player):
-            vida.dano()
-            spray_bullets.remove(bala2)
-            score -= 10
-
-    for bala3 in ray_bullets:
-        bala3.desenhar_offset(tela, offset)
-        rect_bala = bala3.rect()
-        if bala3.check_if_hit(rect_bala, rectangle_player):
-            vida.dano()
-            ray_bullets.remove(bala3)
-            score -= 10
+    for lista in tiro_inimigo:
+        for bala in lista:
+            bala.desenhar_offset(tela, offset)
+            rect_bala = bala.rect()
+            if bala.check_if_hit(rect_bala, rectangle_player):
+                vida.dano()
+                lista.remove(bala)
+                del bala
+                score -= 10
 
     if sede.sede > 0:
         for bullet in player_bullets:
