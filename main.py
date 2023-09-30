@@ -1,7 +1,6 @@
 import random
 from sys import exit
-
-from PlayersBullets import PlayerBullet
+from bullets import *
 from barras import *
 from coletavel import Coletavel
 from inimigo import Inimigo
@@ -21,9 +20,11 @@ screen_size = (800, 400)
 tela = pygame.display.set_mode(screen_size)
 
 # CREATE TEXT BASE
-coletas = [0, 0, 0]  # branco, cinza, preto
-kills = 0
+coletas = [0, 0, 0, 0]  # branco, agua, vida, kills
 kills_imagem = pygame.image.load('caveira.png')
+agua_imagem = pygame.image.load('water.png')
+vida_imagem = pygame.image.load('heart.png')
+moeda_imagem = pygame.image.load('moeda.png')
 fonte = pygame.font.Font('Minecraft.ttf', 20)
 fonte2 = pygame.font.Font('Minecraft.ttf', 40)
 
@@ -74,14 +75,14 @@ jogador = Player(400, 200, 45, 35)
 white = Coletavel(generate_random_x(), generate_random_y(), 16, 16, 'White')
 gray = Coletavel(generate_random_x(), generate_random_y(), 16, 16, 'aquamarine')
 black = Coletavel(generate_random_x(), generate_random_y(), 16, 16, 'Red')
-inimigo = Inimigo(700, 350, 25, 25, 'Yellow')
-
+inimigo = Inimigo(generate_random_x(), generate_random_y(), 48, 48, 'Yellow')
+inimigo2 = Inimigo(generate_random_x(), generate_random_y(), 48, 48, 'Yellow')
 mapa = Mapa()
 mapa.criar_mapa(mundo)
 vida = Vida()
 sede = Sede()
 player_bullets = []  # store players bullets
-t = 0
+enemy_bullets = []
 continuar = False
 flag = False
 timer_dano_agua = 0
@@ -91,9 +92,11 @@ contador = 0
 offset = [0,0]
 lista_sede = []
 lista_vida = []
+cooldown = 60
+score = 0
 # GAME RENDER
 while True:
-
+    inimigos = [inimigo, inimigo2]
     if reset_timer_1 <= 0:
         pygame.mixer.Sound.play(fundo)
         reset_timer_1 = 12780
@@ -153,7 +156,10 @@ while True:
 
     lista_colet = [rects_branco, rects_sede, rects_vida]
 
-    rectangle_inimigo = inimigo.rect_inimigo(offset)
+    rects_inm = []
+    for i in inimigos:
+        rectangle_inimigo = i.rect_inimigo(offset)
+        rects_inm.append(rectangle_inimigo)
 
     # COLIDER MANAGER
 
@@ -168,73 +174,74 @@ while True:
         lista_sede.pop(index1)
         sede.refrescar()
         pygame.mixer.Sound.play(pegar_agua)
+        score += 10
 
     elif index2 >= 0:
         coletas[2] += 1
         lista_vida.pop(index2)
         vida.curar()
         pygame.mixer.Sound.play(pegar_vida)
+        score += 10
 
     elif index3 >= 0:
         coletas[0] += 1
         pygame.mixer.Sound.play(moeda)
         white = Coletavel(generate_random_x(), generate_random_y(), 15, 15, 'White')
+        score += 50
 
     if sede.sede <= 0:
         fundo.set_volume(0)
-        sem_agua.set_volume(1)
+        sem_agua.set_volume(0.7)
         player_bullets = []
         if timer_dano_agua % 360 == 0:
             vida.dano()
         timer_dano_agua += 1
     else:
-        fundo.set_volume(1)
+        fundo.set_volume(0.8)
         sem_agua.set_volume(0)
 
-    if jogador.morte_check(rectangle_player, rectangle_inimigo):
-        inimigo = Inimigo(700, 350, 25, 25, 'Yellow')
+    if jogador.morte_check(rectangle_player, rects_inm) != -1:
+        index = jogador.morte_check(rectangle_player, rects_inm)
+        inimigos[index].reposicionar(generate_random_x(), generate_random_y())
         vida.dano()
+        score -= 10
 
     if vida.hp == 0:
         continuar = False
         while not continuar:
             continuar = menu(tela, fonte, 'Voce morreu :(! Aperte qualquer tecla pra continuar')
-        coletas = [0, 0, 0]
-        x = 400
-        y = 200
+        coletas = [0, 0, 0, 0]
         offset =[0,0]
-        jogador.direcao.x = 0
-        jogador.direcao.y = 0
-        jogador.x = x
-        jogador.y = y
+        score = 0
+        jogador.morte()
         vida.reviver()
         sede.ressucitar()
 
     # player movement
     off_soma = jogador.move(screen_size, mapa.rect_colidiveis)
-    if type(off_soma) == tuple:
-        t = 60
-    else:
-        offset[0] += off_soma[0]
-        offset[1] += off_soma[1]
-
-
-    t -= 1
-    if t <= 0:
-        jogador.stored = [0, 0]
-
+    offset[0] += off_soma[0]
+    offset[1] += off_soma[1]
 
     # ENEMY MOVEMENT
 
     tupla_jogador = jogador.get_posicao()
-    inimigo.comportamento(tupla_jogador)
+    for i3 in inimigos:
+        i3.comportamento(tupla_jogador)
+        if i3.cooldown == 0:
+            enemy_bullets.append(EnemyBullet(i3.x, i3.y, jogador.truepos[0], jogador.truepos[1], 7))
+            i3.cooldown = 60
+        else:
+            i3.cooldown -= 1
 
     # SET TEXT
-    texto = fonte.render(f'Coletou {coletas[0]} brancos, {coletas[1]} aguas e {coletas[2]} vidas', False, 'Green')
-    texto_mortes = fonte2.render(f'{kills} kills', False, 'Black')
+    texto_mortes = fonte2.render(f'{coletas[3]} kills', False, 'Black')
+    texto_moedas = fonte.render(f'{coletas[0]}', False, 'Yellow')
+    texto_agua = fonte.render(f'{coletas[1]}', False, 'Blue')
+    texto_vida = fonte.render(f'{coletas[2]}', False, 'Red')
+    texto_score = fonte2.render(f'{score}', False, 'White')
 
     # DISPLAY OBJECTS AND TEXT
-    tela.fill('Purple')
+    tela.fill(pygame.Color(92, 105, 159))
     mapa.desenhar(offset)
     jogador.desenhar(tela)
 
@@ -246,34 +253,64 @@ while True:
     for b1 in lista_vida:
         b1.desenhar(tela, offset)
 
-    inimigo.desenhar(tela, offset)
+    for i2 in inimigos:
+        i2.desenhar(tela, offset)
 
-    tela.blit(texto, (jogador.x - 160, jogador.y - 20))
     tela.blit(texto_mortes, (33, 0))
     tela.blit(kills_imagem, (0,0))
+    tela.blit(texto_moedas, (10, 40))
+    tela.blit(moeda_imagem, (40, 40))
+    tela.blit(texto_agua, (10, 60))
+    tela.blit(agua_imagem, (40, 60))
+    tela.blit(texto_vida, (10, 80))
+    tela.blit(vida_imagem, (40, 80))
+    tela.blit(texto_score, (700, 0))
     
     vida.desenhar()
     sede.desenhar()
 
-    if len(player_bullets) > 50:
-        while len(player_bullets) > 30:
+    if len(player_bullets) > 30:
+        while len(player_bullets) > 10:
             player_bullets.pop(0)
+    
+    if len(enemy_bullets) > 30:
+        while len(enemy_bullets) > 10:
+            enemy_bullets.pop(0)
+
+    for bala in enemy_bullets:
+        bala.desenhar_offset(tela, offset)
+        rect_bala = bala.rect()
+        if bala.check_if_hit(rect_bala, rectangle_player):
+            vida.dano()
+            enemy_bullets.remove(bala)
+            score -= 10
 
     if sede.sede > 0:
         for bullet in player_bullets:
             bullet.desenhar(tela)
             rect_bullet = bullet.rect()
-            if bullet.check_if_hit(rect_bullet, rectangle_inimigo):
-                pygame.mixer.Sound.play(morte_inimigo)
-                player_bullets.remove(bullet)
-                cor_bloco = generate_drop()
-                if cor_bloco == 'aquamarine':
-                    lista_sede.append(Coletavel(inimigo.x, inimigo.y, 15, 15, cor_bloco))
-                elif cor_bloco == 'Red':
-                    lista_vida.append(Coletavel(inimigo.x, inimigo.y, 15, 15, cor_bloco))
-                kills += 1
-                inimigo = Inimigo(700, 350, 25, 25, 'Yellow')
+            for ri2 in rects_inm:
+                if bullet.check_if_hit(rect_bullet, ri2):
+                    try:
+                        player_bullets.remove(bullet)
+                        indx = rects_inm.index(ri2)
+                        inm = inimigos[indx]
+                        inm.dano()
+                        if inm.hp <= 0:
+                            score += 100
+                            pygame.mixer.Sound.play(morte_inimigo)
+                            cor_bloco = generate_drop()
+                            if cor_bloco == 'aquamarine':
+                                lista_sede.append(Coletavel(inm.x, inm.y, 15, 15, cor_bloco))
+                            elif cor_bloco == 'Red':
+                                lista_vida.append(Coletavel(inm.x, inm.y, 15, 15, cor_bloco))
+                            coletas[3] += 1
+                            inm.reposicionar(generate_random_x(), generate_random_y())
+                            inm.hp = 10
+                    except:
+                        None
     
     # UPDATE RATIO / FPS
     pygame.display.update()
-    relogio.tick(60)
+    print(relogio)
+    relogio.tick(60) 

@@ -18,6 +18,8 @@ class Player:
         self.previous_location = [x,y]
         self.direcao = pygame.math.Vector2()
         self.stored = [0, 0]
+        self.flag = False
+        self.truepos = (400, 200)
 
     def move(self, screen_size,rect_colidiveis):
 
@@ -25,45 +27,50 @@ class Player:
 
         off_soma = [0, 0]
 
-        if self.stored != []:
-            if self.stored[0] > 0:
-                None
-
         index = self.coleta(self.rect(), rect_colidiveis)
 
-        if (keys[pygame.K_s] or keys[pygame.K_DOWN]) and self.stored[1] >= 0:
+        if (keys[pygame.K_s] or keys[pygame.K_DOWN]):
             if self.y < screen_size[1] - self.altura:
-                self.direcao.y += 3
-                self.is_walking_right = True
-                off_soma[1] -= 3
+                if self.stored[1] >= 0:
+                    self.direcao.y += 3
+                    self.is_walking_right = True
+                    off_soma[1] -= 3
+                    
 
-        elif (keys[pygame.K_w] or keys[pygame.K_UP]) and self.stored[1] <= 0:
+        elif (keys[pygame.K_w] or keys[pygame.K_UP]):
             if self.y > 0:
-                self.direcao.y -= 3
-                self.is_walking_right = True
-                off_soma[1] += 3
+                if self.stored[1] <= 0:
+                    self.direcao.y -= 3
+                    self.is_walking_right = True
+                    off_soma[1] += 3
 
-        if (keys[pygame.K_d] or keys[pygame.K_RIGHT]) and self.stored[0] >= 0:
+
+        if (keys[pygame.K_d] or keys[pygame.K_RIGHT]):
             if self.x < screen_size[0] - self.largura:
-                self.direcao.x += 3
-                self.is_walking_right = True
-                off_soma[0] -= 3
+                if self.stored[0] >= 0:
+                    self.direcao.x += 3
+                    self.is_walking_right = True
+                    off_soma[0] -= 3
 
-        elif (keys[pygame.K_a] or keys[pygame.K_LEFT]) and self.stored[0] <= 0:
+
+        elif (keys[pygame.K_a] or keys[pygame.K_LEFT]):
             if self.x > 0:
-                self.direcao.x -= 3
-                self.is_walking_left = True
-                off_soma[0] += 3
-        
-        if index != -1:
-            self.x = self.previous_location[0] - self.direcao.x
-            self.y = self.previous_location[1] - self.direcao.y
+                if self.stored[0] <= 0:
+                    self.direcao.x -= 3
+                    self.is_walking_left = True
+                    off_soma[0] += 3
+
+
+        if index != -1 and not self.flag:
             self.stored = off_soma
-            return tuple((off_soma, 'a'))
-            
-        else:
-            self.previous_location = self.get_posicao_list()
+            self.flag = True
+
         
+        if index == -1:
+            self.previous_location = self.get_posicao_list()
+            self.flag = False
+            self.stored = [0,0]
+
         return off_soma
 
     def desenhar(self, tela):
@@ -85,6 +92,7 @@ class Player:
     def get_posicao(self):
         pos = (self.x, self.y)
         nova_p = pos + self.direcao
+        self.truepos = nova_p
         return nova_p
     
     def get_posicao_list(self):
@@ -99,10 +107,14 @@ class Player:
 
     @staticmethod
     def morte_check(rectangle_player, rectangle_inimigo):
-        if rectangle_player.colliderect(rectangle_inimigo):
-            return True
-        else:
-            return False
+        index = rectangle_player.collidelist(rectangle_inimigo)
+        return index
+
+    def morte(self):
+        self.direcao.x = 0
+        self.direcao.y = 0
+        self.x = 400
+        self.y = 200
 
     @staticmethod
     def coleta(rect_player, rect_list_coleta):

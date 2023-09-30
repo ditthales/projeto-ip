@@ -2,87 +2,87 @@ import pygame
 from bloco import Bloco
 
 mundo = [
-    ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X',
-     'X', '25', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X',
-     'X', 'X', 'X', 'X', 'X'],
-    ['X', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O',
-     'O', 'O', 'O', 'X', 'O', 'O', 'O', 'O', 'O', 'O', 'X', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O',
-     'O', 'O', 'O', 'O', 'X'],
-    ['X', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O',
-     'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O',
-     'O', 'O', 'O', 'O', 'X'],
-    ['X', 'O', 'O', 'O', 'O', 'O', 'O', 'X', 'X', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'X',
-     'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O',
-     'O', 'O', 'O', 'O', 'X'],
-    ['X', 'O', 'O', 'O', 'O', 'O', 'O', 'X', 'X', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O',
-     'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O',
-     'O', 'O', 'O', 'O', 'X'],
-    ['X', 'O', 'O', 'O', 'O', 'O', 'O', 'X', 'X', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'X',
-     'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O',
-     'O', 'O', 'O', 'O', 'X'],
-    ['X', 'O', 'O', 'O', 'O', 'O', 'O', 'X', 'X', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O',
-     'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O',
-     'O', 'O', 'O', 'O', 'X'],
-    ['X', 'O', 'O', 'O', 'O', 'O', 'O', 'X', 'X', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'X',
+    ['CE', 'CM', 'CM', 'CM', 'CM', 'CM', 'CM', 'CM', 'CM', 'CM', 'CM', 'CM', 'CM', 'CM', 'CM', 'CM', 'CM', 'CM', 'CM', 'CM', 'CM', 'CM', 'CM',
+     'CM', 'CM', 'CM', 'CM', 'CM', 'CM', 'CM', 'CM', 'CM', 'CM', 'CM', 'CM', 'CM', 'CM', 'CM', 'CM', 'CM', 'CM', 'CM', 'CM', 'CM', 'CM', 'CM',
+     'CM', 'CM', 'CM', 'CM', 'CD'],
+    ['ME', 'X', 'X', 'O', 'O', 'O', 'O', 'O', 'O', 'O', '2', 'O', 'O', 'O', 'O', 'O', '2', 'O', 'O', 'O', 'O', '2', 'O',
+     'O', 'O', '2', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', '2', 'O', 'O', 'O', '2', 'O', 'O', 'X', 'O', 'O', 'O', 'O',
+     'O', 'O', 'O', 'X', 'MD'],
+    ['ME', 'O', '2', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', '2', 'O', 'O', 'O', 'O', 'O', 'O',
+     'O', 'O', 'O', 'O', 'O', 'O', 'O', '2', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', '2', 'O', 'O',
+     'O', 'O', 'X', 'O', 'MD'],
+    ['ME', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'X', 'O', 'O',
+     'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', '2', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'X', 'O',
+     'O', 'O', 'X', 'O', 'MD'],
+    ['ME', 'O', 'X', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', '2', 'O', 'O',
+     'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', '2', 'X', 'O', 'O', 'O', 'O', 'O', 'O', 'O',
+     'O', 'O', 'O', 'O', 'MD'],
+    ['ME', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O',
+     'O', 'O', '2', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O',
+     'X', 'O', 'O', 'O', 'MD'],
+    ['ME', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', '2', 'O', 'O', 'O', 'O', 'O', 'O',
+     'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'X', 'O', 'O',
+     'O', 'O', 'O', '2', 'MD'],
+    ['ME', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', '2',
+     'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', '2', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O',
+     '2', 'O', 'O', 'O', 'MD'],
+    ['ME', 'O', 'O', 'O', 'O', '2', 'O', 'O', 'O', 'O', 'O', 'O', '2', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O',
+     'O', '2', 'X', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'X', 'O', '2',
+     'O', 'O', 'O', 'O', 'MD'],
+    ['ME', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O',
+     'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', '2', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'X', 'O', 'O',
+     'O', 'O', 'O', 'O', 'MD'],
+    ['ME', '2', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O',
+     'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', '2',
+     'O', 'X', '2', 'O', 'MD'],
+    ['ME', 'O', '2', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', '2', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O',
+     'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', '2', 'O', 'O', 'O', 'O', 'X', 'O', 'O', 'O', '2', 'O', 'O',
+     'O', 'O', '2', 'O', 'MD'],
+    ['ME', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', '2', 'O', 'O', 'O', 'O', 'O', 'O',
+     'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', '2', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O',
+     'O', 'O', 'X', 'O', 'MD'],
+    ['ME', '2', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O',
+     'O', 'O', 'O', 'O', 'O', 'O', 'O', '2', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'X', 'O', 'O', '2',
+     'O', 'O', 'O', 'O', 'MD'],
+    ['ME', '2', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', '2',
+     'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', '2', 'O', 'O', 'O', 'O', 'O', 'O', '2', 'O', 'O',
+     'O', 'O', '2', 'O', 'MD'],
+    ['ME', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O',
      'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'X', 'O', 'O', 'O', 'O',
-     'O', 'O', 'O', 'O', 'X'],
-    ['X', 'O', 'O', 'O', 'O', 'O', 'O', 'X', 'X', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'X', 'O', 'O', 'O', 'O', 'O', 'O',
-     'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'X', 'O', 'O', 'O',
-     'O', 'O', 'O', 'O', 'X'],
-    ['X', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'X', 'O', 'O', 'O', 'O', 'O', 'O', 'O',
+     'O', 'O', 'O', 'O', 'MD'],
+    ['ME', 'O', '2', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', '2', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O',
+     'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', '2', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'X', 'O', 'O', 'O', '2',
+     'O', 'O', 'O', 'O', 'MD'],
+    ['ME', 'O', 'O', '2', 'O', 'X', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', '2', 'X', 'O', 'O', 'O', 'O', 'O', 'O', 'O',
+     'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'X', '2', 'O', 'O', 'O', 'O',
+     'O', 'X', '2', 'O', 'MD'],
+    ['ME', 'O', '2', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', '2', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O',
+     'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', '2', 'O', 'O', 'O', 'O',
+     'O', 'O', 'X', 'O', 'MD'],
+    ['ME', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'X', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O',
+     'O', 'O', 'O', 'O', 'O', 'X', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'X', 'O', 'O', 'O', 'O',
+     'O', 'X', 'O', 'O', 'MD'],
+    ['ME', '2', 'O', 'O', 'O', 'O', 'O', 'O', '2', 'O', 'O', 'O', 'O', 'O', '2', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O',
+     'O', 'O', 'O', 'O', '2', 'O', 'O', 'O', 'O', 'O', 'O', 'O', '2', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', '2', 'O',
+     'O', 'O', 'O', 'O', 'MD'],
+    ['ME', 'O', 'X', 'O', 'O', 'O', 'O', '2', 'O', 'O', 'O', 'O', 'O', '2', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O',
+     'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', '2', 'O', 'O',
+     'O', 'O', '2', 'O', 'MD'],
+    ['ME', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', '2', 'O', 'O', 'X', 'O', 'O', 'O', '2', 'O', 'O', '2', 'O', 'O',
      'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O',
-     'O', 'O', 'O', 'O', 'X'],
-    ['X', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'X', 'X', 'O', 'O', 'O', 'O', 'O', 'O', 'O',
-     'O', 'O', 'O', 'X', 'X', 'X', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'X', 'O',
-     'O', 'O', 'X', 'O', 'X'],
-    ['X', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'X', 'X', 'X',
-     'O', 'O', 'O', 'X', 'O', 'X', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'X',
-     'O', 'X', 'O', 'O', 'X'],
-    ['X', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'X', 'O', 'O', 'O', 'O', 'X', 'X',
-     'O', 'O', 'O', 'O', 'X', 'X', 'O', 'O', 'O', 'O', 'O', 'X', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O',
-     'X', 'O', 'O', 'O', 'X'],
-    ['X', 'O', 'O', 'O', 'O', 'O', 'O', 'X', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'X', 'X',
-     'O', 'O', 'O', 'O', 'O', 'X', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'X',
-     'O', 'X', 'O', 'O', 'X'],
-    ['X', 'O', 'O', 'O', 'O', 'O', 'O', 'X', 'X', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'X', 'O', 'O', 'O', 'X',
-     'O', 'O', 'O', 'O', 'O', 'X', 'O', 'O', 'O', 'X', 'X', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'X', 'O',
-     'O', 'O', 'X', 'O', 'X'],
-    ['X', 'O', 'O', 'O', 'O', 'O', 'O', 'X', 'X', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'X', 'X', 'X', 'O', 'O', 'O', 'O',
-     'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'X', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O',
-     'O', 'O', 'O', 'O', 'X'],
-    ['X', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'X', 'X', 'X', 'O', 'O', 'O', 'O', 'O', 'O',
-     'O', 'O', 'O', 'X', 'X', 'O', 'O', 'O', 'O', 'O', 'X', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O',
-     'O', 'O', 'O', 'O', 'X'],
-    ['X', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O',
-     'O', 'O', 'X', 'O', 'O', 'O', 'O', 'O', 'O', 'X', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O',
-     'O', 'O', 'O', 'O', 'X'],
-    ['X', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O',
-     'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'X', 'X', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O',
-     'O', 'O', 'O', 'O', 'X'],
-    ['X', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O',
+     'O', '2', 'O', 'O', 'MD'],
+    ['ME', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', '2', 'O', '2', 'O', 'O', 'O', 'O', 'O',
+     'O', 'O', 'O', '2', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', '2', 'O',
+     'O', '2', 'O', '2', 'MD'],
+    ['ME', 'O', 'O', 'O', 'O', 'O', 'X', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O',
      'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O',
-     'O', 'O', 'O', 'O', 'X'],
-    ['X', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O',
-     'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O',
-     'O', 'O', 'O', 'O', 'X'],
-    ['X', 'O', 'O', 'O', 'O', 'O', 'X', 'X', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'X', 'O',
-     'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O',
-     'O', 'O', 'O', 'O', 'X'],
-    ['X', 'O', 'O', 'O', 'O', 'O', 'X', 'X', 'O', 'O', 'O', 'O', 'O', 'X', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'X', 'O',
-     'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O',
-     'O', 'O', 'O', 'O', 'X'],
-    ['X', 'O', 'O', 'O', 'O', 'O', 'X', 'X', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'X', 'O',
-     'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O',
-     'O', 'O', 'O', 'O', 'X'],
-    ['X', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'X', 'O',
-     'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O',
-     'O', 'O', 'O', 'O', 'X'],
-    ['X', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'X', 'O',
-     'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O',
-     'O', 'O', 'O', 'O', 'X'],
-    ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X',
-     'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X',
-     'X', 'X', 'X', 'X', 'X']]
+     'O', 'O', 'O', 'O', 'MD'],
+    ['ME', 'X', '2', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', '2', 'O', 'O', 'O', 'O', 'O', '2', 'O', 'O', 'O',
+     'O', '2', 'O', '2', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', '2', 'O', 'O', 'O', 'O', 'O', '2', 'O',
+     '2', 'O', 'O', 'X', 'MD'],
+    ['IE', 'IM', 'IM', 'IM', 'IM', 'IM', 'IM', 'IM', 'IM', 'IM', 'IM', 'IM', 'IM', 'IM', 'IM', 'IM', 'IM', 'IM', 'IM', 'IM', 'IM', 'IM', 'IM',
+     'IM', 'IM', 'IM', 'IM', 'IM', 'IM', 'IM', 'IM', 'IM', 'IM', 'IM', 'IM', 'IM', 'IM', 'IM', 'IM', 'IM', 'IM', 'IM', 'IM', 'IM', 'IM', 'IM',
+     'IM', 'IM', 'IM', 'IM', 'ID']]
 
 
 # LEGENDA:
@@ -111,6 +111,50 @@ class Mapa:
                     surface_block = pygame.Surface((32,32))
                     rect_surface = surface_block.get_rect(topleft = (x,y))
                     self.rect_colidiveis.append(rect_surface)
+                elif t_bloco[1] == 'CD':
+                    Bloco(x, y, [self.obstaculos], 'borda_cd')
+                    surface_block = pygame.Surface((32,32))
+                    rect_surface = surface_block.get_rect(topleft = (x,y))
+                    self.rect_colidiveis.append(rect_surface)
+                elif t_bloco[1] == 'CE':
+                    Bloco(x, y, [self.obstaculos], 'borda_ce')
+                    surface_block = pygame.Surface((32,32))
+                    rect_surface = surface_block.get_rect(topleft = (x,y))
+                    self.rect_colidiveis.append(rect_surface)
+                elif t_bloco[1] == 'CM':
+                    Bloco(x, y, [self.obstaculos], 'borda_cm')
+                    surface_block = pygame.Surface((32,32))
+                    rect_surface = surface_block.get_rect(topleft = (x,y))
+                    self.rect_colidiveis.append(rect_surface)
+                elif t_bloco[1] == 'ID':
+                    Bloco(x, y, [self.obstaculos], 'borda_id')
+                    surface_block = pygame.Surface((32,32))
+                    rect_surface = surface_block.get_rect(topleft = (x,y))
+                    self.rect_colidiveis.append(rect_surface)
+                elif t_bloco[1] == 'IE':
+                    Bloco(x, y, [self.obstaculos], 'borda_ie')
+                    surface_block = pygame.Surface((32,32))
+                    rect_surface = surface_block.get_rect(topleft = (x,y))
+                    self.rect_colidiveis.append(rect_surface)
+                elif t_bloco[1] == 'IM':
+                    Bloco(x, y, [self.obstaculos], 'borda_im')
+                    surface_block = pygame.Surface((32,32))
+                    rect_surface = surface_block.get_rect(topleft = (x,y))
+                    self.rect_colidiveis.append(rect_surface)
+                elif t_bloco[1] == 'MD':
+                    Bloco(x, y, [self.obstaculos], 'borda_md')
+                    surface_block = pygame.Surface((32,32))
+                    rect_surface = surface_block.get_rect(topleft = (x,y))
+                    self.rect_colidiveis.append(rect_surface)
+                elif t_bloco[1] == 'ME':
+                    Bloco(x, y, [self.obstaculos], 'borda_me')
+                    surface_block = pygame.Surface((32,32))
+                    rect_surface = surface_block.get_rect(topleft = (x,y))
+                    self.rect_colidiveis.append(rect_surface)
+                elif t_bloco[1] == '2':
+                    Bloco(x, y, [self.sprites_visiveis], 'areia2')
+                    surface_block = pygame.Surface((32,32))
+                    rect_surface = surface_block.get_rect(topleft = (x,y))
                 else:
                     Bloco(x, y, [self.sprites_visiveis], 'areia')
                     surface_block = pygame.Surface((32,32))

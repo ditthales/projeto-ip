@@ -14,7 +14,7 @@ class Coletavel:
         elif color == 'aquamarine':
             self.image = pygame.image.load('water.png')
         else:
-            self.image = pygame.image.load('white.png')
+            self.image = pygame.image.load('moeda.png')
 
 
     def desenhar(self, tela, off_coords):
