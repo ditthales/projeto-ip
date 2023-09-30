@@ -61,7 +61,7 @@ def raid_generation(lista_inimigos):
     posicao_y = generate_random_y()
     num = random.randint(1, 3)
     if num == 1:
-        tipo = 'bob'
+        tipo = 'fantasma'
     else:
         tipo = 'corvo'
     inimigo = Inimigo(posicao_x, posicao_y, 32, 32, tipo)
@@ -95,14 +95,14 @@ jogador = Player(400, 200, 45, 35)
 white = Coletavel(generate_random_x(), generate_random_y(), 16, 16, 'White')
 gray = Coletavel(generate_random_x(), generate_random_y(), 16, 16, 'aquamarine')
 black = Coletavel(generate_random_x(), generate_random_y(), 16, 16, 'Red')
-inimigo = Inimigo(generate_random_x(), generate_random_y(), 25, 25, 'Yellow')
-inimigo2 = Inimigo(generate_random_x(), generate_random_y(), 25, 25, 'Yellow')
 mapa = Mapa()
 mapa.criar_mapa(mundo)
 vida = Vida()
 sede = Sede()
 player_bullets = []  # store players bullets
 enemy_bullets = []
+spray_bullets = []
+ray_bullets = []
 continuar = False
 flag = False
 timer_dano_agua = 0
@@ -112,7 +112,6 @@ contador = 0
 offset = [0,0]
 lista_sede = []
 lista_vida = []
-cooldown = 60
 score = 0
 onda = 0
 raid_start = True
@@ -216,7 +215,7 @@ while True:
         coletas[0] += 1
         pygame.mixer.Sound.play(moeda)
         white = Coletavel(generate_random_x(), generate_random_y(), 15, 15, 'White')
-        score += 50
+        score += 100
 
     if sede.sede <= 0:
         fundo.set_volume(0)
@@ -246,6 +245,7 @@ while True:
         raid_start = True
         inimigos = []
         enemy_bullets = []
+        spray_bullets = []
         jogador.morte()
         vida.reviver()
         sede.ressucitar()
@@ -261,10 +261,18 @@ while True:
     for i3 in inimigos:
         i3.comportamento(tupla_jogador)
         if i3.cooldown == 0:
-            enemy_bullets.append(EnemyBullet(i3.x, i3.y, jogador.truepos[0], jogador.truepos[1], 4))
-            i3.cooldown = 60
+            if i3.tipo == 'corvo':
+                enemy_bullets.append(EnemyBullet(i3.x, i3.y, jogador.truepos[0], jogador.truepos[1], 4))
+                i3.cooldown = 60
+            elif i3.tipo == 'fantasma':
+                spray_bullets.append(EnemyBullet(i3.x, i3.y, generate_random_x(), generate_random_y(), 3))
+                if len(spray_bullets) >= 10:
+                    i3.cooldown = 480
         else:
             i3.cooldown -= 1
+            if i3.tipo == 'fantasma':
+                if i3.cooldown == 1:
+                    spray_bullets = []
 
     # SET TEXT
     texto_mortes = fonte2.render(f'{coletas[3]} kills', False, 'Black')
@@ -313,12 +321,24 @@ while True:
         while len(enemy_bullets) > 10:
             enemy_bullets.pop(0)
 
+    if len(spray_bullets) > 40:
+        while len(enemy_bullets) > 20:
+            spray_bullets.pop(0)
+
     for bala in enemy_bullets:
         bala.desenhar_offset(tela, offset)
         rect_bala = bala.rect()
         if bala.check_if_hit(rect_bala, rectangle_player):
             vida.dano()
             enemy_bullets.remove(bala)
+            score -= 10
+
+    for bala2 in spray_bullets:
+        bala2.desenhar_offset(tela, offset)
+        rect_bala = bala2.rect()
+        if bala.check_if_hit(rect_bala, rectangle_player):
+            vida.dano()
+            spray_bullets.remove(bala2)
             score -= 10
 
     if sede.sede > 0:

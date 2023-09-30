@@ -25,7 +25,7 @@ class Inimigo:
                 pygame.image.load("./birdassets/Bird6.png"),
                 pygame.image.load("./birdassets/Bird7.png")]
 
-        else:
+        elif tipo == 'fantasma':
             self.walk_images = [pygame.image.load('./ghostassets/sprite_00.png'),
                                 pygame.image.load('./ghostassets/sprite_00.png'),
                                 pygame.image.load('./ghostassets/sprite_00.png'),
