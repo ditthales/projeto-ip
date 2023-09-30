@@ -8,15 +8,15 @@ class Vida:
     hit.set_volume(0.7)
 
     def __init__(self):
-        self.hp = 10
+        self.hp = 20
         self.tela = pygame.display.get_surface()
     
     def desenhar(self):
         pygame.draw.rect(self.tela, 'Red', (10, 330, (10 * self.hp), 20))
 
     def curar(self):
-        if self.hp < 10:
-            self.hp += 1
+        if self.hp < 20:
+            self.hp += 2
 
     def dano(self):
         pygame.mixer.Sound.play(self.hit)
@@ -24,7 +24,7 @@ class Vida:
             self.hp -= 1
 
     def reviver(self):
-        self.hp = 10
+        self.hp = 20
 
 
 class Sede:
@@ -38,14 +38,14 @@ class Sede:
 
     def sede_passiva(self):
         if(self.sede > 0):
-            self.sede -= 3
+            self.sede -= 2
 
     def sede_ativa(self):
         if(self.sede > 59):
             self.sede -= 60
 
     def refrescar(self):
-        self.sede += 600
+        self.sede += 800
 
     def ressucitar(self):
         self.sede = 6000

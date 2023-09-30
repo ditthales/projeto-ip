@@ -12,7 +12,7 @@ pygame.init()
 pygame.mixer.init()
 icon = pygame.image.load('bob.jpg')
 pygame.display.set_icon(icon)
-pygame.display.set_caption('Prototipo')
+pygame.display.set_caption('Desert Gun')
 relogio = pygame.time.Clock()
 
 # SET SCREEN
@@ -25,6 +25,10 @@ kills_imagem = pygame.image.load('caveira.png')
 agua_imagem = pygame.image.load('water.png')
 vida_imagem = pygame.image.load('heart.png')
 moeda_imagem = pygame.image.load('moeda.png')
+menu_imagem = pygame.image.load('./menuassets/menu.png')
+morte_imagem = pygame.image.load('./menuassets/gameover.png')
+jogar = pygame.image.load('./menuassets/botaojogar.png')
+restart = pygame.image.load('./menuassets/pelanza.png')
 fonte = pygame.font.Font('Minecraft.ttf', 20)
 fonte2 = pygame.font.Font('Minecraft.ttf', 40)
 
@@ -39,40 +43,47 @@ moeda = pygame.mixer.Sound('./sons/moeda.wav')
 
 # RANDOM COODINATIOR GENARATOR FOR COLECTABLES
 def generate_random_x():
-    return random.randint(0, 1200)
+    return random.randint(10, 1200)
 
 def generate_random_y():
-    return random.randint(0, 750)
+    return random.randint(10, 750)
 
 def generate_drop():
-    num_cor = random.randint(1, 2)
+    num_cor = random.randint(1, 3)
 
     if num_cor == 1:
-        return 'aquamarine'
-    else:
         return 'Red'
+    else:
+        return 'aquamarine'
 
 def raid_generation(lista_inimigos):
     posicao_x = generate_random_x()
     posicao_y = generate_random_y()
     num = random.randint(1, 3)
-    if num:
+    if num == 1:
+        tipo = 'bob'
+    else:
         tipo = 'corvo'
-    inimigo = Inimigo(posicao_x, posicao_y, 25, 25, tipo)
+    inimigo = Inimigo(posicao_x, posicao_y, 32, 32, tipo)
     lista_inimigos.append(inimigo)
 
-def menu(tela, fonte, texto):
-    tela.fill('Magenta')
-    texto_menu = fonte.render(texto, False, 'Green')
-    tela.blit(texto_menu, (200, 200))
+def menu(tela, imagem, botao, pos, dimensoes):
+    tela.blit(imagem, (0,0))
+    tela.blit(botao, pos)
+    surf_botao = pygame.surface.Surface(dimensoes)
+    rect_botao = surf_botao.get_rect(topleft=pos)
+    mouse_status = pygame.mouse.get_pressed()
+    if mouse_status[0]:
+        tupla_mouse = pygame.mouse.get_pos()
+        surf_mouse = pygame.surface.Surface((25, 25))
+        rect_mouse = surf_mouse.get_rect(topleft=tupla_mouse)
+        if rect_mouse.colliderect(rect_botao):
+            return True 
     pygame.display.update()
 
     for evento in pygame.event.get():
 
-        if evento.type == pygame.KEYDOWN:
-            return True
-
-        elif evento.type == pygame.QUIT:
+        if evento.type == pygame.QUIT:
             pygame.quit()
             exit()
 
@@ -107,6 +118,9 @@ onda = 0
 raid_start = True
 # GAME RENDER
 while True:
+    while not continuar:
+        continuar = menu(tela, menu_imagem, jogar, (305, 250), (180, 77))
+
     if raid_start:
         onda += 1
         inimigos = []
@@ -147,9 +161,6 @@ while True:
         contador += 1
     else:
         contador = 0
-
-    while not continuar:
-        continuar = menu(tela, fonte, 'Aperte qualquer tecla para continuar')
 
     # DISPLAY BACKGROUND  
     mapa.desenhar(offset)
@@ -227,10 +238,11 @@ while True:
     if vida.hp == 0:
         continuar = False
         while not continuar:
-            continuar = menu(tela, fonte, 'Voce morreu :(! Aperte qualquer tecla pra continuar')
+            continuar = menu(tela, morte_imagem, restart, (350, 150), (100, 87))
         coletas = [0, 0, 0, 0]
         offset =[0,0]
         score = 0
+        onda = 0
         jogador.morte()
         vida.reviver()
         sede.ressucitar()
@@ -246,7 +258,7 @@ while True:
     for i3 in inimigos:
         i3.comportamento(tupla_jogador)
         if i3.cooldown == 0:
-            enemy_bullets.append(EnemyBullet(i3.x, i3.y, jogador.truepos[0], jogador.truepos[1], 7))
+            enemy_bullets.append(EnemyBullet(i3.x, i3.y, jogador.truepos[0], jogador.truepos[1], 4))
             i3.cooldown = 60
         else:
             i3.cooldown -= 1

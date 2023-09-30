@@ -25,6 +25,14 @@ class Inimigo:
                 pygame.image.load("./birdassets/Bird6.png"),
                 pygame.image.load("./birdassets/Bird7.png")]
 
+        else:
+            self.walk_images = [pygame.image.load('./ghostassets/sprite_00.png'),
+                                pygame.image.load('./ghostassets/sprite_00.png'),
+                                pygame.image.load('./ghostassets/sprite_00.png'),
+                                pygame.image.load('./ghostassets/sprite_00.png'),
+                                pygame.image.load('./ghostassets/sprite_00.png'),
+                                pygame.image.load('./ghostassets/sprite_00.png'),
+                                pygame.image.load('./ghostassets/sprite_00.png')]
 
     def desenhar(self, tela, off_coords):
         self.offset.x = off_coords[0]
@@ -36,17 +44,19 @@ class Inimigo:
         
         if self.is_walking_left:
             tela.blit(pygame.transform.scale(
-                pygame.transform.flip(self.walk_images[self.animation_count // 12], True, False), (32, 32)),
+                pygame.transform.flip(self.walk_images[self.animation_count // 12], True, False), (self.largura, self.altura)),
                 (nova_pos))
         elif self.is_walking_right:
-            tela.blit(pygame.transform.scale(self.walk_images[self.animation_count // 12], (32, 32)),
+            tela.blit(pygame.transform.scale(self.walk_images[self.animation_count // 12], (self.altura, self.altura)),
                       (nova_pos))
+        self.is_walking_right = False
+        self.is_walking_left = False
 
     def comportamento(self, tupla_jogador):
         # tupla_jogador no formato (x, y)
         if tupla_jogador[1] > self.y:
             self.y += 1.5
-        elif tupla_jogador[1] < self.y:
+        if tupla_jogador[1] < self.y:
             self.y -= 1.5
         if tupla_jogador[0] < self.x:
             self.x -= 1.5
