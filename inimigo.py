@@ -34,6 +34,16 @@ class Inimigo:
                                 pygame.image.load('./ghostassets/sprite_00.png'),
                                 pygame.image.load('./ghostassets/sprite_00.png')]
 
+        elif tipo == 'esqueleto':
+            self.walk_images= [pygame.image.load('./skeletonassets/skull.png'),
+                                pygame.image.load('./skeletonassets/skull.png'),
+                                pygame.image.load('./skeletonassets/skull.png'),
+                                pygame.image.load('./skeletonassets/skull.png'),
+                                pygame.image.load('./skeletonassets/skull.png'),
+                                pygame.image.load('./skeletonassets/skull.png'),
+                                pygame.image.load('./skeletonassets/skull.png')]
+
+
     def desenhar(self, tela, off_coords):
         self.offset.x = off_coords[0]
         self.offset.y = off_coords[1]

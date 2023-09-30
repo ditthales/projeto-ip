@@ -62,8 +62,10 @@ def raid_generation(lista_inimigos):
     num = random.randint(1, 3)
     if num == 1:
         tipo = 'fantasma'
-    else:
+    elif num == 2:
         tipo = 'corvo'
+    else:
+        tipo = 'esqueleto'
     inimigo = Inimigo(posicao_x, posicao_y, 32, 32, tipo)
     lista_inimigos.append(inimigo)
 
@@ -268,11 +270,18 @@ while True:
                 spray_bullets.append(EnemyBullet(i3.x, i3.y, generate_random_x(), generate_random_y(), 3))
                 if len(spray_bullets) >= 10:
                     i3.cooldown = 480
+            else:
+                ray_bullets.append(EnemyBullet(i3.x, i3.y, jogador.truepos[0], jogador.truepos[1], 4))
+                if len(ray_bullets) >= 10:
+                    i3.cooldown = 300
         else:
             i3.cooldown -= 1
             if i3.tipo == 'fantasma':
                 if i3.cooldown == 1:
                     spray_bullets = []
+            elif i3.tipo == 'esqueleto':
+                if i3.cooldown == 1:
+                    ray_bullets = []
 
     # SET TEXT
     texto_mortes = fonte2.render(f'{coletas[3]} kills', False, 'Black')
@@ -313,8 +322,8 @@ while True:
     vida.desenhar()
     sede.desenhar()
 
-    if len(player_bullets) > 30:
-        while len(player_bullets) > 10:
+    if len(player_bullets) > 20:
+        while len(player_bullets) > 0:
             player_bullets.pop(0)
     
     if len(enemy_bullets) > 30:
@@ -324,6 +333,12 @@ while True:
     if len(spray_bullets) > 40:
         while len(enemy_bullets) > 20:
             spray_bullets.pop(0)
+    
+    if len(ray_bullets) > 40:
+        while len(enemy_bullets) > 0:
+            ray_bullets.pop(0)
+
+
 
     for bala in enemy_bullets:
         bala.desenhar_offset(tela, offset)
@@ -336,9 +351,17 @@ while True:
     for bala2 in spray_bullets:
         bala2.desenhar_offset(tela, offset)
         rect_bala = bala2.rect()
-        if bala.check_if_hit(rect_bala, rectangle_player):
+        if bala2.check_if_hit(rect_bala, rectangle_player):
             vida.dano()
             spray_bullets.remove(bala2)
+            score -= 10
+
+    for bala3 in ray_bullets:
+        bala3.desenhar_offset(tela, offset)
+        rect_bala = bala3.rect()
+        if bala3.check_if_hit(rect_bala, rectangle_player):
+            vida.dano()
+            ray_bullets.remove(bala3)
             score -= 10
 
     if sede.sede > 0:
