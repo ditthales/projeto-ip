@@ -34,11 +34,13 @@ class Inimigo:
         
         if self.is_walking_left:
             tela.blit(pygame.transform.scale(
-                pygame.transform.flip(Inimigo.walk_images[self.animation_count // 12], True, False), (32, 32)),
+                pygame.transform.flip(Inimigo.walk_images[self.animation_count // 12], True, False), (self.largura, self.altura)),
                 (nova_pos))
         elif self.is_walking_right:
-            tela.blit(pygame.transform.scale(Inimigo.walk_images[self.animation_count // 12], (32, 32)),
+            tela.blit(pygame.transform.scale(Inimigo.walk_images[self.animation_count // 12], (self.largura, self.altura)),
                       (nova_pos))
+        self.is_walking_right = False
+        self.is_walking_left = False
 
     def comportamento(self, tupla_jogador):
         # tupla_jogador no formato (x, y)
@@ -49,12 +51,13 @@ class Inimigo:
         if tupla_jogador[0] < self.x:
             self.x -= 1.5
             self.is_walking_right = True
-        elif tupla_jogador[0] > self.x:
+        if tupla_jogador[0] > self.x:
             self.x += 1.5
             self.is_walking_left = True
 
     def dano(self):
         self.hp -= 1
+        
     
     def reposicionar(self, x, y):
         self.x = x
