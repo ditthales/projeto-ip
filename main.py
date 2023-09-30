@@ -39,10 +39,10 @@ moeda = pygame.mixer.Sound('./sons/moeda.wav')
 
 # RANDOM COODINATIOR GENARATOR FOR COLECTABLES
 def generate_random_x():
-    return random.randint(0, 750)
+    return random.randint(0, 1200)
 
 def generate_random_y():
-    return random.randint(0, 350)
+    return random.randint(0, 750)
 
 def generate_drop():
     num_cor = random.randint(1, 2)
@@ -51,6 +51,15 @@ def generate_drop():
         return 'aquamarine'
     else:
         return 'Red'
+
+def raid_generation(lista_inimigos):
+    posicao_x = generate_random_x()
+    posicao_y = generate_random_y()
+    num = random.randint(1, 3)
+    if num:
+        tipo = 'corvo'
+    inimigo = Inimigo(posicao_x, posicao_y, 25, 25, tipo)
+    lista_inimigos.append(inimigo)
 
 def menu(tela, fonte, texto):
     tela.fill('Magenta')
@@ -94,9 +103,18 @@ lista_sede = []
 lista_vida = []
 cooldown = 60
 score = 0
+onda = 0
+raid_start = True
 # GAME RENDER
 while True:
-    inimigos = [inimigo, inimigo2]
+    if raid_start:
+        onda += 1
+        inimigos = []
+        numero_inimigos = random.randint(1, 10)
+        raid_start = False
+        for n in range(0, numero_inimigos):
+            raid_generation(inimigos)
+    
     if reset_timer_1 <= 0:
         pygame.mixer.Sound.play(fundo)
         reset_timer_1 = 12780
@@ -235,6 +253,7 @@ while True:
 
     # SET TEXT
     texto_mortes = fonte2.render(f'{coletas[3]} kills', False, 'Black')
+    texto_onda = fonte2.render(f'ONDA {onda}', False, 'Black')
     texto_moedas = fonte.render(f'{coletas[0]}', False, 'Yellow')
     texto_agua = fonte.render(f'{coletas[1]}', False, 'Blue')
     texto_vida = fonte.render(f'{coletas[2]}', False, 'Red')
@@ -265,6 +284,8 @@ while True:
     tela.blit(texto_vida, (10, 80))
     tela.blit(vida_imagem, (40, 80))
     tela.blit(texto_score, (700, 0))
+    tela.blit(texto_onda, (350, 0))
+
     
     vida.desenhar()
     sede.desenhar()
@@ -297,20 +318,21 @@ while True:
                         inm = inimigos[indx]
                         inm.dano()
                         if inm.hp <= 0:
+                            numero_inimigos -= 1
                             score += 100
                             pygame.mixer.Sound.play(morte_inimigo)
+                            inimigos.remove(inm)
                             cor_bloco = generate_drop()
                             if cor_bloco == 'aquamarine':
                                 lista_sede.append(Coletavel(inm.x, inm.y, 15, 15, cor_bloco))
                             elif cor_bloco == 'Red':
                                 lista_vida.append(Coletavel(inm.x, inm.y, 15, 15, cor_bloco))
                             coletas[3] += 1
-                            inm.reposicionar(generate_random_x(), generate_random_y())
-                            inm.hp = 10
+                            if numero_inimigos == 0:
+                                raid_start = True
                     except:
                         None
     
     # UPDATE RATIO / FPS
     pygame.display.update()
-    print(relogio)
     relogio.tick(60) 

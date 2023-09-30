@@ -2,20 +2,12 @@ import pygame
 
 class Inimigo:
     
-    walk_images = [pygame.image.load("./birdassets/Bird1.png"),
-                    pygame.image.load("./birdassets/Bird2.png"),
-                    pygame.image.load("./birdassets/Bird3.png"),
-                    pygame.image.load("./birdassets/Bird4.png"),
-                    pygame.image.load("./birdassets/Bird5.png"),
-                    pygame.image.load("./birdassets/Bird6.png"),
-                    pygame.image.load("./birdassets/Bird7.png")]
-    
-    def __init__(self, x, y, largura, altura, cor):
+    def __init__(self, x, y, largura, altura, tipo):
         self.x = x
         self.y = y
         self.largura = largura
         self.altura = altura
-        self.cor = cor
+        self.tipo = tipo
         self.offset = pygame.math.Vector2()
         self.image = pygame.image.load('bob.jpg')
         self.hp = 3
@@ -23,6 +15,16 @@ class Inimigo:
         self.is_walking_right = False
         self.is_walking_left = False
         self.animation_count = 0
+    
+        if tipo == 'corvo':
+            self.walk_images = [pygame.image.load("./birdassets/Bird1.png"),
+                pygame.image.load("./birdassets/Bird2.png"),
+                pygame.image.load("./birdassets/Bird3.png"),
+                pygame.image.load("./birdassets/Bird4.png"),
+                pygame.image.load("./birdassets/Bird5.png"),
+                pygame.image.load("./birdassets/Bird6.png"),
+                pygame.image.load("./birdassets/Bird7.png")]
+
 
     def desenhar(self, tela, off_coords):
         self.offset.x = off_coords[0]
@@ -34,10 +36,10 @@ class Inimigo:
         
         if self.is_walking_left:
             tela.blit(pygame.transform.scale(
-                pygame.transform.flip(Inimigo.walk_images[self.animation_count // 12], True, False), (32, 32)),
+                pygame.transform.flip(self.walk_images[self.animation_count // 12], True, False), (32, 32)),
                 (nova_pos))
         elif self.is_walking_right:
-            tela.blit(pygame.transform.scale(Inimigo.walk_images[self.animation_count // 12], (32, 32)),
+            tela.blit(pygame.transform.scale(self.walk_images[self.animation_count // 12], (32, 32)),
                       (nova_pos))
 
     def comportamento(self, tupla_jogador):
