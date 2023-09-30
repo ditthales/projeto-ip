@@ -370,7 +370,10 @@ while True:
                         inm.dano()
                         if inm.hp <= 0:
                             numero_inimigos -= 1
-                            score += 100
+                            if inm.tipo == 'bob':
+                                score += 10000
+                            else:
+                                score += 100
                             pygame.mixer.Sound.play(morte_inimigo)
                             inimigos.remove(inm)
                             cor_bloco = generate_drop()
