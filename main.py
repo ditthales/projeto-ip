@@ -69,9 +69,12 @@ def raid_generation(lista_inimigos):
     inimigo = Inimigo(posicao_x, posicao_y, 32, 32, tipo)
     lista_inimigos.append(inimigo)
 
-def menu(tela, imagem, botao, pos, dimensoes):
+def menu(tela, imagem, botao, pos, dimensoes, fonte, hi_score):
     tela.blit(imagem, (0,0))
     tela.blit(botao, pos)
+    if hi_score != None:
+        texto = fonte.render(f'HI-SCORE: {hi_score}', False, 'Black')
+        tela.blit(texto, (320,0))
     surf_botao = pygame.surface.Surface(dimensoes)
     rect_botao = surf_botao.get_rect(topleft=pos)
     mouse_status = pygame.mouse.get_pressed()
@@ -120,7 +123,7 @@ raid_start = True
 # GAME RENDER
 while True:
     while not continuar:
-        continuar = menu(tela, menu_imagem, jogar, (305, 250), (180, 77))
+        continuar = menu(tela, menu_imagem, jogar, (305, 250), (180, 77), fonte, None)
 
     if raid_start:
         onda += 1
@@ -239,7 +242,7 @@ while True:
     if vida.hp == 0:
         continuar = False
         while not continuar:
-            continuar = menu(tela, morte_imagem, restart, (350, 150), (100, 87))
+            continuar = menu(tela, morte_imagem, restart, (350, 150), (100, 87), fonte, score)
         coletas = [0, 0, 0, 0]
         offset =[0,0]
         score = 0
