@@ -11,6 +11,7 @@ class Inimigo:
         self.offset = pygame.math.Vector2()
         self.image = pygame.image.load('bob.jpg')
         self.hp = 10
+        self.cooldown = 60
 
     def desenhar(self, tela, off_coords):
         self.offset.x = off_coords[0]
@@ -32,6 +33,10 @@ class Inimigo:
 
     def dano(self):
         self.hp -= 1
+    
+    def reposicionar(self, x, y):
+        self.x = x
+        self.y = y
 
     def rect_inicial(self):
         surface_inimigo = pygame.Surface((self.largura, self.altura))

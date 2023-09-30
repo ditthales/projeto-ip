@@ -107,10 +107,8 @@ class Player:
 
     @staticmethod
     def morte_check(rectangle_player, rectangle_inimigo):
-        if rectangle_player.colliderect(rectangle_inimigo):
-            return True
-        else:
-            return False
+        index = rectangle_player.collidelist(rectangle_inimigo)
+        return index
 
     def morte(self):
         self.direcao.x = 0

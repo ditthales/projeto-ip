@@ -1,7 +1,11 @@
 import pygame
+pygame.mixer.init()
 
 
 class Vida:
+
+    hit = pygame.mixer.Sound('./sons/dano.wav')
+    hit.set_volume(0.7)
 
     def __init__(self):
         self.hp = 10
@@ -15,6 +19,7 @@ class Vida:
             self.hp += 1
 
     def dano(self):
+        pygame.mixer.Sound.play(self.hit)
         if self.hp > 0:
             self.hp -= 1
 
