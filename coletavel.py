@@ -10,11 +10,11 @@ class Coletavel:
         self.color = color
         self.offset = pygame.math.Vector2()
         if color == 'Red':
-            self.image = pygame.image.load('heart.png')
+            self.image = pygame.image.load('./coletaassets/heart.png')
         elif color == 'aquamarine':
-            self.image = pygame.image.load('water.png')
+            self.image = pygame.image.load('./coletaassets/water.png')
         else:
-            self.image = pygame.image.load('moeda.png')
+            self.image = pygame.image.load('./coletaassets/moeda.png')
 
 
     def desenhar(self, tela, off_coords):

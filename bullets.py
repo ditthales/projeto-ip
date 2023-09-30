@@ -20,7 +20,7 @@ class PlayerBullet:
         self.x -= self.x_pos
         self.y -= self.y_pos
         self.truepos = (self.x, self.y)
-        where_display.blit(pygame.transform.scale(pygame.image.load('cuspe.png'),(10,10)), (self.x, self.y))
+        where_display.blit(pygame.transform.scale(pygame.image.load('./playerassets/cuspe.png'),(10,10)), (self.x, self.y))
         
     def rect(self):
         surface_bullet = pygame.Surface((10,10))
@@ -55,4 +55,4 @@ class EnemyBullet(PlayerBullet):
         self.y -= self.y_pos
         nova_pos = (self.x, self.y) + self.offset
         self.truepos = nova_pos
-        where_display.blit(pygame.transform.scale(pygame.image.load('tiro_inimigo.png'),(10,10)), nova_pos)
+        where_display.blit(pygame.transform.scale(pygame.image.load('./coletaassets/tiro_inimigo.png'),(10,10)), nova_pos)

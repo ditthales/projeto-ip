@@ -21,10 +21,10 @@ tela = pygame.display.set_mode(screen_size)
 
 # CREATE TEXT BASE
 coletas = [0, 0, 0, 0]  # branco, agua, vida, kills
-kills_imagem = pygame.image.load('caveira.png')
-agua_imagem = pygame.image.load('water.png')
-vida_imagem = pygame.image.load('heart.png')
-moeda_imagem = pygame.image.load('moeda.png')
+kills_imagem = pygame.image.load('./coletaassets/caveira.png')
+agua_imagem = pygame.image.load('./coletaassets/water.png')
+vida_imagem = pygame.image.load('./coletaassets/heart.png')
+moeda_imagem = pygame.image.load('./coletaassets/moeda.png')
 menu_imagem = pygame.image.load('./menuassets/menu.png')
 morte_imagem = pygame.image.load('./menuassets/gameover.png')
 jogar = pygame.image.load('./menuassets/botaojogar.png')
