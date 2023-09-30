@@ -76,7 +76,6 @@ white = Coletavel(generate_random_x(), generate_random_y(), 16, 16, 'White')
 gray = Coletavel(generate_random_x(), generate_random_y(), 16, 16, 'aquamarine')
 black = Coletavel(generate_random_x(), generate_random_y(), 16, 16, 'Red')
 inimigo = Inimigo(generate_random_x(), generate_random_y(), 25, 25, 'Yellow')
-inimigos = []
 mapa = Mapa()
 mapa.criar_mapa(mundo)
 vida = Vida()
@@ -96,6 +95,7 @@ cooldown = 60
 score = 0
 # GAME RENDER
 while True:
+    inimigos = [inimigo]
     if reset_timer_1 <= 0:
         pygame.mixer.Sound.play(fundo)
         reset_timer_1 = 12780
@@ -155,7 +155,10 @@ while True:
 
     lista_colet = [rects_branco, rects_sede, rects_vida]
 
-    rectangle_inimigo = inimigo.rect_inimigo(offset)
+    rects_inm = []
+    for i in inimigos:
+        rectangle_inimigo = i.rect_inimigo(offset)
+        rects_inm.append(rectangle_inimigo)
 
     # COLIDER MANAGER
 
@@ -196,8 +199,9 @@ while True:
         fundo.set_volume(0.8)
         sem_agua.set_volume(0)
 
-    if jogador.morte_check(rectangle_player, rectangle_inimigo):
-        inimigo = Inimigo(generate_random_x(), generate_random_y(), 25, 25, 'Yellow')
+    if jogador.morte_check(rectangle_player, rects_inm) != -1:
+        index = jogador.morte_check(rectangle_player, rects_inm)
+        inimigos[index].reposicionar(generate_random_x(), generate_random_y())
         vida.dano()
         score -= 10
 
@@ -220,12 +224,13 @@ while True:
     # ENEMY MOVEMENT
 
     tupla_jogador = jogador.get_posicao()
-    inimigo.comportamento(tupla_jogador)
-    if cooldown == 0:
-        enemy_bullets.append(EnemyBullet(inimigo.x, inimigo.y, jogador.truepos[0], jogador.truepos[1], 7))
-        cooldown = 60
+    for i3 in inimigos:
+        i3.comportamento(tupla_jogador)
+    if i3.cooldown == 0:
+        enemy_bullets.append(EnemyBullet(i3.x, i3.y, jogador.truepos[0], jogador.truepos[1], 7))
+        i3.cooldown = 60
     else:
-        cooldown -= 1
+        i3.cooldown -= 1
 
     # SET TEXT
     texto_mortes = fonte2.render(f'{coletas[3]} kills', False, 'Black')
@@ -247,7 +252,8 @@ while True:
     for b1 in lista_vida:
         b1.desenhar(tela, offset)
 
-    inimigo.desenhar(tela, offset)
+    for i2 in inimigos:
+        i2.desenhar(tela, offset)
 
     tela.blit(texto_mortes, (33, 0))
     tela.blit(kills_imagem, (0,0))
@@ -267,8 +273,8 @@ while True:
             player_bullets.pop(0)
     
     if len(enemy_bullets) > 30:
-        while len(player_bullets) > 10:
-            player_bullets.pop(0)
+        while len(enemy_bullets) > 10:
+            enemy_bullets.pop(0)
 
     for bala in enemy_bullets:
         bala.desenhar_offset(tela, offset)
@@ -282,19 +288,23 @@ while True:
         for bullet in player_bullets:
             bullet.desenhar(tela)
             rect_bullet = bullet.rect()
-            if bullet.check_if_hit(rect_bullet, rectangle_inimigo):
-                player_bullets.remove(bullet)
-                inimigo.dano()
-                if inimigo.hp <= 0:
-                    score += 100
-                    pygame.mixer.Sound.play(morte_inimigo)
-                    cor_bloco = generate_drop()
-                    if cor_bloco == 'aquamarine':
-                        lista_sede.append(Coletavel(inimigo.x, inimigo.y, 15, 15, cor_bloco))
-                    elif cor_bloco == 'Red':
-                        lista_vida.append(Coletavel(inimigo.x, inimigo.y, 15, 15, cor_bloco))
-                    coletas[3] += 1
-                    inimigo = Inimigo(700, 350, 25, 25, 'Yellow')
+            for ri2 in rects_inm:
+                if bullet.check_if_hit(rect_bullet, rectangle_inimigo):
+                    player_bullets.remove(bullet)
+                    indx = rects_inm.index(ri2)
+                    inm = inimigos[indx]
+                    inm.dano()
+                    if inm.hp <= 0:
+                        score += 100
+                        pygame.mixer.Sound.play(morte_inimigo)
+                        cor_bloco = generate_drop()
+                        if cor_bloco == 'aquamarine':
+                            lista_sede.append(Coletavel(inm.x, inm.y, 15, 15, cor_bloco))
+                        elif cor_bloco == 'Red':
+                            lista_vida.append(Coletavel(inm.x, inm.y, 15, 15, cor_bloco))
+                        coletas[3] += 1
+                        inm.reposicionar(generate_random_x(), generate_random_y())
+                        inm.hp = 10
     
     # UPDATE RATIO / FPS
     pygame.display.update()
