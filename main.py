@@ -243,6 +243,9 @@ while True:
         offset =[0,0]
         score = 0
         onda = 0
+        raid_start = True
+        inimigos = []
+        enemy_bullets = []
         jogador.morte()
         vida.reviver()
         sede.ressucitar()
