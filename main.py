@@ -59,13 +59,17 @@ def generate_drop():
 def raid_generation(lista_inimigos):
     posicao_x = generate_random_x()
     posicao_y = generate_random_y()
-    num = random.randint(1, 3)
-    if num == 1:
-        tipo = 'fantasma'
-    elif num == 2:
-        tipo = 'corvo'
+    bobchance = random.randint(1, 1000)
+    if bobchance == 850:
+        tipo = 'bob'
     else:
-        tipo = 'esqueleto'
+        num = random.randint(1, 3)
+        if num == 1:
+            tipo = 'fantasma'
+        elif num == 2:
+            tipo = 'corvo'
+        else:
+            tipo = 'esqueleto'
     inimigo = Inimigo(posicao_x, posicao_y, 32, 32, tipo)
     lista_inimigos.append(inimigo)
 

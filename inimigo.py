@@ -43,6 +43,15 @@ class Inimigo:
                                 pygame.image.load('./skeletonassets/skull.png'),
                                 pygame.image.load('./skeletonassets/skull.png')]
 
+        else:
+            self.walk_images= [pygame.image.load('bob.jpg'),
+                                pygame.image.load('bob.jpg'),
+                                pygame.image.load('bob.jpg'),
+                                pygame.image.load('bob.jpg'),
+                                pygame.image.load('bob.jpg'),
+                                pygame.image.load('bob.jpg'),
+                                pygame.image.load('bob.jpg')]
+
 
     def desenhar(self, tela, off_coords):
         self.offset.x = off_coords[0]
