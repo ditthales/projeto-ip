@@ -59,17 +59,13 @@ def generate_drop():
 def raid_generation(lista_inimigos):
     posicao_x = generate_random_x()
     posicao_y = generate_random_y()
-    bobchance = random.randint(1, 1000)
-    if bobchance == 850:
-        tipo = 'bob'
+    num = random.randint(1, 3)
+    if num == 1:
+        tipo = 'fantasma'
+    elif num == 2:
+        tipo = 'corvo'
     else:
-        num = random.randint(1, 3)
-        if num == 1:
-            tipo = 'fantasma'
-        elif num == 2:
-            tipo = 'corvo'
-        else:
-            tipo = 'esqueleto'
+        tipo = 'esqueleto'
     inimigo = Inimigo(posicao_x, posicao_y, 32, 32, tipo)
     lista_inimigos.append(inimigo)
 
@@ -123,6 +119,7 @@ lista_sede = []
 lista_vida = []
 score = 0
 onda = 0
+moeda_respawn = 0
 raid_start = True
 # GAME RENDER
 while True:
@@ -213,18 +210,25 @@ while True:
         pygame.mixer.Sound.play(pegar_agua)
         score += 10
 
-    elif index2 >= 0:
+    if index2 >= 0:
         coletas[2] += 1
         lista_vida.pop(index2)
         vida.curar()
         pygame.mixer.Sound.play(pegar_vida)
         score += 10
 
-    elif index3 >= 0:
+    if index3 >= 0:
         coletas[0] += 1
         pygame.mixer.Sound.play(moeda)
         white = Coletavel(generate_random_x(), generate_random_y(), 15, 15, 'White')
         score += 100
+        moeda_respawn = 0
+    else:
+        moeda_respawn += 1
+    
+    if moeda_respawn == 1200:
+        white = Coletavel(generate_random_x(), generate_random_y(), 15, 15, 'White')
+        moeda_respawn = 0
 
     if sede.sede <= 0:
         fundo.set_volume(0)
@@ -245,7 +249,7 @@ while True:
         cor_bloco = generate_drop()
         if cor_bloco == 'aquamarine':
             lista_sede.append(Coletavel(inm.x, inm.y, 15, 15, cor_bloco))
-        inimigos.pop(index)
+        inm.reposicionar(generate_random_x(), generate_random_y())
         if numero_inimigos == 0:
             raid_start = True
         vida.dano()
