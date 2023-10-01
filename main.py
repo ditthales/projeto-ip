@@ -10,7 +10,7 @@ from player import *
 # GAME CONFIGURATION
 pygame.init()
 pygame.mixer.init()
-icon = pygame.image.load('bob.jpg')
+icon = pygame.image.load('icon.png')
 pygame.display.set_icon(icon)
 pygame.display.set_caption('Desert Gun')
 relogio = pygame.time.Clock()
@@ -77,8 +77,8 @@ def menu(tela, imagem, botao, pos, dimensoes, fonte, hi_score):
     tela.blit(imagem, (0,0))
     tela.blit(botao, pos)
     if hi_score != None:
-        texto = fonte.render(f'HI-SCORE: {hi_score}', False, 'Black')
-        tela.blit(texto, (320,0))
+        texto = fonte.render(f'SCORE: {hi_score} Pontos', False, 'White')
+        tela.blit(texto, (300,40))
     surf_botao = pygame.surface.Surface(dimensoes)
     rect_botao = surf_botao.get_rect(topleft=pos)
     mouse_status = pygame.mouse.get_pressed()
@@ -239,7 +239,15 @@ while True:
 
     if jogador.morte_check(rectangle_player, rects_inm) != -1:
         index = jogador.morte_check(rectangle_player, rects_inm)
-        inimigos[index].reposicionar(generate_random_x(), generate_random_y())
+        inm = inimigos[index]
+        numero_inimigos -= 1
+        coletas[3] += 1
+        cor_bloco = generate_drop()
+        if cor_bloco == 'aquamarine':
+            lista_sede.append(Coletavel(inm.x, inm.y, 15, 15, cor_bloco))
+        inimigos.pop(index)
+        if numero_inimigos == 0:
+            raid_start = True
         vida.dano()
         score -= 10
 
@@ -255,6 +263,8 @@ while True:
         inimigos = []
         enemy_bullets = []
         spray_bullets = []
+        lista_sede = []
+        lista_vida = []
         jogador.morte()
         vida.reviver()
         sede.ressucitar()
@@ -293,12 +303,12 @@ while True:
     tiro_inimigo = [enemy_bullets, spray_bullets, ray_bullets]
 
     # SET TEXT
-    texto_mortes = fonte2.render(f'{coletas[3]} kills', False, 'Black')
-    texto_onda = fonte2.render(f'ONDA {onda}', False, 'Black')
+    texto_mortes = fonte.render(f'{coletas[3]} kills', False, 'White')
+    texto_onda = fonte2.render(f'Rodada: {onda}', False, pygame.Color(202, 89, 84))
     texto_moedas = fonte.render(f'{coletas[0]}', False, 'Yellow')
     texto_agua = fonte.render(f'{coletas[1]}', False, 'Blue')
     texto_vida = fonte.render(f'{coletas[2]}', False, 'Red')
-    texto_score = fonte2.render(f'{score}', False, 'White')
+    texto_score = fonte.render(f'{score} Pontos', False, 'White')
 
     # DISPLAY OBJECTS AND TEXT
     tela.fill(pygame.Color(92, 105, 159))
@@ -316,7 +326,7 @@ while True:
     for i2 in inimigos:
         i2.desenhar(tela, offset)
 
-    tela.blit(texto_mortes, (33, 0))
+    tela.blit(texto_mortes, (33, 10))
     tela.blit(kills_imagem, (0,0))
     tela.blit(texto_moedas, (10, 40))
     tela.blit(moeda_imagem, (40, 40))
@@ -324,8 +334,8 @@ while True:
     tela.blit(agua_imagem, (40, 60))
     tela.blit(texto_vida, (10, 80))
     tela.blit(vida_imagem, (40, 80))
-    tela.blit(texto_score, (700, 0))
-    tela.blit(texto_onda, (350, 0))
+    tela.blit(texto_score, (680, 20))
+    tela.blit(texto_onda, (320, 20))
 
     
     vida.desenhar()
