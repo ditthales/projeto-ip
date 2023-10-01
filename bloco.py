@@ -42,5 +42,11 @@ class Bloco(pygame.sprite.Sprite):
         elif argumento == 'areia2':
             self.image = pygame.transform.scale(pygame.image.load('./tiles/areia2.png'),(32,32))
 
+        elif argumento == 'cacto':
+            self.image = pygame.transform.scale(pygame.image.load('./tiles/cacto.png'),(32,32))
+
+        elif argumento == 'lapide':
+            self.image = pygame.transform.scale(pygame.image.load('./tiles/lapide.png'),(32,32))
+
         self.rect = self.image.get_rect(topleft=(x,y))
         self.rect_inicial = self.image.get_rect(topleft=(x,y))
