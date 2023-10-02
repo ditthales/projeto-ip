@@ -15,8 +15,8 @@ class Vida:
         pygame.draw.rect(self.tela, 'Red', (10, 330, (10 * self.hp), 20))
 
     def curar(self):
-        if self.hp < 10:
-            self.hp += 5
+        if self.hp < 20:
+            self.hp += 4
 
     def dano(self):
         pygame.mixer.Sound.play(self.hit)
@@ -45,7 +45,7 @@ class Sede:
             self.sede -= 60
 
     def refrescar(self):
-        self.sede += 1500
+        self.sede += 800
 
     def ressucitar(self):
         self.sede = 6000

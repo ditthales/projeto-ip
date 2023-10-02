@@ -10,9 +10,9 @@ from player import *
 # GAME CONFIGURATION
 pygame.init()
 pygame.mixer.init()
-icon = pygame.image.load('bob.jpg')
+icon = pygame.image.load('icon.png')
 pygame.display.set_icon(icon)
-pygame.display.set_caption('Prototipo')
+pygame.display.set_caption('Desert Gun')
 relogio = pygame.time.Clock()
 
 # SET SCREEN
@@ -21,10 +21,14 @@ tela = pygame.display.set_mode(screen_size)
 
 # CREATE TEXT BASE
 coletas = [0, 0, 0, 0]  # branco, agua, vida, kills
-kills_imagem = pygame.image.load('caveira.png')
-agua_imagem = pygame.image.load('water.png')
-vida_imagem = pygame.image.load('heart.png')
-moeda_imagem = pygame.image.load('moeda.png')
+kills_imagem = pygame.image.load('./coletaassets/caveira.png')
+agua_imagem = pygame.image.load('./coletaassets/water.png')
+vida_imagem = pygame.image.load('./coletaassets/heart.png')
+moeda_imagem = pygame.image.load('./coletaassets/moeda.png')
+menu_imagem = pygame.image.load('./menuassets/menu.png')
+morte_imagem = pygame.image.load('./menuassets/gameover.png')
+jogar = pygame.image.load('./menuassets/botaojogar.png')
+restart = pygame.image.load('./menuassets/pelanza.png')
 fonte = pygame.font.Font('Minecraft.ttf', 20)
 fonte2 = pygame.font.Font('Minecraft.ttf', 40)
 
@@ -39,31 +43,52 @@ moeda = pygame.mixer.Sound('./sons/moeda.wav')
 
 # RANDOM COODINATIOR GENARATOR FOR COLECTABLES
 def generate_random_x():
-    return random.randint(0, 750)
+    return random.randint(10, 1200)
 
 def generate_random_y():
-    return random.randint(0, 350)
+    return random.randint(10, 750)
 
 def generate_drop():
-    num_cor = random.randint(1, 2)
+    num_cor = random.randint(1, 3)
 
     if num_cor == 1:
-        return 'aquamarine'
-    else:
         return 'Red'
+    else:
+        return 'aquamarine'
 
-def menu(tela, fonte, texto):
-    tela.fill('Magenta')
-    texto_menu = fonte.render(texto, False, 'Green')
-    tela.blit(texto_menu, (200, 200))
+def raid_generation(lista_inimigos):
+    posicao_x = generate_random_x()
+    posicao_y = generate_random_y()
+    num = random.randint(1, 3)
+    if num == 1:
+        tipo = 'fantasma'
+    elif num == 2:
+        tipo = 'corvo'
+    else:
+        tipo = 'esqueleto'
+    inimigo = Inimigo(posicao_x, posicao_y, 32, 32, tipo)
+    lista_inimigos.append(inimigo)
+
+def menu(tela, imagem, botao, pos, dimensoes, fonte, hi_score):
+    tela.blit(imagem, (0,0))
+    tela.blit(botao, pos)
+    if hi_score != None:
+        texto = fonte.render(f'SCORE: {hi_score} Pontos', False, 'White')
+        tela.blit(texto, (300,40))
+    surf_botao = pygame.surface.Surface(dimensoes)
+    rect_botao = surf_botao.get_rect(topleft=pos)
+    mouse_status = pygame.mouse.get_pressed()
+    if mouse_status[0]:
+        tupla_mouse = pygame.mouse.get_pos()
+        surf_mouse = pygame.surface.Surface((25, 25))
+        rect_mouse = surf_mouse.get_rect(topleft=tupla_mouse)
+        if rect_mouse.colliderect(rect_botao):
+            return True 
     pygame.display.update()
 
     for evento in pygame.event.get():
 
-        if evento.type == pygame.KEYDOWN:
-            return True
-
-        elif evento.type == pygame.QUIT:
+        if evento.type == pygame.QUIT:
             pygame.quit()
             exit()
 
@@ -75,14 +100,14 @@ jogador = Player(400, 200, 45, 35)
 white = Coletavel(generate_random_x(), generate_random_y(), 16, 16, 'White')
 gray = Coletavel(generate_random_x(), generate_random_y(), 16, 16, 'aquamarine')
 black = Coletavel(generate_random_x(), generate_random_y(), 16, 16, 'Red')
-inimigo = Inimigo(generate_random_x(), generate_random_y(), 48, 48, 'Yellow')
-inimigo2 = Inimigo(generate_random_x(), generate_random_y(), 48, 48, 'Yellow')
 mapa = Mapa()
 mapa.criar_mapa(mundo)
 vida = Vida()
 sede = Sede()
 player_bullets = []  # store players bullets
 enemy_bullets = []
+spray_bullets = []
+ray_bullets = []
 continuar = False
 flag = False
 timer_dano_agua = 0
@@ -92,11 +117,32 @@ contador = 0
 offset = [0,0]
 lista_sede = []
 lista_vida = []
-cooldown = 60
 score = 0
+onda = 0
+moeda_respawn = 0
+raid_start = True
 # GAME RENDER
 while True:
-    inimigos = [inimigo, inimigo2]
+    while not continuar:
+        continuar = menu(tela, menu_imagem, jogar, (305, 250), (180, 77), fonte, None)
+
+    if raid_start:
+        onda += 1
+        inimigos = []
+        if onda <= 3:
+            numero_inimigos = random.randint(2, 4)
+        elif onda <= 7:
+            numero_inimigos = random.randint(3, 6)
+        elif onda <= 13:
+            numero_inimigos = random.randint(6, 9)
+        elif onda <= 20:
+            numero_inimigos = random.randint(10, 16)
+        else:
+            numero_inimigos = random.randint(17, 30)
+        raid_start = False
+        for n in range(0, numero_inimigos):
+            raid_generation(inimigos)
+    
     if reset_timer_1 <= 0:
         pygame.mixer.Sound.play(fundo)
         reset_timer_1 = 12780
@@ -129,9 +175,6 @@ while True:
         contador += 1
     else:
         contador = 0
-
-    while not continuar:
-        continuar = menu(tela, fonte, 'Aperte qualquer tecla para continuar')
 
     # DISPLAY BACKGROUND  
     mapa.desenhar(offset)
@@ -176,18 +219,25 @@ while True:
         pygame.mixer.Sound.play(pegar_agua)
         score += 10
 
-    elif index2 >= 0:
+    if index2 >= 0:
         coletas[2] += 1
         lista_vida.pop(index2)
         vida.curar()
         pygame.mixer.Sound.play(pegar_vida)
         score += 10
 
-    elif index3 >= 0:
+    if index3 >= 0:
         coletas[0] += 1
         pygame.mixer.Sound.play(moeda)
         white = Coletavel(generate_random_x(), generate_random_y(), 15, 15, 'White')
-        score += 50
+        score += 100
+        moeda_respawn = 0
+    else:
+        moeda_respawn += 1
+    
+    if moeda_respawn == 1200:
+        white = Coletavel(generate_random_x(), generate_random_y(), 15, 15, 'White')
+        moeda_respawn = 0
 
     if sede.sede <= 0:
         fundo.set_volume(0)
@@ -202,17 +252,33 @@ while True:
 
     if jogador.morte_check(rectangle_player, rects_inm) != -1:
         index = jogador.morte_check(rectangle_player, rects_inm)
-        inimigos[index].reposicionar(generate_random_x(), generate_random_y())
+        inm = inimigos[index]
+        coletas[3] += 1
+        cor_bloco = generate_drop()
+        if cor_bloco == 'aquamarine':
+            lista_sede.append(Coletavel(inm.x, inm.y, 15, 15, cor_bloco))
+        inimigos.pop(index)
+        numero_inimigos -= 1
+        if numero_inimigos == 0:
+            raid_start = True
+        vida.dano()
         vida.dano()
         score -= 10
 
     if vida.hp == 0:
         continuar = False
         while not continuar:
-            continuar = menu(tela, fonte, 'Voce morreu :(! Aperte qualquer tecla pra continuar')
+            continuar = menu(tela, morte_imagem, restart, (350, 150), (100, 87), fonte, score)
         coletas = [0, 0, 0, 0]
         offset =[0,0]
         score = 0
+        onda = 0
+        raid_start = True
+        inimigos = []
+        enemy_bullets = []
+        spray_bullets = []
+        lista_sede = []
+        lista_vida = []
         jogador.morte()
         vida.reviver()
         sede.ressucitar()
@@ -228,17 +294,35 @@ while True:
     for i3 in inimigos:
         i3.comportamento(tupla_jogador)
         if i3.cooldown == 0:
-            enemy_bullets.append(EnemyBullet(i3.x, i3.y, jogador.truepos[0], jogador.truepos[1], 7))
-            i3.cooldown = 60
+            if i3.tipo == 'corvo':
+                enemy_bullets.append(EnemyBullet(i3.x, i3.y, jogador.truepos[0], jogador.truepos[1], 4))
+                i3.cooldown = 60
+            elif i3.tipo == 'fantasma':
+                spray_bullets.append(EnemyBullet(i3.x, i3.y, generate_random_x(), generate_random_y(), 3))
+                if len(spray_bullets) >= 10:
+                    i3.cooldown = 480
+            else:
+                ray_bullets.append(EnemyBullet(i3.x, i3.y, jogador.truepos[0], jogador.truepos[1], 4))
+                if len(ray_bullets) >= 10:
+                    i3.cooldown = 300
         else:
             i3.cooldown -= 1
+            if i3.tipo == 'fantasma':
+                if i3.cooldown == 1:
+                    spray_bullets = []
+            elif i3.tipo == 'esqueleto':
+                if i3.cooldown == 1:
+                    ray_bullets = []
+
+    tiro_inimigo = [enemy_bullets, spray_bullets, ray_bullets]
 
     # SET TEXT
-    texto_mortes = fonte2.render(f'{coletas[3]} kills', False, 'Black')
+    texto_mortes = fonte.render(f'{coletas[3]} kills', False, 'White')
+    texto_onda = fonte2.render(f'Rodada: {onda}', False, pygame.Color(202, 89, 84))
     texto_moedas = fonte.render(f'{coletas[0]}', False, 'Yellow')
     texto_agua = fonte.render(f'{coletas[1]}', False, 'Blue')
     texto_vida = fonte.render(f'{coletas[2]}', False, 'Red')
-    texto_score = fonte2.render(f'{score}', False, 'White')
+    texto_score = fonte.render(f'{score} Pontos', False, 'White')
 
     # DISPLAY OBJECTS AND TEXT
     tela.fill(pygame.Color(92, 105, 159))
@@ -256,7 +340,7 @@ while True:
     for i2 in inimigos:
         i2.desenhar(tela, offset)
 
-    tela.blit(texto_mortes, (33, 0))
+    tela.blit(texto_mortes, (33, 10))
     tela.blit(kills_imagem, (0,0))
     tela.blit(texto_moedas, (10, 40))
     tela.blit(moeda_imagem, (40, 40))
@@ -264,26 +348,38 @@ while True:
     tela.blit(agua_imagem, (40, 60))
     tela.blit(texto_vida, (10, 80))
     tela.blit(vida_imagem, (40, 80))
-    tela.blit(texto_score, (700, 0))
+    tela.blit(texto_score, (680, 20))
+    tela.blit(texto_onda, (320, 20))
+
     
     vida.desenhar()
     sede.desenhar()
 
-    if len(player_bullets) > 30:
-        while len(player_bullets) > 10:
+    if len(player_bullets) > 20:
+        while len(player_bullets) > 0:
             player_bullets.pop(0)
     
     if len(enemy_bullets) > 30:
         while len(enemy_bullets) > 10:
             enemy_bullets.pop(0)
 
-    for bala in enemy_bullets:
-        bala.desenhar_offset(tela, offset)
-        rect_bala = bala.rect()
-        if bala.check_if_hit(rect_bala, rectangle_player):
-            vida.dano()
-            enemy_bullets.remove(bala)
-            score -= 10
+    if len(spray_bullets) > 40:
+        while len(enemy_bullets) > 20:
+            spray_bullets.pop(0)
+    
+    if len(ray_bullets) > 40:
+        while len(enemy_bullets) > 0:
+            ray_bullets.pop(0)
+
+    for lista in tiro_inimigo:
+        for bala in lista:
+            bala.desenhar_offset(tela, offset)
+            rect_bala = bala.rect()
+            if bala.check_if_hit(rect_bala, rectangle_player):
+                vida.dano()
+                lista.remove(bala)
+                del bala
+                score -= 10
 
     if sede.sede > 0:
         for bullet in player_bullets:
@@ -297,20 +393,24 @@ while True:
                         inm = inimigos[indx]
                         inm.dano()
                         if inm.hp <= 0:
-                            score += 100
+                            numero_inimigos -= 1
+                            if inm.tipo == 'bob':
+                                score += 10000
+                            else:
+                                score += 100
                             pygame.mixer.Sound.play(morte_inimigo)
+                            inimigos.remove(inm)
                             cor_bloco = generate_drop()
                             if cor_bloco == 'aquamarine':
                                 lista_sede.append(Coletavel(inm.x, inm.y, 15, 15, cor_bloco))
                             elif cor_bloco == 'Red':
                                 lista_vida.append(Coletavel(inm.x, inm.y, 15, 15, cor_bloco))
                             coletas[3] += 1
-                            inm.reposicionar(generate_random_x(), generate_random_y())
-                            inm.hp = 10
+                            if numero_inimigos == 0:
+                                raid_start = True
                     except:
                         None
     
     # UPDATE RATIO / FPS
     pygame.display.update()
-    print(relogio)
     relogio.tick(60) 
