@@ -71,12 +71,13 @@ class Inimigo:
         if tupla_jogador[0] < self.x:
             self.x -= 1.5
             self.is_walking_right = True
-        elif tupla_jogador[0] > self.x:
+        if tupla_jogador[0] > self.x:
             self.x += 1.5
             self.is_walking_left = True
 
     def dano(self):
         self.hp -= 1
+        
     
     def reposicionar(self, x, y):
         self.x = x
