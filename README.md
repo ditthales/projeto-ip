@@ -37,11 +37,11 @@ Relatório de desenvolvimento do jogo Desert Gun feito para a disciplina de Intr
 
 <a id="divisao"></a>
 ### Divisão de tarefas
-- <strong>Renato Cabral</strong>: Descrição das atividades
-- <strong>Thales Fraga</strong>: Correção de bugs, organização do time e relatório
-- <strong>Caio Santos</strong>: Descrição das atividades
-- <strong>Rinaldo Júnior</strong>: Descrição das atividades
-- <strong>Heitor Machado</strong>: Implementação dos drops e coleta
+- <strong>Renato Cabral</strong>: Implementação das mecânicas de tiro do jogador, organização e legibilidade do código
+- <strong>Thales Fraga</strong>: Correção de bugs, organização do time, ideação (sugestão do tema central) e relatório
+- <strong>Caio Santos</strong>: Criação dos coletáveis, movimentação do personagem, dos inimigos e sua IA (disparo/movimento), da câmera, do sistema de geração de mapa, mecânica de ondas, sistema de HP e sede e da apresentação
+- <strong>Rinaldo Júnior</strong>: Escolha e criação de artes, implementação de animações para jogador e inimigo, colisão entre as entidades, visuais, movimentação e correção de bugs 
+- <strong>Heitor Machado</strong>: Implementação da mecânica de drops dinâmicos e sua coleta, ideação 
 
 <a id="ideacao"></a>
 ## Ideação e design
@@ -69,7 +69,7 @@ O processo de ideação e design em grupo foi fundamental para a criação de um
 <a id="bibliotecas"></a>
 ## Bibliotecas Utilizadas
 - [ PyGame ]( https://www.pygame.org/news ): É a principal biblioteca utilizada no projeto. Usada majoritariamente para montar as cenas e mecânicas do jogo.
-- [ Sys ]( https://docs.python.org/pt-br/3/library/sys.html ): Usada para manipular e acessar os arquivos do projeto.
+- [ Sys ]( https://docs.python.org/pt-br/3/library/sys.html ): Usada para encerrar o programa quando o jogador desejar.
 - [ Random ]( https://docs.python.org/pt-br/3/library/random.html ): Usada para randomizar o spawn, drop de itens, etc e deixar o jogo mais dinâmico.
 - [ Math ]( https://docs.python.org/pt-br/3/library/math.html ): Usada para facilitar cálculos matemáticos com funções como seno e cosseno.
 
@@ -91,11 +91,11 @@ Esse arquivo contém a classe Player. Nela encontramos os métodos "move" (respo
 
 ### inimigo.py
 
-Esse arquivo contém a classe Inimigo. Nela encontramos os métodos "desenhar" (responsável pela renderização do inimigo na tela de jogo), "comportamento" (responsável pela IA do inimigo) e "rect_inimigo" (responsável pelo hitbox do inimigo).
+Esse arquivo contém a classe Inimigo. Nela encontramos os métodos "desenhar" (responsável pela renderização do inimigo na tela de jogo), "comportamento" (responsável pela IA do inimigo), "rect_inimigo" e "rect_inicial" (responsável pelo hitbox do inimigo e por mover essa hitbox de acordo com a câmera) e "reposicionar", que gera uma nova posição pro inimigo caso necessário.
 
 ### coletavel.py
 
-Esse arquivo contém a classe Coletável. Nela encontramos os métodos "desenhar" (responsável por desenhar os drops na tela), "rect_coleta" (responsável pelo hitbox dos itens) e "get_pc" (retorna a posição do item)
+Esse arquivo contém a classe Coletável. Nela encontramos os métodos "desenhar" (responsável por desenhar os drops na tela), "rect_coleta" e "rect_inicial" (responsável pelo hitbox dos itens e por movê-los de acordo com a câmera) e "get_pc" (retorna a posição do item)
 
 ### bloco.py
 
@@ -105,15 +105,16 @@ Esse arquivo contém a classe Bloco que é usada na classe Mapa e é responsáve
 
 Esse arquivo contém as classes Vida e Sede que são responsáveis respectivamente por renderizar e controlar as barras de vida e de sede do jogo.
 
-### PlayerBullets.py
-Esse arquivo contém a classe PlayerBullets que é responsável por renderizar e checar colisões dos projéteis com outros objetos por meio dos métodos "desenhar", "rect" e "check_if_hit" respectivamente.
+### bullets.py
+Esse arquivo contém a classe PlayerBullets que é responsável por renderizar e checar colisões dos projéteis com outros objetos por meio dos métodos "desenhar", "rect" e "check_if_hit" respectivamente, bem como sua classe filha EnemyBullets que possui as mesmas funções porém para os inimigos, e um método de desenhar próprio chamado "desenhar_offset" que faz com que as balas inimigas respeitem a câmera.
 
 <a id="conceitos"></a>
 ## Conceitos aprendidos na disciplina
-- <strong>Funções</strong>: De longe esse foi o conceito aprendido na disciplina que foi mais utilizado durante o desenvolvimento do jogo, sendo usada para quase todas as mecânicas e elementos essenciais. Possibilitou o reúso e a organização do código.
-- <strong>Loop</strong>: Conceito essencial para o desenvolvimento de jogos, pois esse tipo de mídia se baseia em um grande loop para execução e processamento de inputs.
-- <strong>Orientação a objetos</strong>: Outro conceito aprendido na disciplina e amplamente utilizado no projeto, que permitiu uma maior organização, reúso e legibilidade do código.
-- <strong>Listas</strong>: Muito utilizada para lidar com posições e realizar cálculos matemáticos. O mapa do jogo é uma matriz (lista de listas).
+- <strong>Funções</strong>: De longe esse foi o conceito aprendido na disciplina que foi mais utilizado durante o desenvolvimento do jogo, sendo usada para quase todas as mecânicas e elementos essenciais, geração de inimigos/coletáveis e telas de menu. Possibilitou o reuso e a organização do código.
+- <strong>Loop</strong>: Conceito essencial para o desenvolvimento de jogos, pois esse tipo de mídia se baseia em um grande loop para execução e processamento de inputs. As funções para desenhar entidades e admnistrar hitboxes estão em loops para permitir que sejam usadas em todas as entidades na tela, armazenadas em listas.
+- <strong>Orientação a objetos</strong>: Outro conceito aprendido na disciplina e amplamente utilizado no projeto, que permitiu uma maior organização, reuso e legibilidade do código graças às diversas classes mencionadas anteriormente.
+- <strong>Listas</strong>: Muito utilizada para lidar com posições e realizar cálculos matemáticos. O mapa do jogo é uma matriz (lista de listas) e as entidades estão armazenadas em listas.
+- <strong>Condicionais</strong>: Estruturas condicionais são fundamentais em um jogo, pois várias funcionalidades possuem pré-requisitos. Por exemplo, uma estrutura condicional checa se a sede do personagem está em 0 e toma as atitudes apropriadas para isso, como mudar a música e iniciar o contador para dano contínuo.
 
 <a id="desafios"></a>
 ## Desafios enfrentados
@@ -125,7 +126,7 @@ Desde o começo esse foi um projeto desafiador por se tratar de um sistema inter
 
 Tela Inicial | Tela de Jogo
 :-------------------------:|:-------------------------:
-<img src="https://i.ytimg.com/vi/c1Fv1uKTd-w/sddefault.jpg" alt="Tela Inicial" height="240"> | <img src="https://i.ytimg.com/vi/c1Fv1uKTd-w/sddefault.jpg" alt="Tela de Jogo" height="240"> 
+<img src="https://media.discordapp.net/attachments/1150492210702331965/1158197767089426442/image.png?ex=651b5f39&is=651a0db9&hm=08dd54633b50c43d28c7aba9faab67070638cba6b68322552f36b03a1310f44f&=" alt="Tela Inicial" height="240"> | <img src="https://i.ytimg.com/vi/c1Fv1uKTd-w/sddefault.jpg" alt="Tela de Jogo" height="240"> 
 
 Jogador sem vida | Game Over
 :-------------------------:|:-------------------------:
@@ -137,6 +138,8 @@ Jogador sem vida | Game Over
 
 <a id="como-instalar"></a>
 ## Como instalar
+### Certifique-se de ter Python3 e PyGame instalados em seu computador
+
 ### Abra o terminal do seu sistema em uma pasta à sua escolha, copie e cole o seguinte comando:
 
 #### Se você usa Windows, execute esse comando:
