@@ -129,7 +129,16 @@ while True:
     if raid_start:
         onda += 1
         inimigos = []
-        numero_inimigos = random.randint(1, 10)
+        if onda <= 3:
+            numero_inimigos = random.randint(2, 4)
+        elif onda <= 7:
+            numero_inimigos = random.randint(3, 6)
+        elif onda <= 13:
+            numero_inimigos = random.randint(6, 9)
+        elif onda <= 20:
+            numero_inimigos = random.randint(10, 16)
+        else:
+            numero_inimigos = random.randint(17, 30)
         raid_start = False
         for n in range(0, numero_inimigos):
             raid_generation(inimigos)
@@ -248,7 +257,11 @@ while True:
         cor_bloco = generate_drop()
         if cor_bloco == 'aquamarine':
             lista_sede.append(Coletavel(inm.x, inm.y, 15, 15, cor_bloco))
-        inm.reposicionar(generate_random_x(), generate_random_y())
+        inimigos.pop(index)
+        numero_inimigos -= 1
+        if numero_inimigos == 0:
+            raid_start = True
+        vida.dano()
         vida.dano()
         score -= 10
 
