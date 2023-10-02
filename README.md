@@ -38,7 +38,7 @@ Relatório de desenvolvimento do jogo Desert Gun feito para a disciplina de Intr
 ### Divisão de tarefas
 - <strong>Renato Cabral</strong>: Implementação das mecânicas de tiro do jogador, organização e legibilidade do código
 - <strong>Thales Fraga</strong>: Correção de bugs, organização do time, ideação (sugestão do tema central) e relatório
-- <strong>Caio Santos</strong>: Criação dos coletáveis, movimentação do personagem, dos inimigos e sua IA (disparo/movimento), da câmera, do sistema de geração de mapa, mecânica de ondas, sistema de HP e sede e da apresentação
+- <strong>Caio Santos</strong>: Criação dos coletáveis, movimentação do personagem, dos inimigos e sua IA (disparo/movimento), da câmera, do sistema de geração de mapa, mecânica de ondas e sistema de HP e sede.
 - <strong>Rinaldo Júnior</strong>: Escolha e criação de artes, implementação de animações para jogador e inimigo, colisão entre as entidades, visuais, movimentação e correção de bugs 
 - <strong>Heitor Machado</strong>: Implementação da mecânica de drops dinâmicos e sua coleta, ideação 
 
