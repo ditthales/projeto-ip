@@ -127,9 +127,9 @@ Tela Inicial | Tela de Jogo
 :-------------------------:|:-------------------------:
 <img src="https://media.discordapp.net/attachments/1150492210702331965/1158197767089426442/image.png?ex=651b5f39&is=651a0db9&hm=08dd54633b50c43d28c7aba9faab67070638cba6b68322552f36b03a1310f44f&=" alt="Tela Inicial" height="240"> | <img src="https://media.discordapp.net/attachments/1150492210702331965/1158200105111928842/image.png?ex=651b6167&is=651a0fe7&hm=d5e035a01ac57adf3f2cc0bfc0491c74f60b14b99f6ba11cf3b8e2d312f05d53&=" alt="Tela de Jogo" height="240"> 
 
-Game Over | Tela de Jogo
+Game Over | .
 :-------------------------:|:-------------------------:
-<img src="https://media.discordapp.net/attachments/1150492210702331965/1158198563843624960/image.png?ex=651b5ff7&is=651a0e77&hm=9412eac676223ebe812f9bdac225cd971aafd6bacbf3c32b3d71adbca627655f&=" alt="Jogador sem vida" height="240"> | <img src="https://i.ytimg.com/vi/c1Fv1uKTd-w/sddefault.jpg" alt="Game Over"  height="240">
+<img src="https://media.discordapp.net/attachments/1150492210702331965/1158198563843624960/image.png?ex=651b5ff7&is=651a0e77&hm=9412eac676223ebe812f9bdac225cd971aafd6bacbf3c32b3d71adbca627655f&=" alt="Jogador sem vida" height="240"> |
 
 <a id="como-instalar"></a>
 ## Como instalar
