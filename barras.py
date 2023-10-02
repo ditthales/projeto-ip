@@ -16,7 +16,7 @@ class Vida:
 
     def curar(self):
         if self.hp < 20:
-            self.hp += 2
+            self.hp += 4
 
     def dano(self):
         pygame.mixer.Sound.play(self.hit)
