@@ -244,14 +244,11 @@ while True:
     if jogador.morte_check(rectangle_player, rects_inm) != -1:
         index = jogador.morte_check(rectangle_player, rects_inm)
         inm = inimigos[index]
-        numero_inimigos -= 1
         coletas[3] += 1
         cor_bloco = generate_drop()
         if cor_bloco == 'aquamarine':
             lista_sede.append(Coletavel(inm.x, inm.y, 15, 15, cor_bloco))
         inm.reposicionar(generate_random_x(), generate_random_y())
-        if numero_inimigos == 0:
-            raid_start = True
         vida.dano()
         score -= 10
 
