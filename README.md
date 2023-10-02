@@ -129,7 +129,7 @@ Tela Inicial | Tela de Jogo
 
 Game Over | .
 :-------------------------:|:-------------------------:
-<img src="https://media.discordapp.net/attachments/1150492210702331965/1158198563843624960/image.png?ex=651b5ff7&is=651a0e77&hm=9412eac676223ebe812f9bdac225cd971aafd6bacbf3c32b3d71adbca627655f&=" alt="Jogador sem vida" height="240"> |
+<img src="https://media.discordapp.net/attachments/1150492210702331965/1158198563843624960/image.png?ex=651b5ff7&is=651a0e77&hm=9412eac676223ebe812f9bdac225cd971aafd6bacbf3c32b3d71adbca627655f&=" alt="Jogador sem vida" height="240"> | <img src="https://cdn.discordapp.com/attachments/1150492210702331965/1158207743040163931/image.png?ex=651b6884&is=651a1704&hm=b8f486ce8b9fd3123f1739738cdce39c994de0f758121246c43b04782b58ea33&" alt="Jogador em rodada avançada" height="240">
 
 <a id="como-instalar"></a>
 ## Como instalar
