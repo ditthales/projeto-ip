@@ -130,7 +130,7 @@ Tela Inicial | Tela de Jogo
 
 Jogador sem vida | Game Over
 :-------------------------:|:-------------------------:
-<img src="https://i.ytimg.com/vi/c1Fv1uKTd-w/sddefault.jpg" alt="Jogador sem vida" height="240"> | <img src="https://i.ytimg.com/vi/c1Fv1uKTd-w/sddefault.jpg" alt="Game Over"  height="240">
+<img src="https://media.discordapp.net/attachments/1150492210702331965/1158198563843624960/image.png?ex=651b5ff7&is=651a0e77&hm=9412eac676223ebe812f9bdac225cd971aafd6bacbf3c32b3d71adbca627655f&=" alt="Jogador sem vida" height="240"> | <img src="https://i.ytimg.com/vi/c1Fv1uKTd-w/sddefault.jpg" alt="Game Over"  height="240">
 
 <a id="demo"></a>
 ## Video de demonstração
