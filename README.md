@@ -12,8 +12,7 @@ Relatório de desenvolvimento do jogo Desert Gun feito para a disciplina de Intr
 - [5. Conceitos aprendidos na disciplina](#conceitos)
 - [6. Desafios enfrentados](#desafios)
 - [7. Capturas de tela](#capturas)
-- [8. Video de demonstração](#demo)
-- [9. Como instalar](#como-instalar)
+- [8. Como instalar](#como-instalar)
 
 <a id="equipe"></a>
 ## Equipe
@@ -131,10 +130,6 @@ Tela Inicial | Tela de Jogo
 Game Over | Tela de Jogo
 :-------------------------:|:-------------------------:
 <img src="https://media.discordapp.net/attachments/1150492210702331965/1158198563843624960/image.png?ex=651b5ff7&is=651a0e77&hm=9412eac676223ebe812f9bdac225cd971aafd6bacbf3c32b3d71adbca627655f&=" alt="Jogador sem vida" height="240"> | <img src="https://i.ytimg.com/vi/c1Fv1uKTd-w/sddefault.jpg" alt="Game Over"  height="240">
-
-<a id="demo"></a>
-## Video de demonstração
-[![Demo](https://i.ytimg.com/vi/c1Fv1uKTd-w/sddefault.jpg)](https://www.youtube.com/watch?v=dQw4w9WgXcQ)
 
 <a id="como-instalar"></a>
 ## Como instalar
